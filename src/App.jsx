@@ -9,6 +9,7 @@ import { CartDrawer } from './components/CartDrawer';
 import { VirtualQueueModal } from './components/VirtualQueueModal';
 import { TrafficGuardBanner } from './components/TrafficGuardBanner';
 
+import { LandingPage } from './pages/LandingPage';
 import { ShopPage } from './pages/ShopPage';
 import { CartPage } from './pages/CartPage';
 import { CheckoutPage } from './pages/CheckoutPage';
@@ -19,7 +20,7 @@ import { StoryPage } from './pages/StoryPage';
 import { Search, X } from 'lucide-react';
 
 function AppContent() {
-  const [currentPage, setCurrentPage] = useState('shop'); // 'shop' | 'cart' | 'checkout' | 'auth' | 'account' | 'story'
+  const [currentPage, setCurrentPage] = useState('home'); // 'home' | 'shop' | 'cart' | 'checkout' | 'auth' | 'account' | 'story'
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -47,7 +48,7 @@ function AppContent() {
       {/* Search Modal Overlay */}
       {isSearchOpen && (
         <div className="fixed inset-0 z-50 flex items-start justify-center pt-24 px-4 bg-background/90 backdrop-blur-xl animate-fade-in">
-          <div className="bg-surface-container-low border border-outline-variant/30 rounded-lg p-6 max-w-2xl w-full relative shadow-2xl">
+          <div className="bg-surface-container-low border border-outline-variant/30 rounded-2xl p-6 max-w-2xl w-full relative shadow-2xl">
             <button
               onClick={() => setIsSearchOpen(false)}
               className="absolute top-4 right-4 p-2 text-on-surface-variant hover:text-on-surface"
@@ -57,7 +58,7 @@ function AppContent() {
             </button>
 
             <h3 className="font-display text-xl text-on-background mb-4">
-              Search the Atelier Collection
+              Search KNOTKARI Creations
             </h3>
 
             <form onSubmit={handleSearchSubmit} className="relative mb-4">
@@ -68,7 +69,7 @@ function AppContent() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 autoFocus
-                className="w-full pl-10 pr-4 py-3 bg-surface-container rounded border border-outline-variant/30 text-sm text-on-background placeholder:text-on-surface-variant/60 focus:border-primary focus:outline-none font-body"
+                className="w-full pl-10 pr-4 py-3 bg-surface-container rounded-xl border border-outline-variant/30 text-sm text-on-background placeholder:text-on-surface-variant/60 focus:border-primary focus:outline-none font-body"
               />
             </form>
 
@@ -76,30 +77,46 @@ function AppContent() {
               <span className="font-label uppercase tracking-wider text-[10px] text-on-surface font-semibold py-1">
                 Popular Searches:
               </span>
-              {['Daisy', 'Sunflower', 'Tulip', 'Lavender', 'Tote', 'Merino Wool'].map((term) => (
-                <button
-                  key={term}
-                  onClick={() => {
-                    setSearchQuery(term);
-                    setIsSearchOpen(false);
-                    setCurrentPage('shop');
-                  }}
-                  className="px-2.5 py-1 bg-surface-container-high hover:bg-primary hover:text-on-primary rounded transition-colors text-[11px]"
-                >
-                  {term}
-                </button>
-              ))}
+              {['Daisy', 'Sunflower', 'Tulip', 'Lavender', 'Tote', 'Merino Wool', 'Karigari'].map(
+                (term) => (
+                  <button
+                    key={term}
+                    onClick={() => {
+                      setSearchQuery(term);
+                      setIsSearchOpen(false);
+                      setCurrentPage('shop');
+                    }}
+                    className="px-3 py-1 bg-surface-container-high hover:bg-primary hover:text-on-primary rounded-lg transition-colors text-[11px]"
+                  >
+                    {term}
+                  </button>
+                ),
+              )}
             </div>
           </div>
         </div>
       )}
 
       {/* Dynamic Page Router */}
-      {currentPage === 'shop' && (
-        <ShopPage
-          initialSearchQuery={searchQuery}
-          onClearSearch={() => setSearchQuery('')}
+      {currentPage === 'home' && (
+        <LandingPage
+          onNavigateToShop={() => {
+            setCurrentPage('shop');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          onNavigateToStory={() => {
+            setCurrentPage('story');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          onNavigateToAuth={() => {
+            setCurrentPage('auth');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
         />
+      )}
+
+      {currentPage === 'shop' && (
+        <ShopPage initialSearchQuery={searchQuery} onClearSearch={() => setSearchQuery('')} />
       )}
 
       {currentPage === 'cart' && (
@@ -119,6 +136,10 @@ function AppContent() {
         <CheckoutPage
           onNavigateToShop={() => {
             setCurrentPage('shop');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          onNavigateToAccount={() => {
+            setCurrentPage('account');
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
         />

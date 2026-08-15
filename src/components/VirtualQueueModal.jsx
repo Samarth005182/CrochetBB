@@ -17,9 +17,12 @@ export function VirtualQueueModal() {
         {/* Brand Header */}
         <div className="mb-6">
           <div className="inline-flex items-center justify-center p-3 bg-surface-container-high rounded-full border border-primary/20 mb-3">
-            <Sparkles className="w-6 h-6 text-primary animate-spin" style={{ animationDuration: '6s' }} />
+            <Sparkles
+              className="w-6 h-6 text-primary animate-spin"
+              style={{ animationDuration: '6s' }}
+            />
           </div>
-          <p className="font-display text-2xl tracking-tighter text-on-background">LUXE CRAFT</p>
+          <p className="font-display text-2xl tracking-tighter text-on-background">KNOTKARI</p>
           <p className="text-xs uppercase tracking-widest text-primary font-semibold mt-1">
             Atelier Priority Waiting Room
           </p>
@@ -27,11 +30,11 @@ export function VirtualQueueModal() {
 
         {/* Narrative & Explanations */}
         <div className="space-y-3 mb-8">
-          <h2 className="text-xl font-headline text-on-surface">
-            High Patron Demand in Progress
-          </h2>
+          <h2 className="text-xl font-headline text-on-surface">High Patron Demand in Progress</h2>
           <p className="text-sm font-body text-on-surface-variant leading-relaxed">
-            Due to a high volume of simultaneous patrons during this limited-edition drop, we are pacing checkout entries to guarantee handcrafted inventory reservation and bank-grade security.
+            Due to a high volume of simultaneous patrons during this limited-edition drop, we are
+            pacing checkout entries to guarantee handcrafted inventory reservation and bank-grade
+            security.
           </p>
         </div>
 
@@ -40,11 +43,15 @@ export function VirtualQueueModal() {
           <div className="flex justify-between items-center text-xs font-medium text-on-surface">
             <span className="flex items-center gap-1.5 text-on-surface-variant">
               <Users className="w-3.5 h-3.5 text-primary" />
-              <span>Queue Position: <strong className="text-on-surface">#42</strong></span>
+              <span>
+                Queue Position: <strong className="text-on-surface">#42</strong>
+              </span>
             </span>
             <span className="flex items-center gap-1.5 text-on-surface-variant">
               <Clock className="w-3.5 h-3.5 text-primary" />
-              <span>Estimated Wait: <strong className="text-on-surface">~4 seconds</strong></span>
+              <span>
+                Estimated Wait: <strong className="text-on-surface">~4 seconds</strong>
+              </span>
             </span>
           </div>
 

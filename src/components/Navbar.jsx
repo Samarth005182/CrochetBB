@@ -11,10 +11,14 @@ export function Navbar({ currentPage, setCurrentPage, onOpenSearch }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { id: 'shop', label: 'Shop' },
-    { id: 'story', label: 'About & Craft' },
-    { id: 'cart', label: 'Cart' },
-    { id: 'account', label: isAuthenticated ? (user?.name?.split(' ')[0] || 'Account') : 'Account' }
+    { id: 'home', label: 'Home' },
+    { id: 'shop', label: 'Artisan Shop' },
+    { id: 'story', label: 'Karigari Craft' },
+    { id: 'cart', label: 'Bag' },
+    {
+      id: 'account',
+      label: isAuthenticated ? user?.name?.split(' ')[0] || 'Dashboard' : 'Patron Portal',
+    },
   ];
 
   const handleNavClick = (pageId) => {
@@ -25,12 +29,12 @@ export function Navbar({ currentPage, setCurrentPage, onOpenSearch }) {
 
   return (
     <>
-      <header className="sticky top-0 w-full z-40 bg-background/85 backdrop-blur-md border-b border-outline-variant/10 transition-all duration-300">
+      <header className="sticky top-0 w-full z-40 bg-background/90 backdrop-blur-lg border-b border-outline-variant/10 transition-all duration-300">
         <div className="flex justify-between items-center h-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-on-background hover:text-primary transition-colors p-2 -ml-2 rounded hover:bg-surface-bright/10"
+            className="md:hidden text-on-background hover:text-primary transition-colors p-2 -ml-2 rounded-lg hover:bg-surface-bright/10"
             aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -38,14 +42,19 @@ export function Navbar({ currentPage, setCurrentPage, onOpenSearch }) {
 
           {/* Brand Logo */}
           <button
-            onClick={() => handleNavClick('shop')}
-            className="font-display text-2xl md:text-3xl tracking-tighter text-on-background hover:text-primary transition-colors focus:outline-none"
+            onClick={() => handleNavClick('home')}
+            className="flex items-center gap-2 text-left focus:outline-none group"
           >
-            LUXE CRAFT
+            <span className="font-display text-2xl md:text-3xl tracking-tighter text-on-background group-hover:text-primary transition-colors">
+              KNOTKARI
+            </span>
+            <span className="hidden sm:inline-block px-2 py-0.5 rounded-full text-[9px] font-label uppercase tracking-widest bg-primary/15 text-primary border border-primary/25">
+              Atelier
+            </span>
           </button>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-8 font-label text-sm uppercase tracking-widest font-semibold">
+          <nav className="hidden md:flex items-center gap-7 font-label text-xs uppercase tracking-widest font-semibold">
             {navLinks.map((link) => {
               const isActive = currentPage === link.id;
               return (
@@ -55,7 +64,7 @@ export function Navbar({ currentPage, setCurrentPage, onOpenSearch }) {
                   className={`py-1.5 transition-all duration-200 ${
                     isActive
                       ? 'text-primary border-b-2 border-primary'
-                      : 'text-on-surface-variant hover:text-on-background hover:bg-surface-bright/10 px-2 rounded'
+                      : 'text-on-surface-variant hover:text-on-background hover:bg-surface-bright/10 px-2 rounded-md'
                   }`}
                 >
                   {link.label}
@@ -69,7 +78,7 @@ export function Navbar({ currentPage, setCurrentPage, onOpenSearch }) {
             {/* Search Trigger */}
             <button
               onClick={onOpenSearch}
-              className="text-on-background hover:text-primary transition-colors p-2 rounded hover:bg-surface-bright/10"
+              className="text-on-background hover:text-primary transition-colors p-2 rounded-lg hover:bg-surface-bright/10"
               aria-label="Search Collection"
               title="Search collection"
             >
@@ -79,7 +88,7 @@ export function Navbar({ currentPage, setCurrentPage, onOpenSearch }) {
             {/* Wishlist Button */}
             <button
               onClick={() => handleNavClick('account')}
-              className="relative text-on-background hover:text-primary transition-colors p-2 rounded hover:bg-surface-bright/10 hidden sm:flex"
+              className="relative text-on-background hover:text-primary transition-colors p-2 rounded-lg hover:bg-surface-bright/10 hidden sm:flex"
               aria-label="View Wishlist"
               title="Your Wishlist"
             >
@@ -94,9 +103,9 @@ export function Navbar({ currentPage, setCurrentPage, onOpenSearch }) {
             {/* Account / User Avatar */}
             <button
               onClick={() => handleNavClick(isAuthenticated ? 'account' : 'auth')}
-              className="text-on-background hover:text-primary transition-colors p-2 rounded hover:bg-surface-bright/10 hidden sm:flex"
+              className="text-on-background hover:text-primary transition-colors p-2 rounded-lg hover:bg-surface-bright/10 hidden sm:flex"
               aria-label="Member Account"
-              title={isAuthenticated ? `Signed in as ${user?.name}` : "Member Sign In"}
+              title={isAuthenticated ? `Signed in as ${user?.name}` : 'Member Sign In'}
             >
               <User className={`w-5 h-5 ${isAuthenticated ? 'text-primary' : ''}`} />
             </button>
@@ -104,7 +113,7 @@ export function Navbar({ currentPage, setCurrentPage, onOpenSearch }) {
             {/* Cart Drawer Trigger */}
             <button
               onClick={() => setIsCartDrawerOpen(true)}
-              className="relative text-on-background hover:text-primary transition-colors p-2 rounded hover:bg-surface-bright/10"
+              className="relative text-on-background hover:text-primary transition-colors p-2 rounded-lg hover:bg-surface-bright/10"
               aria-label="Open Atelier Cart"
               title="Atelier Cart Drawer"
             >
@@ -121,7 +130,7 @@ export function Navbar({ currentPage, setCurrentPage, onOpenSearch }) {
 
       {/* Mobile Navigation Drawer */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-50 md:hidden bg-background/95 backdrop-blur-xl animate-fade-in flex flex-col pt-24 px-6 pb-12">
+        <div className="fixed inset-0 z-50 md:hidden bg-background/95 backdrop-blur-2xl animate-fade-in flex flex-col pt-24 px-6 pb-12">
           <button
             onClick={() => setIsMobileMenuOpen(false)}
             className="absolute top-6 right-6 p-2 text-on-surface-variant hover:text-on-surface"
@@ -130,18 +139,24 @@ export function Navbar({ currentPage, setCurrentPage, onOpenSearch }) {
             <X className="w-7 h-7" />
           </button>
 
-          <div className="text-center mb-8">
-            <span className="font-display text-2xl tracking-tighter text-on-background">LUXE CRAFT</span>
-            <p className="text-xs uppercase tracking-widest text-on-surface-variant mt-1">Midnight Atelier</p>
+          <div className="text-center mb-8 space-y-1">
+            <span className="font-display text-3xl tracking-tighter text-on-background">
+              KNOTKARI
+            </span>
+            <p className="text-xs uppercase tracking-widest text-primary font-semibold">
+              Luxury Slow-Craft Atelier
+            </p>
           </div>
 
-          <nav className="flex flex-col gap-6 font-label uppercase tracking-widest text-lg text-center flex-grow justify-center">
+          <nav className="flex flex-col gap-5 font-label uppercase tracking-widest text-base text-center flex-grow justify-center">
             {navLinks.map((link) => (
               <button
                 key={link.id}
                 onClick={() => handleNavClick(link.id)}
                 className={`py-3 transition-colors ${
-                  currentPage === link.id ? 'text-primary font-bold border-b border-primary/40' : 'text-on-surface-variant hover:text-on-background'
+                  currentPage === link.id
+                    ? 'text-primary font-bold border-b border-primary/40'
+                    : 'text-on-surface-variant hover:text-on-background'
                 }`}
               >
                 {link.label}
@@ -158,11 +173,20 @@ export function Navbar({ currentPage, setCurrentPage, onOpenSearch }) {
           </nav>
 
           <div className="border-t border-outline-variant/20 pt-6 flex justify-around text-on-surface-variant">
-            <button onClick={() => handleNavClick('account')} className="flex items-center gap-2 text-xs uppercase tracking-wider">
+            <button
+              onClick={() => handleNavClick('account')}
+              className="flex items-center gap-2 text-xs uppercase tracking-wider"
+            >
               <Heart className="w-4 h-4" />
               <span>Wishlist ({wishlist.length})</span>
             </button>
-            <button onClick={() => { setIsMobileMenuOpen(false); setIsCartDrawerOpen(true); }} className="flex items-center gap-2 text-xs uppercase tracking-wider">
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                setIsCartDrawerOpen(true);
+              }}
+              className="flex items-center gap-2 text-xs uppercase tracking-wider"
+            >
               <ShoppingBag className="w-4 h-4" />
               <span>Bag ({totalItemCount})</span>
             </button>

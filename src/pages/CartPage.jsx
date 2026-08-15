@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { PRODUCTS } from '../data/products';
-import { Trash2, Plus, Minus, ArrowRight, Sparkles, ShieldCheck, Tag, X, ShoppingBag } from 'lucide-react';
+import {
+  Trash2,
+  Plus,
+  Minus,
+  ArrowRight,
+  Sparkles,
+  ShieldCheck,
+  Tag,
+  X,
+  ShoppingBag,
+} from 'lucide-react';
 import { useToast } from '../context/ToastContext';
 
 export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
@@ -22,7 +32,7 @@ export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
     amountNeededForFreeShipping,
     freeShippingThreshold,
     triggerTrafficSurgeCheckout,
-    addToCart
+    addToCart,
   } = useCart();
 
   const [promoInput, setPromoInput] = useState('');
@@ -37,7 +47,7 @@ export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
 
   const handleCheckoutClick = () => {
     if (items.length === 0) {
-      addToast("Your atelier cart is currently empty.", "error");
+      addToast('Your atelier cart is currently empty.', 'error');
       return;
     }
     triggerTrafficSurgeCheckout(() => {
@@ -46,9 +56,10 @@ export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
   };
 
   // Cross-sell recommendations (items not in current cart)
-  const recommendations = PRODUCTS.filter(
-    (p) => !items.some((item) => item.id === p.id)
-  ).slice(0, 3);
+  const recommendations = PRODUCTS.filter((p) => !items.some((item) => item.id === p.id)).slice(
+    0,
+    3,
+  );
 
   return (
     <main className="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-16">
@@ -69,7 +80,8 @@ export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
           </div>
           <h2 className="font-display text-2xl text-on-surface">Your Bag is Empty</h2>
           <p className="font-body text-sm text-on-surface-variant max-w-md mx-auto">
-            You have not added any pieces to your cart. Explore our boutique catalog to discover hand-crocheted heirlooms.
+            You have not added any pieces to your cart. Explore our boutique catalog to discover
+            hand-crocheted heirlooms.
           </p>
           <button
             onClick={onNavigateToShop}
@@ -87,17 +99,25 @@ export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
               {isFreeShipping ? (
                 <div className="flex items-center gap-2 text-primary font-medium">
                   <Sparkles className="w-4 h-4" />
-                  <span>Complimentary White-Glove Atelier Delivery is included with this acquisition.</span>
+                  <span>
+                    Complimentary White-Glove Atelier Delivery is included with this acquisition.
+                  </span>
                 </div>
               ) : (
                 <div className="space-y-1.5">
                   <p className="text-on-surface-variant">
-                    Add <strong className="text-primary font-semibold">${amountNeededForFreeShipping.toFixed(2)}</strong> more to qualify for complimentary shipping.
+                    Add{' '}
+                    <strong className="text-primary font-semibold">
+                      ${amountNeededForFreeShipping.toFixed(2)}
+                    </strong>{' '}
+                    more to qualify for complimentary shipping.
                   </p>
                   <div className="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
                     <div
                       className="bg-primary h-full rounded-full transition-all duration-300"
-                      style={{ width: `${Math.min(100, (subtotalAfterDiscount / freeShippingThreshold) * 100)}%` }}
+                      style={{
+                        width: `${Math.min(100, (subtotalAfterDiscount / freeShippingThreshold) * 100)}%`,
+                      }}
                     />
                   </div>
                 </div>
@@ -161,7 +181,9 @@ export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
                       className="flex items-center gap-1.5 text-xs text-on-surface-variant hover:text-error transition-colors p-1"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
-                      <span className="font-label uppercase tracking-wider text-[10px]">Remove</span>
+                      <span className="font-label uppercase tracking-wider text-[10px]">
+                        Remove
+                      </span>
                     </button>
                   </div>
                 </div>
@@ -185,7 +207,9 @@ export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
                   <div className="flex items-center justify-between p-3 bg-surface-container rounded border border-primary/30 text-xs">
                     <div className="flex items-center gap-2 text-primary font-medium">
                       <Tag className="w-3.5 h-3.5" />
-                      <span>{appliedPromo.code} ({(appliedPromo.discount * 100).toFixed(0)}% Off)</span>
+                      <span>
+                        {appliedPromo.code} ({(appliedPromo.discount * 100).toFixed(0)}% Off)
+                      </span>
                     </div>
                     <button
                       onClick={removePromoCode}
@@ -213,7 +237,8 @@ export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
                   </form>
                 )}
                 <p className="text-[10px] text-on-surface-variant/70 mt-1.5">
-                  Try test privileges: <code className="text-primary font-mono">ATELIER10</code> or <code className="text-primary font-mono">LUXE15</code>
+                  Try test privileges: <code className="text-primary font-mono">SLOWCRAFT15</code>{' '}
+                  or <code className="text-primary font-mono">KNOTKARI20</code>
                 </p>
               </div>
 
@@ -245,7 +270,9 @@ export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
 
                 <div className="flex justify-between text-base font-semibold text-on-surface pt-4 border-t border-outline-variant/15">
                   <span className="font-display">Total Due</span>
-                  <span className="font-headline text-xl text-primary">${grandTotal.toFixed(2)}</span>
+                  <span className="font-headline text-xl text-primary">
+                    ${grandTotal.toFixed(2)}
+                  </span>
                 </div>
               </div>
 
@@ -260,7 +287,9 @@ export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
 
               {/* Trust Badges */}
               <div className="pt-2 flex items-center justify-center gap-4 text-[11px] text-on-surface-variant/80">
-                <span className="flex items-center gap-1.5"><ShieldCheck className="w-3.5 h-3.5 text-primary" /> Secure 256-bit Encrypted</span>
+                <span className="flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-primary" /> Secure 256-bit Encrypted
+                </span>
                 <span>•</span>
                 <span>White-Glove Box Packaging</span>
               </div>
@@ -273,9 +302,7 @@ export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
       {recommendations.length > 0 && (
         <section className="mt-24 pt-12 border-t border-outline-variant/15">
           <div className="mb-8">
-            <h3 className="font-display text-2xl text-on-background mb-2">
-              Curated Complements
-            </h3>
+            <h3 className="font-display text-2xl text-on-background mb-2">Curated Complements</h3>
             <p className="text-xs font-body text-on-surface-variant">
               Pieces selected by our master stitchers to pair with your selections.
             </p>

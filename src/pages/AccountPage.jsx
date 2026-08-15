@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useCart } from '../context/CartContext';
+import { useToast } from '../context/ToastContext';
 import {
   User,
   Package,
@@ -10,30 +11,72 @@ import {
   Sparkles,
   LogOut,
   ShoppingBag,
-  ExternalLink,
-  ShieldCheck
+  ShieldCheck,
+  Edit3,
+  Plus,
+  Trash2,
+  CheckCircle2,
+  Key,
+  Globe,
+  Share2,
+  Copy,
 } from 'lucide-react';
 
 export function AccountPage({ onNavigateToShop, onNavigateToAuth }) {
-  const { user, isAuthenticated, isGuest, logout } = useAuth();
+  const {
+    user,
+    isAuthenticated,
+    isGuest,
+    logout,
+    updateProfile,
+    addAddress,
+    updateAddress,
+    deleteAddress,
+  } = useAuth();
   const { wishlist, toggleWishlist } = useWishlist();
   const { addToCart } = useCart();
-  const [activeTab, setActiveTab] = useState('orders'); // 'orders' | 'wishlist' | 'addresses' | 'perks'
+  const { addToast } = useToast();
+
+  const [activeTab, setActiveTab] = useState('orders'); // 'orders' | 'profile' | 'addresses' | 'wishlist' | 'perks'
+
+  // Profile edit state
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [profileForm, setProfileForm] = useState({
+    name: user?.name || '',
+    phone: user?.phone || '',
+    bio: user?.bio || '',
+    avatar: user?.avatar || '',
+  });
+
+  // Address modal state
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+  const [editingAddressId, setEditingAddressId] = useState(null);
+  const [addressForm, setAddressForm] = useState({
+    name: '',
+    street: '',
+    city: '',
+    state: '',
+    postalCode: '',
+    country: 'India',
+    phone: '',
+    isDefault: false,
+  });
 
   if (!isAuthenticated && !isGuest) {
     return (
       <main className="flex-grow flex items-center justify-center py-20 px-4">
-        <div className="bg-surface-container-low p-8 rounded border border-outline-variant/20 max-w-md text-center space-y-6">
+        <div className="bg-surface-container-low p-8 rounded-2xl border border-outline-variant/20 max-w-md text-center space-y-6 shadow-2xl">
           <div className="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mx-auto text-primary border border-outline-variant/20">
             <User className="w-8 h-8" />
           </div>
-          <h2 className="font-display text-2xl text-on-surface">Atelier Patron Portal</h2>
+          <h2 className="font-display text-2xl text-on-surface">KNOTKARI Patron Portal</h2>
           <p className="text-sm font-body text-on-surface-variant">
-            Please sign in to access your order history, fabrication tracking, and member privileges.
+            Please sign in to access your handcrafted order journey, address book, and exclusive
+            Karigari VIP privileges.
           </p>
           <button
             onClick={onNavigateToAuth}
-            className="px-8 py-3.5 bg-primary text-on-primary font-label text-xs uppercase tracking-widest font-semibold rounded hover:bg-primary-fixed transition-colors"
+            className="w-full py-3.5 bg-primary text-on-primary font-label text-xs uppercase tracking-widest font-semibold rounded hover:bg-primary-fixed transition-colors"
           >
             Sign In / Enter Atelier
           </button>
@@ -42,44 +85,134 @@ export function AccountPage({ onNavigateToShop, onNavigateToAuth }) {
     );
   }
 
+  const handleProfileSave = (e) => {
+    e.preventDefault();
+    updateProfile(profileForm);
+    setIsEditingProfile(false);
+  };
+
+  const handleOpenNewAddressModal = () => {
+    setEditingAddressId(null);
+    setAddressForm({
+      name: user?.name || '',
+      street: '',
+      city: '',
+      state: '',
+      postalCode: '',
+      country: 'India',
+      phone: user?.phone || '',
+      isDefault: false,
+    });
+    setIsAddressModalOpen(true);
+  };
+
+  const handleOpenEditAddressModal = (addr) => {
+    setEditingAddressId(addr.id);
+    setAddressForm({ ...addr });
+    setIsAddressModalOpen(true);
+  };
+
+  const handleAddressSubmit = (e) => {
+    e.preventDefault();
+    if (!addressForm.street || !addressForm.city || !addressForm.postalCode) {
+      addToast('Please fill in required address fields.', 'error');
+      return;
+    }
+
+    if (editingAddressId) {
+      updateAddress(editingAddressId, addressForm);
+    } else {
+      addAddress(addressForm);
+    }
+    setIsAddressModalOpen(false);
+  };
+
+  const handleCopyReferral = () => {
+    navigator.clipboard.writeText(`https://knotkari.atelier/invite?ref=${user?.id || 'patron'}`);
+    addToast('VIP Patron Referral Link copied to clipboard!', 'success');
+  };
+
   return (
     <main className="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-16">
-      {/* Patron Header Profile */}
-      <div className="bg-surface-container-low border border-outline-variant/20 rounded-lg p-6 md:p-8 mb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+      {/* 1. PATRON HEADER PROFILE CARD */}
+      <div className="bg-surface-container-low border border-outline-variant/20 rounded-2xl p-6 md:p-8 mb-10 shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div className="flex items-center gap-5">
-          <div className="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center text-primary font-display text-2xl border border-primary/30 shadow-inner">
-            {user?.name ? user.name[0] : 'P'}
+          <div className="relative group">
+            {user?.avatar ? (
+              <img
+                src={user.avatar}
+                alt={user.name}
+                className="w-20 h-20 rounded-full object-cover border-2 border-primary/40 shadow-inner"
+              />
+            ) : (
+              <div className="w-20 h-20 rounded-full bg-surface-container-highest flex items-center justify-center text-primary font-display text-3xl border-2 border-primary/30 shadow-inner">
+                {user?.name ? user.name[0] : 'K'}
+              </div>
+            )}
+            <button
+              onClick={() => setIsEditingProfile(true)}
+              className="absolute bottom-0 right-0 p-1.5 bg-primary text-on-primary rounded-full hover:bg-primary-fixed transition-colors shadow"
+              title="Edit Profile"
+            >
+              <Edit3 className="w-3.5 h-3.5" />
+            </button>
           </div>
-          <div>
-            <div className="flex items-center gap-3">
-              <h1 className="font-display text-2xl md:text-3xl text-on-background">{user?.name || 'Guest Patron'}</h1>
+
+          <div className="space-y-1">
+            <div className="flex flex-wrap items-center gap-3">
+              <h1 className="font-display text-2xl md:text-3xl text-on-background">
+                {user?.name || 'Guest Patron'}
+              </h1>
               <span className="px-3 py-0.5 rounded-full text-[11px] font-label uppercase font-semibold bg-primary/20 text-primary border border-primary/30 flex items-center gap-1">
                 <Sparkles className="w-3 h-3" />
-                <span>{user?.tier || 'Atelier Patron'}</span>
+                <span>{user?.tier || 'Knotkari Patron'}</span>
               </span>
             </div>
-            <p className="font-body text-xs text-on-surface-variant mt-1">
-              {user?.email || 'Guest Patron Session'} • Member since {user?.joinedDate || '2026'}
+            <p className="font-body text-xs text-on-surface-variant">
+              {user?.email || 'Guest Session'} • Member since {user?.joinedDate || '2026'}
             </p>
+            {user?.bio && (
+              <p className="font-serif italic text-xs text-on-surface-variant/80 pt-1">
+                "{user.bio}"
+              </p>
+            )}
           </div>
         </div>
 
-        <button
-          onClick={logout}
-          className="flex items-center gap-2 px-4 py-2 border border-outline-variant/30 hover:border-error/40 hover:text-error text-xs font-label uppercase tracking-wider rounded transition-colors"
-        >
-          <LogOut className="w-3.5 h-3.5" />
-          <span>Exit Atelier</span>
-        </button>
+        {/* Action / Points Pill */}
+        <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-4 md:pt-0 border-outline-variant/10">
+          <div className="bg-surface-container px-4 py-2 rounded-xl border border-outline-variant/20 text-right">
+            <span className="text-[10px] font-label uppercase tracking-widest text-on-surface-variant block">
+              Karigari Rewards
+            </span>
+            <span className="font-headline text-lg font-bold text-primary">
+              {user?.rewardPoints || 200} pts
+            </span>
+          </div>
+
+          <button
+            onClick={logout}
+            className="flex items-center gap-2 px-4 py-2 border border-outline-variant/30 hover:border-error/40 hover:text-error text-xs font-label uppercase tracking-wider rounded-lg transition-colors"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+            <span>Exit Atelier</span>
+          </button>
+        </div>
       </div>
 
-      {/* Account Navigation Tabs */}
-      <div className="flex border-b border-outline-variant/15 mb-8 overflow-x-auto">
+      {/* 2. NAVIGATION TABS */}
+      <div className="flex border-b border-outline-variant/15 mb-8 overflow-x-auto gap-2">
         {[
-          { id: 'orders', label: 'Order History', icon: Package, count: user?.orders?.length || 0 },
+          { id: 'orders', label: 'Order Journey', icon: Package, count: user?.orders?.length || 0 },
+          { id: 'profile', label: 'Security & Cloud Sync', icon: ShieldCheck },
+          {
+            id: 'addresses',
+            label: 'Saved Addresses',
+            icon: MapPin,
+            count: user?.addresses?.length || 0,
+          },
           { id: 'wishlist', label: 'Curated Wishlist', icon: Heart, count: wishlist.length },
-          { id: 'addresses', label: 'Saved Addresses', icon: MapPin, count: user?.addresses?.length || 0 },
-          { id: 'perks', label: 'Patron Privileges', icon: Sparkles }
+          { id: 'perks', label: 'VIP Club & Rewards', icon: Sparkles },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -87,7 +220,7 @@ export function AccountPage({ onNavigateToShop, onNavigateToAuth }) {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-6 py-3 font-label text-xs uppercase tracking-widest transition-all whitespace-nowrap ${
+              className={`flex items-center gap-2 px-5 py-3 font-label text-xs uppercase tracking-widest transition-all whitespace-nowrap ${
                 isActive
                   ? 'text-primary border-b-2 border-primary font-bold'
                   : 'text-on-surface-variant hover:text-on-surface'
@@ -96,7 +229,7 @@ export function AccountPage({ onNavigateToShop, onNavigateToAuth }) {
               <Icon className="w-4 h-4" />
               <span>{tab.label}</span>
               {tab.count !== undefined && (
-                <span className="ml-1 px-1.5 py-0.2 bg-surface-container rounded-full text-[10px]">
+                <span className="ml-1 px-2 py-0.2 bg-surface-container rounded-full text-[10px]">
                   {tab.count}
                 </span>
               )}
@@ -105,44 +238,126 @@ export function AccountPage({ onNavigateToShop, onNavigateToAuth }) {
         })}
       </div>
 
-      {/* Tab Content 1: Orders */}
+      {/* 3. TAB 1: ORDER JOURNEY & TRACKER */}
       {activeTab === 'orders' && (
         <div className="space-y-6">
-          {(!user?.orders || user.orders.length === 0) ? (
-            <div className="text-center py-16 bg-surface-container-low rounded border border-outline-variant/10">
-              <Package className="w-10 h-10 mx-auto text-on-surface-variant mb-3 opacity-40" />
-              <p className="font-display text-lg text-on-surface">No Orders Yet</p>
-              <p className="text-xs text-on-surface-variant mt-1">Your handcrafted acquisitions will appear here.</p>
+          {!user?.orders || user.orders.length === 0 ? (
+            <div className="text-center py-16 bg-surface-container-low rounded-2xl border border-outline-variant/10 space-y-3">
+              <Package className="w-12 h-12 mx-auto text-on-surface-variant opacity-40" />
+              <p className="font-display text-xl text-on-surface">No Karigari Orders Yet</p>
+              <p className="text-xs text-on-surface-variant max-w-sm mx-auto">
+                Explore our catalog to commission handcrafted floral stems and slow-fashion pieces.
+              </p>
+              <button
+                onClick={onNavigateToShop}
+                className="px-6 py-2.5 bg-primary text-on-primary font-label text-xs uppercase tracking-widest rounded-lg font-semibold mt-2"
+              >
+                Browse Atelier Pieces
+              </button>
             </div>
           ) : (
             user.orders.map((order) => (
               <div
                 key={order.id}
-                className="bg-surface-container-low p-6 rounded border border-outline-variant/20 space-y-4"
+                className="bg-surface-container-low p-6 md:p-8 rounded-2xl border border-outline-variant/20 space-y-6 shadow-md"
               >
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 pb-4 border-b border-outline-variant/10">
+                {/* Order Top Bar */}
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pb-4 border-b border-outline-variant/10">
                   <div>
                     <div className="flex items-center gap-3">
-                      <span className="font-headline text-base text-on-surface font-semibold">Order #{order.id}</span>
-                      <span className="px-2.5 py-0.5 rounded text-[10px] font-label uppercase font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                      <span className="font-headline text-lg text-on-surface font-semibold">
+                        Order #{order.id}
+                      </span>
+                      <span className="px-3 py-0.5 rounded text-[11px] font-label uppercase font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                         {order.status}
                       </span>
                     </div>
-                    <p className="text-xs text-on-surface-variant mt-0.5">Placed on {order.date}</p>
+                    <p className="text-xs text-on-surface-variant mt-1">
+                      Placed on {order.date} • Handled by{' '}
+                      <span className="text-primary font-medium">
+                        {order.artisan || 'Master Karigar'}
+                      </span>
+                    </p>
                   </div>
                   <div className="text-left sm:text-right">
-                    <span className="font-headline text-base text-primary font-bold">${order.total.toFixed(2)}</span>
-                    <p className="text-[11px] font-mono text-on-surface-variant">Tracking: {order.trackingNumber}</p>
+                    <span className="font-headline text-lg text-primary font-bold">
+                      ${order.total?.toFixed ? order.total.toFixed(2) : order.total}
+                    </span>
+                    <p className="text-xs font-mono text-on-surface-variant mt-0.5">
+                      Tracking: {order.trackingNumber}
+                    </p>
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  {order.items.map((item, i) => (
+                {/* 5-Stage Live Karigari Timeline */}
+                <div className="py-4">
+                  <span className="text-[11px] font-label uppercase tracking-widest text-on-surface-variant font-semibold block mb-4">
+                    Artisan Craft & Dispatch Timeline
+                  </span>
+                  <div className="grid grid-cols-5 gap-2 text-center relative">
+                    {/* Background track line */}
+                    <div className="absolute top-4 left-[10%] right-[10%] h-0.5 bg-outline-variant/20 -z-0" />
+
+                    {[
+                      { step: 1, label: '1. Fiber Prep', desc: 'Organic Cotton Dyeing' },
+                      { step: 2, label: '2. Karigari Loom', desc: 'Hand-Crochet Stitching' },
+                      { step: 3, label: '3. Steaming & QC', desc: 'Tension Inspection' },
+                      { step: 4, label: '4. Wax Seal Pack', desc: 'Archival Boxing' },
+                      { step: 5, label: '5. Delivered', desc: 'White-Glove Courier' },
+                    ].map((st) => {
+                      const isComplete = (order.currentStage || 4) >= st.step;
+                      const isCurrent = (order.currentStage || 4) === st.step;
+                      return (
+                        <div
+                          key={st.step}
+                          className="flex flex-col items-center relative z-10 space-y-1.5"
+                        >
+                          <div
+                            className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
+                              isCurrent
+                                ? 'bg-primary text-on-primary ring-4 ring-primary/30 animate-pulse'
+                                : isComplete
+                                  ? 'bg-emerald-500 text-black'
+                                  : 'bg-surface-container text-on-surface-variant border border-outline-variant/30'
+                            }`}
+                          >
+                            {isComplete ? <CheckCircle2 className="w-4 h-4" /> : st.step}
+                          </div>
+                          <span
+                            className={`text-[11px] font-label uppercase font-semibold ${isComplete ? 'text-on-surface' : 'text-on-surface-variant/60'}`}
+                          >
+                            {st.label}
+                          </span>
+                          <span className="text-[10px] text-on-surface-variant hidden md:block leading-tight">
+                            {st.desc}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Items List */}
+                <div className="bg-surface-container/60 p-4 rounded-xl space-y-2 border border-outline-variant/10">
+                  <span className="text-[10px] font-label uppercase tracking-widest text-on-surface-variant block mb-1 font-semibold">
+                    Pieces in Commission
+                  </span>
+                  {order.items?.map((item, i) => (
                     <div key={i} className="flex justify-between text-xs text-on-surface">
-                      <span>{item.quantity}x {item.name}</span>
-                      <span>${(item.price * item.quantity).toFixed(2)}</span>
+                      <span className="font-medium">
+                        {item.quantity}x {item.name}
+                      </span>
+                      <span className="font-mono">${(item.price * item.quantity).toFixed(2)}</span>
                     </div>
                   ))}
+                  {order.paymentGateway && (
+                    <div className="pt-2 border-t border-outline-variant/10 flex justify-between text-[11px] text-primary/80 font-mono">
+                      <span>Gateway: {order.paymentGateway}</span>
+                      <span>
+                        Est. Delivery: {order.estimatedDelivery || 'In 4-6 business days'}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             ))
@@ -150,17 +365,212 @@ export function AccountPage({ onNavigateToShop, onNavigateToAuth }) {
         </div>
       )}
 
-      {/* Tab Content 2: Wishlist */}
+      {/* 4. TAB 2: PROFILE & SECURITY & CLOUD SYNC */}
+      {activeTab === 'profile' && (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* Left: Profile Details Editor */}
+          <div className="lg:col-span-7 bg-surface-container-low p-6 md:p-8 rounded-2xl border border-outline-variant/20 space-y-6">
+            <div className="flex justify-between items-center pb-4 border-b border-outline-variant/10">
+              <h3 className="font-display text-xl text-on-surface">Patron Profile Settings</h3>
+              <button
+                onClick={() => setIsEditingProfile(!isEditingProfile)}
+                className="text-xs font-label uppercase tracking-widest text-primary hover:underline flex items-center gap-1.5"
+              >
+                <Edit3 className="w-3.5 h-3.5" />
+                <span>{isEditingProfile ? 'Cancel' : 'Edit Details'}</span>
+              </button>
+            </div>
+
+            <form onSubmit={handleProfileSave} className="space-y-4">
+              <div className="space-y-1">
+                <label className="font-label text-xs uppercase tracking-widest text-on-surface-variant block">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  disabled={!isEditingProfile}
+                  value={profileForm.name}
+                  onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
+                  className="ghost-input w-full py-2 text-sm text-on-background disabled:opacity-75"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="font-label text-xs uppercase tracking-widest text-on-surface-variant block">
+                  Phone / WhatsApp Contact (For White-Glove Courier)
+                </label>
+                <input
+                  type="text"
+                  disabled={!isEditingProfile}
+                  value={profileForm.phone}
+                  onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
+                  className="ghost-input w-full py-2 text-sm text-on-background disabled:opacity-75"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="font-label text-xs uppercase tracking-widest text-on-surface-variant block">
+                  Patron Bio / Aesthetic Preference
+                </label>
+                <textarea
+                  rows={2}
+                  disabled={!isEditingProfile}
+                  value={profileForm.bio}
+                  onChange={(e) => setProfileForm({ ...profileForm, bio: e.target.value })}
+                  placeholder="e.g. Passionate about botanical floral art and sustainable slow fashion."
+                  className="ghost-input w-full py-2 text-sm text-on-background disabled:opacity-75 resize-none"
+                />
+              </div>
+
+              {isEditingProfile && (
+                <div className="pt-2 flex gap-3">
+                  <button
+                    type="submit"
+                    className="px-6 py-2.5 bg-primary text-on-primary font-label text-xs uppercase tracking-widest rounded font-semibold"
+                  >
+                    Save Changes
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsEditingProfile(false)}
+                    className="px-6 py-2.5 bg-surface-container text-on-surface font-label text-xs uppercase tracking-widest rounded"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              )}
+            </form>
+          </div>
+
+          {/* Right: Cloud Sync & Security Center */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="bg-surface-container-low p-6 rounded-2xl border border-outline-variant/20 space-y-4">
+              <div className="flex items-center gap-2 text-emerald-400 text-sm font-semibold">
+                <Globe className="w-4 h-4" />
+                <span>Vercel Cloud Sync Status</span>
+              </div>
+              <p className="text-xs text-on-surface-variant leading-relaxed">
+                Your atelier session and encryption tokens are synced in high-availability edge
+                nodes across global edge regions.
+              </p>
+              <div className="bg-surface-container p-3 rounded-lg flex items-center justify-between text-xs font-mono">
+                <span className="text-on-surface-variant">Edge Engine:</span>
+                <span className="text-emerald-300">Vercel Production</span>
+              </div>
+              <div className="bg-surface-container p-3 rounded-lg flex items-center justify-between text-xs font-mono">
+                <span className="text-on-surface-variant">Auth Provider:</span>
+                <span className="text-primary">Supabase Auth (Active)</span>
+              </div>
+            </div>
+
+            {/* Session Security Logs */}
+            <div className="bg-surface-container-low p-6 rounded-2xl border border-outline-variant/20 space-y-3">
+              <div className="flex items-center gap-2 text-primary text-sm font-semibold">
+                <Key className="w-4 h-4" />
+                <span>Active Device Sessions</span>
+              </div>
+              <div className="space-y-2 text-xs">
+                {user?.sessionLogs?.map((log) => (
+                  <div
+                    key={log.id}
+                    className="p-3 bg-surface-container rounded-lg flex justify-between items-center"
+                  >
+                    <div>
+                      <span className="text-on-surface font-medium block">{log.device}</span>
+                      <span className="text-[10px] text-on-surface-variant">{log.time}</span>
+                    </div>
+                    <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-300 rounded text-[10px] font-semibold">
+                      {log.status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 5. TAB 3: SAVED ADDRESSES */}
+      {activeTab === 'addresses' && (
+        <div className="space-y-6">
+          <div className="flex justify-between items-center">
+            <h3 className="font-display text-xl text-on-surface">Your Shipping Destinations</h3>
+            <button
+              onClick={handleOpenNewAddressModal}
+              className="px-4 py-2 bg-primary text-on-primary font-label text-xs uppercase tracking-widest rounded-lg flex items-center gap-2 hover:bg-primary-fixed transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Add New Address</span>
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {user?.addresses?.map((addr) => (
+              <div
+                key={addr.id}
+                className="bg-surface-container-low p-6 rounded-2xl border border-outline-variant/20 space-y-4 relative"
+              >
+                <div className="flex justify-between items-start">
+                  <div>
+                    <span className="font-headline text-base font-semibold text-on-surface">
+                      {addr.name}
+                    </span>
+                    {addr.isDefault && (
+                      <span className="ml-2 px-2 py-0.5 bg-primary/20 text-primary text-[10px] uppercase font-semibold rounded">
+                        Default
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleOpenEditAddressModal(addr)}
+                      className="p-1 text-on-surface-variant hover:text-primary transition-colors"
+                      title="Edit Address"
+                    >
+                      <Edit3 className="w-4 h-4" />
+                    </button>
+                    {user.addresses.length > 1 && (
+                      <button
+                        onClick={() => deleteAddress(addr.id)}
+                        className="p-1 text-on-surface-variant hover:text-error transition-colors"
+                        title="Delete Address"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                <p className="text-xs text-on-surface-variant leading-relaxed">
+                  {addr.street}
+                  <br />
+                  {addr.city}, {addr.state} {addr.postalCode}
+                  <br />
+                  {addr.country}
+                </p>
+
+                {addr.phone && (
+                  <p className="text-xs text-on-surface-variant/80 font-mono">Tel: {addr.phone}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* 6. TAB 4: WISHLIST */}
       {activeTab === 'wishlist' && (
         <div>
           {wishlist.length === 0 ? (
-            <div className="text-center py-16 bg-surface-container-low rounded border border-outline-variant/10 space-y-4">
-              <Heart className="w-10 h-10 mx-auto text-on-surface-variant opacity-40" />
-              <p className="font-display text-lg text-on-surface">Your Curated Wishlist is Empty</p>
-              <p className="text-xs text-on-surface-variant">Save pieces by clicking the heart icon on any creation.</p>
+            <div className="text-center py-16 bg-surface-container-low rounded-2xl border border-outline-variant/10 space-y-4">
+              <Heart className="w-12 h-12 mx-auto text-on-surface-variant opacity-40" />
+              <p className="font-display text-xl text-on-surface">Your Curated Wishlist is Empty</p>
+              <p className="text-xs text-on-surface-variant">
+                Save pieces by clicking the heart icon on any creation.
+              </p>
               <button
                 onClick={onNavigateToShop}
-                className="px-6 py-2.5 bg-surface-container-high text-xs font-label uppercase tracking-widest text-primary border border-primary/30 rounded"
+                className="px-6 py-2.5 bg-surface-container-high text-xs font-label uppercase tracking-widest text-primary border border-primary/30 rounded-lg"
               >
                 Browse Creations
               </button>
@@ -170,28 +580,36 @@ export function AccountPage({ onNavigateToShop, onNavigateToAuth }) {
               {wishlist.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-surface-container-low p-4 rounded border border-outline-variant/20 flex flex-col justify-between space-y-4"
+                  className="bg-surface-container-low p-4 rounded-2xl border border-outline-variant/20 flex flex-col justify-between space-y-4 shadow"
                 >
                   <div className="flex gap-4">
-                    <img src={item.image} alt={item.name} className="w-20 h-20 rounded object-cover bg-surface-variant shrink-0" />
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-20 h-20 rounded-xl object-cover bg-surface-variant shrink-0"
+                    />
                     <div>
                       <h4 className="font-headline text-base text-on-surface">{item.name}</h4>
-                      <p className="font-headline text-sm text-primary font-semibold mt-1">${item.price}</p>
-                      <p className="text-[11px] text-on-surface-variant line-clamp-1 mt-1">{item.subtitle}</p>
+                      <p className="font-headline text-sm text-primary font-semibold mt-1">
+                        ${item.price}
+                      </p>
+                      <p className="text-[11px] text-on-surface-variant line-clamp-1 mt-1">
+                        {item.subtitle}
+                      </p>
                     </div>
                   </div>
 
                   <div className="flex gap-2 pt-2 border-t border-outline-variant/10">
                     <button
                       onClick={() => addToCart(item, 1)}
-                      className="flex-1 py-2 bg-on-background hover:bg-primary-fixed text-background hover:text-on-primary-fixed text-xs font-label uppercase tracking-wider rounded font-semibold flex items-center justify-center gap-1.5 transition-colors"
+                      className="flex-1 py-2 bg-on-background hover:bg-primary-fixed text-background hover:text-on-primary-fixed text-xs font-label uppercase tracking-wider rounded-lg font-semibold flex items-center justify-center gap-1.5 transition-colors"
                     >
                       <ShoppingBag className="w-3.5 h-3.5" />
                       <span>Add to Bag</span>
                     </button>
                     <button
                       onClick={() => toggleWishlist(item)}
-                      className="px-3 py-2 bg-surface-container-high hover:bg-error/20 text-on-surface-variant hover:text-error text-xs rounded transition-colors"
+                      className="px-3 py-2 bg-surface-container-high hover:bg-error/20 text-on-surface-variant hover:text-error text-xs rounded-lg transition-colors"
                     >
                       Remove
                     </button>
@@ -203,48 +621,211 @@ export function AccountPage({ onNavigateToShop, onNavigateToAuth }) {
         </div>
       )}
 
-      {/* Tab Content 3: Addresses */}
-      {activeTab === 'addresses' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {user?.addresses?.map((addr) => (
-            <div key={addr.id} className="bg-surface-container-low p-6 rounded border border-outline-variant/20 space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="font-headline text-sm font-semibold text-on-surface">{addr.name}</span>
-                {addr.isDefault && (
-                  <span className="px-2 py-0.5 bg-primary/20 text-primary text-[10px] uppercase font-semibold rounded">
-                    Default
-                  </span>
-                )}
+      {/* 7. TAB 5: VIP CLUB & REWARDS */}
+      {activeTab === 'perks' && (
+        <div className="space-y-8">
+          {/* Tier Progress Bar */}
+          <div className="bg-surface-container-low p-8 rounded-2xl border border-outline-variant/20 space-y-4">
+            <div className="flex justify-between items-center">
+              <div>
+                <span className="text-xs font-label uppercase tracking-widest text-primary font-semibold">
+                  Patron Tier Status
+                </span>
+                <h3 className="font-display text-2xl text-on-surface mt-0.5">
+                  {user?.tier || 'Knotkari Master Patron'}
+                </h3>
+              </div>
+              <span className="font-mono text-base font-bold text-primary">
+                {user?.rewardPoints || 1240} / 2000 pts to Guild Legend
+              </span>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="w-full bg-surface-container rounded-full h-3 overflow-hidden">
+              <div
+                className="bg-primary h-full rounded-full transition-all duration-1000"
+                style={{ width: '62%' }}
+              />
+            </div>
+
+            <p className="text-xs text-on-surface-variant">
+              Earn 2 points for every $1 spent on bespoke handcrafted orders. Unlock complimentary
+              bespoke floral commissions at 2,000 points.
+            </p>
+          </div>
+
+          {/* Exclusive Vouchers & Referral */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-surface-container-low p-6 rounded-2xl border border-outline-variant/20 space-y-4">
+              <div className="flex items-center gap-2 text-primary font-semibold text-sm">
+                <Sparkles className="w-4 h-4" />
+                <span>Your Active Privilege Vouchers</span>
+              </div>
+              <div className="space-y-3">
+                {[
+                  { code: 'KNOTKARI20', desc: '20% off custom bouquet commissions', min: '$150' },
+                  { code: 'SLOWCRAFT15', desc: '15% off any heirloom handbag', min: 'No min' },
+                ].map((v, i) => (
+                  <div
+                    key={i}
+                    className="p-3 bg-surface-container rounded-xl flex justify-between items-center border border-outline-variant/10"
+                  >
+                    <div>
+                      <span className="font-mono text-sm font-bold text-primary block">
+                        {v.code}
+                      </span>
+                      <span className="text-[11px] text-on-surface-variant">{v.desc}</span>
+                    </div>
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(v.code);
+                        addToast(`Coupon code ${v.code} copied!`, 'success');
+                      }}
+                      className="px-3 py-1 bg-surface-container-high hover:bg-primary hover:text-on-primary text-xs rounded transition-colors"
+                    >
+                      Copy
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Referral Generator */}
+            <div className="bg-surface-container-low p-6 rounded-2xl border border-outline-variant/20 space-y-4">
+              <div className="flex items-center gap-2 text-primary font-semibold text-sm">
+                <Share2 className="w-4 h-4" />
+                <span>Invite Discerning Friends</span>
               </div>
               <p className="text-xs text-on-surface-variant leading-relaxed">
-                {addr.street}<br />
-                {addr.city}, {addr.state} {addr.postalCode}<br />
-                {addr.country}
+                Gift your friends $25 off their first KNOTKARI acquisition. You will receive 300 VIP
+                reward points upon their completed order.
               </p>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  readOnly
+                  value={`https://knotkari.atelier/invite?ref=${user?.id || 'patron'}`}
+                  className="ghost-input flex-grow py-2 text-xs text-on-surface font-mono"
+                />
+                <button
+                  onClick={handleCopyReferral}
+                  className="px-4 py-2 bg-primary text-on-primary rounded-lg text-xs font-label uppercase tracking-widest font-semibold flex items-center gap-1.5"
+                >
+                  <Copy className="w-3.5 h-3.5" />
+                  <span>Copy</span>
+                </button>
+              </div>
             </div>
-          ))}
+          </div>
         </div>
       )}
 
-      {/* Tab Content 4: Perks & Tier Privileges */}
-      {activeTab === 'perks' && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            { title: "Priority Reservation", desc: "Guaranteed 24-hour advance access to new limited-edition flower drops.", icon: Sparkles },
-            { title: "Complimentary Care", desc: "Lifetime complimentary steam refreshing and yarn re-tensioning.", icon: ShieldCheck },
-            { title: "VIP Privilege Code", desc: "Use code SLOWCRAFT20 for an enduring 20% discount on all custom commissions.", icon: ExternalLink }
-          ].map((perk, i) => {
-            const Icon = perk.icon;
-            return (
-              <div key={i} className="bg-surface-container-low p-6 rounded border border-outline-variant/20 space-y-3">
-                <div className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary">
-                  <Icon className="w-5 h-5" />
-                </div>
-                <h4 className="font-headline text-base text-on-surface font-semibold">{perk.title}</h4>
-                <p className="text-xs text-on-surface-variant leading-relaxed">{perk.desc}</p>
+      {/* MODAL: ADD / EDIT ADDRESS */}
+      {isAddressModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-md animate-fade-in">
+          <div className="bg-surface-container-low border border-outline-variant/30 rounded-2xl p-6 md:p-8 max-w-lg w-full shadow-2xl space-y-4">
+            <h3 className="font-display text-xl text-on-surface">
+              {editingAddressId ? 'Edit Address' : 'Add New Shipping Address'}
+            </h3>
+
+            <form onSubmit={handleAddressSubmit} className="space-y-4">
+              <div className="space-y-1">
+                <label className="font-label text-xs uppercase tracking-widest text-on-surface-variant block">
+                  Recipient Name
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={addressForm.name}
+                  onChange={(e) => setAddressForm({ ...addressForm, name: e.target.value })}
+                  className="ghost-input w-full py-2 text-sm text-on-background"
+                />
               </div>
-            );
-          })}
+
+              <div className="space-y-1">
+                <label className="font-label text-xs uppercase tracking-widest text-on-surface-variant block">
+                  Street Address
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={addressForm.street}
+                  onChange={(e) => setAddressForm({ ...addressForm, street: e.target.value })}
+                  className="ghost-input w-full py-2 text-sm text-on-background"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <label className="font-label text-xs uppercase tracking-widest text-on-surface-variant block">
+                    City
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={addressForm.city}
+                    onChange={(e) => setAddressForm({ ...addressForm, city: e.target.value })}
+                    className="ghost-input w-full py-2 text-sm text-on-background"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="font-label text-xs uppercase tracking-widest text-on-surface-variant block">
+                    State / Region
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={addressForm.state}
+                    onChange={(e) => setAddressForm({ ...addressForm, state: e.target.value })}
+                    className="ghost-input w-full py-2 text-sm text-on-background"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <label className="font-label text-xs uppercase tracking-widest text-on-surface-variant block">
+                    PIN / Postal Code
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={addressForm.postalCode}
+                    onChange={(e) => setAddressForm({ ...addressForm, postalCode: e.target.value })}
+                    className="ghost-input w-full py-2 text-sm text-on-background"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="font-label text-xs uppercase tracking-widest text-on-surface-variant block">
+                    Country
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={addressForm.country}
+                    onChange={(e) => setAddressForm({ ...addressForm, country: e.target.value })}
+                    className="ghost-input w-full py-2 text-sm text-on-background"
+                  />
+                </div>
+              </div>
+
+              <div className="pt-2 flex justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setIsAddressModalOpen(false)}
+                  className="px-5 py-2.5 bg-surface-container text-on-surface font-label text-xs uppercase tracking-widest rounded-lg"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2.5 bg-primary text-on-primary font-label text-xs uppercase tracking-widest rounded-lg font-semibold"
+                >
+                  Save Address
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
     </main>
