@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Boutique Collection - Luxe Craft</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed-dim": "#b6c6ed",
+                      "primary-fixed": "#d6e3ff",
+                      "error": "#ffb4ab",
+                      "surface-container-low": "#101b33",
+                      "on-error": "#690005",
+                      "inverse-on-surface": "#263049",
+                      "on-surface": "#d9e2ff",
+                      "on-secondary-fixed": "#1b1c1a",
+                      "on-tertiary": "#20304f",
+                      "on-surface-variant": "#c5c6cd",
+                      "on-primary": "#233148",
+                      "surface": "#08122a",
+                      "on-background": "#d9e2ff",
+                      "surface-dim": "#08122a",
+                      "inverse-primary": "#515f78",
+                      "background": "#08122a",
+                      "error-container": "#93000a",
+                      "secondary-fixed": "#e4e2de",
+                      "primary-fixed-dim": "#b9c7e4",
+                      "surface-tint": "#b9c7e4",
+                      "tertiary-fixed": "#d8e2ff",
+                      "on-tertiary-fixed-variant": "#374767",
+                      "surface-container": "#151f37",
+                      "on-secondary": "#30312e",
+                      "primary": "#b9c7e4",
+                      "on-secondary-fixed-variant": "#474744",
+                      "surface-container-lowest": "#030d25",
+                      "on-tertiary-container": "#7282a5",
+                      "on-primary-fixed-variant": "#39475f",
+                      "on-error-container": "#ffdad6",
+                      "on-secondary-container": "#b6b5b1",
+                      "outline": "#8f9097",
+                      "surface-container-highest": "#2a344d",
+                      "surface-bright": "#2f3952",
+                      "outline-variant": "#44474d",
+                      "secondary-container": "#474744",
+                      "tertiary": "#b6c6ed",
+                      "surface-container-high": "#1f2942",
+                      "primary-container": "#0a192f",
+                      "on-tertiary-fixed": "#091b39",
+                      "secondary": "#c8c6c3",
+                      "on-primary-fixed": "#0d1c32",
+                      "on-primary-container": "#74829d",
+                      "inverse-surface": "#d9e2ff",
+                      "secondary-fixed-dim": "#c8c6c3",
+                      "tertiary-container": "#061836",
+                      "surface-variant": "#2a344d"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "container-max": "1280px",
+                      "gutter": "24px",
+                      "margin-mobile": "16px",
+                      "section-gap": "120px",
+                      "margin-desktop": "64px",
+                      "unit": "4px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-md": [
+                              "Libre Caslon Text"
+                      ],
+                      "headline-lg-mobile": [
+                              "Libre Caslon Text"
+                      ],
+                      "label-sm": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "label-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "display-lg": [
+                              "Libre Caslon Text"
+                      ],
+                      "headline-lg": [
+                              "Libre Caslon Text"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-lg": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "64px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&amp;family=Libre+Caslon+Text:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24
+        }
+        .material-symbols-outlined.filled {
+          font-variation-settings: 'FILL' 1;
+        }
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen flex flex-col pt-20">
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-outline-variant/10 transition-all duration-300 ease-in-out">
+<div class="flex justify-between items-center h-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<!-- Mobile Menu Toggle (Only on mobile) -->
+<button class="md:hidden text-on-background focus:outline-none flex items-center justify-center p-2 rounded-full hover:bg-surface-bright/10 transition-colors">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<a class="font-display-lg text-headline-md tracking-tighter text-on-background font-bold px-4" href="#">LUXE CRAFT</a>
+<!-- Desktop Nav (Hidden on Mobile) -->
+<nav class="hidden md:flex gap-8">
+<a class="font-label-lg text-label-lg uppercase tracking-widest text-primary border-b-2 border-primary pb-1" href="#">Shop</a>
+<a class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface-variant hover:text-on-background transition-colors" href="#">About</a>
+<a class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface-variant hover:text-on-background transition-colors" href="#">Cart</a>
+<a class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface-variant hover:text-on-background transition-colors" href="#">Account</a>
+</nav>
+<div class="flex gap-4 items-center">
+<button class="text-on-background focus:outline-none flex items-center justify-center p-2 rounded-full hover:bg-surface-bright/10 transition-colors">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="text-on-background focus:outline-none flex items-center justify-center p-2 rounded-full hover:bg-surface-bright/10 transition-colors relative">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span class="absolute top-1 right-1 bg-primary text-on-primary text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">2</span>
+</button>
+<button class="hidden md:flex text-on-background focus:outline-none items-center justify-center p-2 rounded-full hover:bg-surface-bright/10 transition-colors">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex flex-col px-margin-mobile md:px-margin-desktop py-8 max-w-container-max mx-auto w-full gap-section-gap">
+<!-- Header Section -->
+<section class="flex flex-col gap-6 text-center pt-8">
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background font-bold tracking-tight">The Boutique Collection</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">A curated selection of our finest handcrafted crochet pieces. Each item is meticulously woven, balancing artisanal heritage with contemporary luxury aesthetics.</p>
+<!-- Filters & Sorting Mobile -->
+<div class="flex justify-between items-center mt-4 border-t border-b border-outline-variant/10 py-4">
+<button class="flex items-center gap-2 font-label-lg text-label-lg uppercase text-on-surface-variant hover:text-on-background transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="tune">tune</span> Filters
+                </button>
+<div class="flex gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase px-3 py-1 rounded-full border border-outline-variant/20">All</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase px-3 py-1 rounded-full border border-outline-variant/20">Bags</span>
+</div>
+<button class="flex items-center gap-1 font-label-lg text-label-lg uppercase text-on-surface-variant hover:text-on-background transition-colors">
+                    Sort <span class="material-symbols-outlined text-sm" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+</section>
+<!-- Product Gallery Grid (Mobile focused) -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-gutter">
+<!-- Product Card 1 -->
+<article class="flex flex-col group cursor-pointer">
+<div class="relative w-full aspect-[4/5] bg-surface-container overflow-hidden rounded-lg mb-4">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100" data-alt="A meticulously crafted oversized crochet tote bag in a deep midnight navy hue, resting on a clean white marble pedestal. The intricate, chunky stitching is highlighted by soft, diffused studio lighting, emphasizing the luxurious texture and weight of the yarn. The background is a moody, dark space, focusing entirely on the high-end artisanal quality of the bag. Minimalist, editorial fashion photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5kZyQ97kUe_dT6FeshODHNLNzURhregWAKdZqtuXl0kdIEvWsFyii4QjXDWLAPJyJQIt4AZznUgwLgjQTTXID4MrXt-Va7-DNmD-y1NJer3XikHKR-hp_R55rejMBxs2N0cOR9hfZw9NUNMotnpUlVUWkbQMcNsto2kaxa9G_yJNafbZlYuup3g2Cr71Wg6VnQNxupSAZ4xeFeA8t8j_oPNpnMA6R21-Se4kaGlj_nwdeRpIaYq4mHg"/>
+<!-- Tonal overlay for interaction -->
+<div class="absolute inset-0 bg-primary-fixed/0 group-hover:bg-primary-fixed/5 transition-colors duration-300"></div>
+<!-- Chip -->
+<div class="absolute top-4 left-4 bg-surface/80 backdrop-blur-sm border border-outline-variant/20 rounded-full px-3 py-1 flex items-center">
+<span class="font-label-sm text-label-sm text-on-surface uppercase tracking-widest">New</span>
+</div>
+</div>
+<div class="flex justify-between items-start gap-4">
+<div class="flex flex-col gap-1">
+<h3 class="font-headline-md text-body-lg text-on-background">Midnight Tote</h3>
+<p class="font-body-md text-label-sm text-on-surface-variant">Chunky Merino Wool</p>
+</div>
+<span class="font-body-lg text-body-lg text-on-background">$345</span>
+</div>
+</article>
+<!-- Product Card 2 -->
+<article class="flex flex-col group cursor-pointer">
+<div class="relative w-full aspect-[4/5] bg-surface-container overflow-hidden rounded-lg mb-4">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100" data-alt="A delicate, lacy crochet cardigan in a soft cream color, elegantly draped over a minimal, matte black wooden hanger against a seamless dark blue backdrop. The intricate floral motifs of the crochet pattern are sharply in focus, illuminated by dramatic, high-contrast side lighting that casts subtle shadows, creating a sense of depth and luxury. Cinematic, high-fashion catalog aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdRaOTzUpucCUL40pt7zWTQz7g6fmlcsm-0YRp9hb8uh9hWFr7lrfZJ-SwXOt7MAeOHIoF5u47LsshA7kingZ8hKyIAIza6aJDF9yQcQ6Dd6XWMONlzACm_J2KdfiJqwX_CX3u-HuHgK6FLPvpJb4phsa7SlFB4iJ0yvWZLxKU0UBuf_0z-fV183z3wj4VDDzYfWldtE6VMk2az7JBEyySu1Q9OYDQlOMbXajb--STSa-JjcDBjHraKg"/>
+<div class="absolute inset-0 bg-primary-fixed/0 group-hover:bg-primary-fixed/5 transition-colors duration-300"></div>
+</div>
+<div class="flex justify-between items-start gap-4">
+<div class="flex flex-col gap-1">
+<h3 class="font-headline-md text-body-lg text-on-background">Alabaster Cardigan</h3>
+<p class="font-body-md text-label-sm text-on-surface-variant">Organic Cotton Blend</p>
+</div>
+<span class="font-body-lg text-body-lg text-on-background">$480</span>
+</div>
+</article>
+<!-- Product Card 3 -->
+<article class="flex flex-col group cursor-pointer">
+<div class="relative w-full aspect-[4/5] bg-surface-container overflow-hidden rounded-lg mb-4">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100" data-alt="A structured, boxy crochet clutch in a rich slate blue, featuring a geometric, tight-knit pattern. The clutch is positioned off-center on a smooth, dark indigo surface, accompanied by a solitary, minimalist silver clasp reflecting soft light. The lighting is moody and precise, highlighting the architectural shape and premium craftsmanship of the accessory. Sophisticated, dark-mode product photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQa-a5rLXh36NKOeGkEn26ZeN56jRSKM0YJZrcy7RU2WS5ieqxUPxUnmwpa61_P3VVzXTxNKgKuc-r0xFgzG1ICoSd4ii83FXHU3wZkdCQsCuOLeyzkGukx_AnY1kgXVsY695xyWtYtern9hmZXthSwAthbO_k0GF1J4naRI6LZ2Vc1V4F3ziOcn_fFetIZEuO9or3CjFqAa7RWFgm2f9vvtGvxk67KnZ4XvqsfoCQiWgTjTqZEWqmeA"/>
+<div class="absolute inset-0 bg-primary-fixed/0 group-hover:bg-primary-fixed/5 transition-colors duration-300"></div>
+<div class="absolute top-4 left-4 bg-surface/80 backdrop-blur-sm border border-outline-variant/20 rounded-full px-3 py-1 flex items-center">
+<span class="font-label-sm text-label-sm text-on-surface uppercase tracking-widest">Limited</span>
+</div>
+</div>
+<div class="flex justify-between items-start gap-4">
+<div class="flex flex-col gap-1">
+<h3 class="font-headline-md text-body-lg text-on-background">Architect Clutch</h3>
+<p class="font-body-md text-label-sm text-on-surface-variant">Recycled Silk Yarn</p>
+</div>
+<span class="font-body-lg text-body-lg text-on-background">$290</span>
+</div>
+</article>
+<!-- Product Card 4 -->
+<article class="flex flex-col group cursor-pointer">
+<div class="relative w-full aspect-[4/5] bg-surface-container overflow-hidden rounded-lg mb-4">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100" data-alt="A luxurious, oversized textured crochet throw blanket cascading over the edge of a minimalist, dark charcoal velvet chaise lounge. The blanket features deep, rich tones of indigo and midnight blue, with prominent, raised stitch details creating a highly tactile surface. Soft, moody directional lighting emphasizes the cozy yet sophisticated nature of the piece against a dark, elegant room setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVCT0lMLwQQK5f1O8C14BRUbt_ZEyb7fB3kYkV1FPRE-9_DzreUD0vV1lPM1UH_xBXDGMde22pqp3vTdQYM6uGvvzJx30TPEMRdUZAkgupQnKOC7rnz7y9h5FyAmHGFZZlg0HtlhAIOz0nUN3_C1ivJ-yGvur5UpMUeYhlz04_KUBZP8AGiu9ufuVFwd9dT6XPVrRYh95ps7r9lVT5yLJH5rg2uuDK0pVJxa5rey3gwHTlsJ5DHhLoYA"/>
+<div class="absolute inset-0 bg-primary-fixed/0 group-hover:bg-primary-fixed/5 transition-colors duration-300"></div>
+</div>
+<div class="flex justify-between items-start gap-4">
+<div class="flex flex-col gap-1">
+<h3 class="font-headline-md text-body-lg text-on-background">Abyss Throw</h3>
+<p class="font-body-md text-label-sm text-on-surface-variant">Heavyweight Alpaca</p>
+</div>
+<span class="font-body-lg text-body-lg text-on-background">$650</span>
+</div>
+</article>
+<!-- Load More Button -->
+<div class="col-span-1 md:col-span-2 lg:col-span-3 flex justify-center mt-8">
+<button class="bg-transparent border border-secondary font-label-lg text-label-lg uppercase tracking-widest text-on-background px-8 py-4 hover:bg-surface-bright/10 transition-colors">
+                     View Complete Collection
+                 </button>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="w-full py-section-gap bg-surface-container-lowest border-t border-outline-variant/5 mt-auto">
+<div class="flex flex-col items-center gap-8 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto text-center">
+<a class="font-display-lg text-headline-md text-on-surface tracking-tighter font-bold" href="#">LUXE CRAFT</a>
+<nav class="flex flex-col md:flex-row gap-4 md:gap-8 items-center">
+<a class="font-body-md text-body-md text-on-surface-variant opacity-80 hover:opacity-100 hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-md text-body-md text-on-surface-variant opacity-80 hover:opacity-100 hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-body-md text-body-md text-on-surface-variant opacity-80 hover:opacity-100 hover:text-primary transition-colors" href="#">Shipping &amp; Returns</a>
+<a class="font-body-md text-body-md text-on-surface-variant opacity-80 hover:opacity-100 hover:text-primary transition-colors" href="#">Contact</a>
+</nav>
+<div class="font-body-md text-label-sm text-on-surface-variant uppercase tracking-widest opacity-60">
+                © 2024 LUXE CRAFT ATELIER. ALL RIGHTS RESERVED.
+            </div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Luxe Craft - Cart</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&amp;family=Hanken+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary": "#233148",
+                      "surface-container-highest": "#2a344d",
+                      "surface-container-low": "#101b33",
+                      "surface-container-high": "#1f2942",
+                      "on-surface-variant": "#c5c6cd",
+                      "secondary": "#c8c6c3",
+                      "tertiary-fixed": "#d8e2ff",
+                      "inverse-primary": "#515f78",
+                      "surface-container-lowest": "#030d25",
+                      "error": "#ffb4ab",
+                      "on-surface": "#d9e2ff",
+                      "primary-fixed-dim": "#b9c7e4",
+                      "tertiary-fixed-dim": "#b6c6ed",
+                      "tertiary-container": "#061836",
+                      "surface-variant": "#2a344d",
+                      "on-secondary-fixed": "#1b1c1a",
+                      "inverse-on-surface": "#263049",
+                      "on-tertiary-fixed": "#091b39",
+                      "background": "#08122a",
+                      "on-tertiary-fixed-variant": "#374767",
+                      "on-secondary-container": "#b6b5b1",
+                      "secondary-fixed-dim": "#c8c6c3",
+                      "on-background": "#d9e2ff",
+                      "error-container": "#93000a",
+                      "inverse-surface": "#d9e2ff",
+                      "on-primary-fixed": "#0d1c32",
+                      "outline-variant": "#44474d",
+                      "on-secondary": "#30312e",
+                      "surface-container": "#151f37",
+                      "outline": "#8f9097",
+                      "secondary-container": "#474744",
+                      "primary": "#b9c7e4",
+                      "primary-fixed": "#d6e3ff",
+                      "on-error-container": "#ffdad6",
+                      "secondary-fixed": "#e4e2de",
+                      "on-primary-fixed-variant": "#39475f",
+                      "surface": "#08122a",
+                      "tertiary": "#b6c6ed",
+                      "on-error": "#690005",
+                      "on-tertiary-container": "#7282a5",
+                      "surface-tint": "#b9c7e4",
+                      "on-tertiary": "#20304f",
+                      "on-primary-container": "#74829d",
+                      "on-secondary-fixed-variant": "#474744",
+                      "primary-container": "#0a192f",
+                      "surface-bright": "#2f3952",
+                      "surface-dim": "#08122a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "section-gap": "120px",
+                      "margin-desktop": "64px",
+                      "container-max": "1280px",
+                      "gutter": "24px",
+                      "unit": "4px"
+              },
+              "fontFamily": {
+                      "headline-lg": [
+                              "Libre Caslon Text"
+                      ],
+                      "label-sm": [
+                              "Hanken Grotesk"
+                      ],
+                      "label-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "display-lg": [
+                              "Libre Caslon Text"
+                      ],
+                      "headline-md": [
+                              "Libre Caslon Text"
+                      ],
+                      "headline-lg-mobile": [
+                              "Libre Caslon Text"
+                      ],
+                      "body-md": [
+                              "Hanken Grotesk"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-lg": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "64px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md text-body-md overflow-x-hidden selection:bg-primary-container selection:text-primary">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md text-on-background font-label-lg text-label-lg uppercase tracking-widest border-b border-outline-variant/10 flat no shadows transition-all duration-300 ease-in-out">
+<div class="flex justify-between items-center h-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<!-- Mobile Menu Toggle (Visible only on mobile) -->
+<button aria-label="Open menu" class="md:hidden flex items-center justify-center p-2 text-on-surface-variant hover:bg-surface-bright/10 rounded-full transition-colors">
+<span class="material-symbols-outlined text-[24px]">menu</span>
+</button>
+<!-- Navigation Links (Desktop) -->
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant hover:text-on-background transition-colors hover:bg-surface-bright/10 px-2 py-1" href="#">Shop</a>
+<a class="text-on-surface-variant hover:text-on-background transition-colors hover:bg-surface-bright/10 px-2 py-1" href="#">About</a>
+<a class="text-primary border-b-2 border-primary pb-1 hover:bg-surface-bright/10 px-2 py-1" href="#">Cart</a>
+<a class="text-on-surface-variant hover:text-on-background transition-colors hover:bg-surface-bright/10 px-2 py-1" href="#">Account</a>
+</nav>
+<!-- Brand Logo -->
+<a class="font-display-lg text-headline-md md:text-[40px] tracking-tighter text-on-background absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0" href="#">LUXE CRAFT</a>
+<!-- Trailing Icons -->
+<div class="flex items-center gap-4 md:gap-6">
+<button aria-label="Cart" class="flex items-center justify-center p-2 text-primary hover:bg-surface-bright/10 rounded-full transition-colors relative">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+<!-- Badge for cart items -->
+<span class="absolute top-1 right-1 flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+</button>
+<button aria-label="Account" class="hidden md:flex items-center justify-center p-2 text-on-surface-variant hover:bg-surface-bright/10 rounded-full transition-colors">
+<span class="material-symbols-outlined text-[24px]">person</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-grow pt-[100px] pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full">
+<div class="mb-8 md:mb-16 text-center md:text-left">
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-2">Your Atelier</h1>
+<p class="font-body-md text-body-md text-on-surface-variant opacity-80">2 items carefully selected.</p>
+</div>
+<div class="flex flex-col lg:flex-row gap-gutter lg:gap-[64px]">
+<!-- Cart Items List (The Canvas) -->
+<div class="flex-grow flex flex-col gap-8">
+<!-- Item 1 -->
+<div class="flex flex-col md:flex-row gap-6 p-4 md:p-6 bg-surface-container-low rounded-xl border border-outline-variant/10 group hover:bg-surface-container transition-colors duration-300">
+<div class="w-full md:w-[200px] shrink-0 aspect-[4/5] bg-surface-variant overflow-hidden rounded-lg">
+<img alt="Midnight Weaver Tote" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500 group-hover:scale-105 transform origin-center" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3nVG-mP-NlqrEY8y9IR_3VMztEpfJx7uwVeA0gorHryIG2Mnluc7J6csEoM6s4yJpKHbBCTwewx19xBrVIA3yYSzgt1XvRBWv7i45ZHFRHoc6C_Ur8NrSynUKarMVF3SrA8MLgAZSeSL7PG1wS3izNR-hlGAmQY2hgajsC-CyidAdv7j44qHhydga_P1zdbHo0bgE_Plt5ieywE2x7OW5bNQQoFWFJ5J2LoHkQyZ5OEQYZR215PDQdh_v5k0330I-sCI"/>
+</div>
+<div class="flex flex-col flex-grow justify-between py-2">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface">Midnight Weaver Tote</h3>
+<button aria-label="Remove item" class="text-on-surface-variant hover:text-error transition-colors p-2 -mr-2 -mt-2">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-4">Hand-loomed • Merino Wool</p>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-2 md:line-clamp-none">A structured everyday piece woven with deep indigo hues. Features artisanal leather strapping and solid brass hardware.</p>
+</div>
+<div class="flex justify-between items-center mt-auto">
+<div class="flex items-center gap-4 bg-surface-container-highest rounded-full px-4 py-2 border border-outline-variant/20">
+<button aria-label="Decrease quantity" class="text-on-surface-variant hover:text-primary transition-colors focus:outline-none">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<span class="font-label-lg text-label-lg w-4 text-center">1</span>
+<button aria-label="Increase quantity" class="text-on-surface-variant hover:text-primary transition-colors focus:outline-none">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface">$245.00</span>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex flex-col md:flex-row gap-6 p-4 md:p-6 bg-surface-container-low rounded-xl border border-outline-variant/10 group hover:bg-surface-container transition-colors duration-300">
+<div class="w-full md:w-[200px] shrink-0 aspect-[4/5] bg-surface-variant overflow-hidden rounded-lg">
+<img alt="Oyster Shell Scarf" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500 group-hover:scale-105 transform origin-center" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKF6NYrDUoUPMMLOxd1K0eWZBX9sX7XPFl5vRyBV6nK324d7WtmJCyxq5m_WmABUo4hoxFxSXMCjvVO2wWI2mgAm4bCVJO57zfvChvIfsJT-aET08r1JH2IwtCER8bMC6rqTGk4zjd7XN7EFnvOSTTekHByOd9va7IwDCrVQw6BIQX8sWdchelJMQmVzyuIsodUilQYeQXrMJ6CpQS9MLLcueXP9Vb6-rK3zUqpL8nEpLFNYwaGmpg8Q_1JFHl5IoZt6U"/>
+</div>
+<div class="flex flex-col flex-grow justify-between py-2">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface">Oyster Shell Scarf</h3>
+<button aria-label="Remove item" class="text-on-surface-variant hover:text-error transition-colors p-2 -mr-2 -mt-2">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-4">Cashmere Blend • Limited Edition</p>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-2 md:line-clamp-none">Draped warmth with subtle textural shifts echoing coastal tides. Incredibly soft against the skin, designed for layering.</p>
+</div>
+<div class="flex justify-between items-center mt-auto">
+<div class="flex items-center gap-4 bg-surface-container-highest rounded-full px-4 py-2 border border-outline-variant/20">
+<button aria-label="Decrease quantity" class="text-on-surface-variant hover:text-primary transition-colors focus:outline-none">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<span class="font-label-lg text-label-lg w-4 text-center">1</span>
+<button aria-label="Increase quantity" class="text-on-surface-variant hover:text-primary transition-colors focus:outline-none">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface">$180.00</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Order Summary (Sidebar on Desktop) -->
+<div class="w-full lg:w-[380px] shrink-0 mt-8 lg:mt-0">
+<div class="bg-surface-container-low border border-outline-variant/10 rounded-xl p-6 md:p-8 sticky top-[120px]">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-6 pb-4 border-b border-outline-variant/10">Summary</h2>
+<div class="flex flex-col gap-4 mb-8">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-body-md text-body-md">Subtotal</span>
+<span class="font-body-md text-body-md">$425.00</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-body-md text-body-md">Shipping</span>
+<span class="font-body-md text-body-md">Complimentary</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-body-md text-body-md">Taxes</span>
+<span class="font-body-md text-body-md">Calculated at next step</span>
+</div>
+</div>
+<div class="flex justify-between items-end mb-8 pt-6 border-t border-outline-variant/10">
+<span class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface">Total</span>
+<span class="font-headline-md text-headline-md text-on-surface">$425.00</span>
+</div>
+<button class="w-full bg-secondary text-on-secondary font-label-lg text-label-lg uppercase tracking-widest py-4 px-6 hover:bg-secondary-fixed transition-colors duration-300 flex items-center justify-center gap-2 group">
+                        Proceed to Checkout
+                        <span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform duration-300">arrow_forward</span>
+</button>
+<p class="font-label-sm text-label-sm text-center text-on-surface-variant mt-6 flex items-center justify-center gap-2 opacity-60">
+<span class="material-symbols-outlined text-[16px]">lock</span> Secure transactions
+                    </p>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest text-on-surface-variant font-body-md text-body-md border-t border-outline-variant/5 flat no shadows w-full py-section-gap">
+<div class="flex flex-col items-center gap-8 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<h2 class="font-display-lg text-headline-md text-on-surface text-center opacity-80 hover:opacity-100 transition-opacity">LUXE CRAFT</h2>
+<nav class="flex flex-col md:flex-row gap-4 md:gap-8 items-center text-center">
+<a class="text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Shipping &amp; Returns</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Contact</a>
+</nav>
+<p class="opacity-60 text-center text-sm tracking-wide mt-8">© 2024 LUXE CRAFT ATELIER. ALL RIGHTS RESERVED.</p>
+</div>
+</footer>
+</body></html>

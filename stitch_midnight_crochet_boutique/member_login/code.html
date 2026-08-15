@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login - Luxe Craft</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-variant": "#2a344d",
+                      "on-error-container": "#ffdad6",
+                      "background": "#08122a",
+                      "on-primary-container": "#74829d",
+                      "tertiary-fixed-dim": "#b6c6ed",
+                      "surface": "#08122a",
+                      "on-surface": "#d9e2ff",
+                      "surface-bright": "#2f3952",
+                      "primary-container": "#0a192f",
+                      "on-tertiary-container": "#7282a5",
+                      "surface-container": "#151f37",
+                      "surface-container-highest": "#2a344d",
+                      "on-primary-fixed": "#0d1c32",
+                      "surface-dim": "#08122a",
+                      "on-secondary-fixed-variant": "#474744",
+                      "outline-variant": "#44474d",
+                      "on-tertiary-fixed": "#091b39",
+                      "primary-fixed": "#d6e3ff",
+                      "tertiary": "#b6c6ed",
+                      "tertiary-container": "#061836",
+                      "outline": "#8f9097",
+                      "secondary": "#c8c6c3",
+                      "on-primary-fixed-variant": "#39475f",
+                      "on-background": "#d9e2ff",
+                      "secondary-fixed": "#e4e2de",
+                      "on-surface-variant": "#c5c6cd",
+                      "on-tertiary-fixed-variant": "#374767",
+                      "primary": "#b9c7e4",
+                      "on-primary": "#233148",
+                      "on-secondary-fixed": "#1b1c1a",
+                      "surface-tint": "#b9c7e4",
+                      "on-error": "#690005",
+                      "surface-container-high": "#1f2942",
+                      "on-secondary": "#30312e",
+                      "tertiary-fixed": "#d8e2ff",
+                      "inverse-on-surface": "#263049",
+                      "secondary-container": "#474744",
+                      "inverse-primary": "#515f78",
+                      "surface-container-low": "#101b33",
+                      "error-container": "#93000a",
+                      "inverse-surface": "#d9e2ff",
+                      "primary-fixed-dim": "#b9c7e4",
+                      "error": "#ffb4ab",
+                      "surface-container-lowest": "#030d25",
+                      "on-secondary-container": "#b6b5b1",
+                      "secondary-fixed-dim": "#c8c6c3",
+                      "on-tertiary": "#20304f"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "container-max": "1280px",
+                      "margin-mobile": "16px",
+                      "section-gap": "120px",
+                      "unit": "4px",
+                      "margin-desktop": "64px"
+              },
+              "fontFamily": {
+                      "headline-lg": [
+                              "Libre Caslon Text"
+                      ],
+                      "display-lg": [
+                              "Libre Caslon Text"
+                      ],
+                      "headline-md": [
+                              "Libre Caslon Text"
+                      ],
+                      "body-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-lg-mobile": [
+                              "Libre Caslon Text"
+                      ],
+                      "label-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "label-sm": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-md": [
+                              "Hanken Grotesk"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "64px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-lg": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        
+        .ghost-input {
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid theme('colors.outline-variant');
+            border-radius: 0;
+            color: theme('colors.on-background');
+            padding-left: 0;
+            padding-right: 0;
+            box-shadow: none !important;
+            transition: border-color 0.3s ease;
+        }
+        
+        .ghost-input:focus {
+            border-bottom-color: theme('colors.on-background');
+            outline: none;
+            box-shadow: none !important;
+        }
+        
+        .ghost-input::placeholder {
+            color: theme('colors.on-surface-variant');
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-body-md text-body-md">
+<!-- TopNavBar Suppressed as per Intent (Linear/Transactional: Login) -->
+<!-- Main Content Canvas -->
+<main class="flex-grow flex items-center justify-center py-section-gap px-margin-mobile md:px-margin-desktop">
+<div class="w-full max-w-lg">
+<!-- Brand Anchor Header -->
+<div class="text-center mb-16">
+<a class="inline-block font-display-lg text-headline-md tracking-tighter text-on-background hover:opacity-80 transition-opacity" href="#">
+                    LUXE CRAFT
+                </a>
+<p class="font-body-md text-body-md text-on-surface-variant mt-4">
+                    Enter the atelier.
+                </p>
+</div>
+<!-- Login/Registration Form Area -->
+<div class="bg-surface-container-low p-8 md:p-12 border border-outline-variant/10 rounded">
+<h1 class="font-headline-md text-headline-md text-on-background mb-8">Sign In</h1>
+<form action="#" class="space-y-8" method="POST">
+<div class="space-y-2 relative group">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest block transition-colors group-focus-within:text-on-background" for="email">Email Address</label>
+<div class="relative">
+<input class="w-full ghost-input font-body-md text-body-md py-2" id="email" name="email" placeholder="your@email.com" required="" type="email"/>
+</div>
+</div>
+<div class="space-y-2 relative group">
+<div class="flex justify-between items-center">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest block transition-colors group-focus-within:text-on-background" for="password">Password</label>
+<a class="font-label-sm text-label-sm text-primary hover:text-on-background transition-colors uppercase tracking-widest" href="#">Forgot?</a>
+</div>
+<div class="relative">
+<input class="w-full ghost-input font-body-md text-body-md py-2" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute right-0 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-background transition-colors focus:outline-none" type="button">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">visibility</span>
+</button>
+</div>
+</div>
+<div class="pt-4 space-y-4">
+<button class="w-full bg-on-background text-background font-label-lg text-label-lg uppercase tracking-widest py-4 hover:bg-surface-tint hover:text-on-primary transition-colors duration-300" type="submit">
+                            Sign In
+                        </button>
+<div class="relative flex items-center py-4">
+<div class="flex-grow border-t border-outline-variant/20"></div>
+<span class="flex-shrink-0 mx-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Or continue with</span>
+<div class="flex-grow border-t border-outline-variant/20"></div>
+</div>
+<button class="w-full bg-transparent border border-on-background text-on-background font-label-lg text-label-lg uppercase tracking-widest py-4 flex items-center justify-center gap-2 hover:bg-on-background/5 transition-colors duration-300" type="button">
+                           Continue as Guest
+                        </button>
+</div>
+</form>
+<div class="mt-8 text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        New to Luxe Craft? 
+                        <a class="text-on-background hover:text-primary transition-colors border-b border-on-background/30 hover:border-primary pb-0.5 ml-1" href="#">Create an Account</a>
+</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Suppressed on Transactional Screens -->
+</body></html>

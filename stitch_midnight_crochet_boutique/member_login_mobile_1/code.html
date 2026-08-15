@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Member Login - Luxe Craft Atelier</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#b6c6ed",
+                        "primary-fixed": "#d6e3ff",
+                        "error": "#ffb4ab",
+                        "surface-container-low": "#101b33",
+                        "on-error": "#690005",
+                        "inverse-on-surface": "#263049",
+                        "on-surface": "#d9e2ff",
+                        "on-secondary-fixed": "#1b1c1a",
+                        "on-tertiary": "#20304f",
+                        "on-surface-variant": "#c5c6cd",
+                        "on-primary": "#233148",
+                        "surface": "#08122a",
+                        "on-background": "#d9e2ff",
+                        "surface-dim": "#08122a",
+                        "inverse-primary": "#515f78",
+                        "background": "#08122a",
+                        "error-container": "#93000a",
+                        "secondary-fixed": "#e4e2de",
+                        "primary-fixed-dim": "#b9c7e4",
+                        "surface-tint": "#b9c7e4",
+                        "tertiary-fixed": "#d8e2ff",
+                        "on-tertiary-fixed-variant": "#374767",
+                        "surface-container": "#151f37",
+                        "on-secondary": "#30312e",
+                        "primary": "#b9c7e4",
+                        "on-secondary-fixed-variant": "#474744",
+                        "surface-container-lowest": "#030d25",
+                        "on-tertiary-container": "#7282a5",
+                        "on-primary-fixed-variant": "#39475f",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-container": "#b6b5b1",
+                        "outline": "#8f9097",
+                        "surface-container-highest": "#2a344d",
+                        "surface-bright": "#2f3952",
+                        "outline-variant": "#44474d",
+                        "secondary-container": "#474744",
+                        "tertiary": "#b6c6ed",
+                        "surface-container-high": "#1f2942",
+                        "primary-container": "#0a192f",
+                        "on-tertiary-fixed": "#091b39",
+                        "secondary": "#c8c6c3",
+                        "on-primary-fixed": "#0d1c32",
+                        "on-primary-container": "#74829d",
+                        "inverse-surface": "#d9e2ff",
+                        "secondary-fixed-dim": "#c8c6c3",
+                        "tertiary-container": "#061836",
+                        "surface-variant": "#2a344d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "section-gap": "120px",
+                        "margin-desktop": "64px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Libre Caslon Text"],
+                        "headline-lg-mobile": ["Libre Caslon Text"],
+                        "label-sm": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-lg": ["Hanken Grotesk"],
+                        "display-lg": ["Libre Caslon Text"],
+                        "headline-lg": ["Libre Caslon Text"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "display-lg": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+                        "headline-lg": ["48px", { "lineHeight": "1.2", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Minimal custom styling for ghost inputs and buttons */
+        .ghost-input {
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid theme('colors.outline-variant');
+            color: theme('colors.on-background');
+            border-radius: 0;
+            padding-left: 0;
+            padding-right: 0;
+            transition: border-color 0.3s ease;
+        }
+        .ghost-input:focus {
+            outline: none;
+            box-shadow: none;
+            border-color: theme('colors.secondary-fixed');
+        }
+        .ghost-input::placeholder {
+            color: theme('colors.on-surface-variant');
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col antialiased">
+<!-- Top Navigation (Suppressed - Transactional Page Intent) -->
+<!-- Navigation shell is deliberately omitted as this is a Login/Linear flow -->
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col justify-center items-center px-margin-mobile py-section-gap relative">
+<!-- Background Imagery (Subtle context) -->
+<div class="absolute inset-0 z-0 opacity-20 pointer-events-none">
+<div class="bg-cover bg-center w-full h-full grayscale-[50%] mix-blend-overlay" data-alt="A moody, high-end close-up photograph of dark navy blue crochet yarn textures. The lighting is dramatic and editorial, highlighting the intricate interlocking stitches and the soft sheen of the premium fiber. The overall aesthetic is minimalist, luxurious, and calm, perfectly suiting a sophisticated slow-fashion boutique." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBEyQh7mvrn5WfojEpxJplSArD0oQ_ejq49zE_CMf7X_dg6tArtw7H-gkJXYnOyclrOb3a5Iw52VLkSdOhRpZieZ1XAOLlpQbVjKIoIvH0y0dK7fr9vAey-2F44e3AlRB4FKOBZBCph7jN_eRSoMWqGY33ibZPKK5KYGp1sbfc3laV5PZRtVlNqVZuxW4YIHGh3CzSAljp9UtJycUTAsQlTpcde6ggoXH-zA6ba2HqQmuwESiOt9wuSxg')"></div>
+</div>
+<!-- Login Container -->
+<div class="w-full max-w-[400px] z-10 bg-surface-container-low/80 backdrop-blur-md p-8 rounded-xl border border-outline-variant/10 shadow-lg">
+<!-- Brand Anchor -->
+<div class="text-center mb-12">
+<h1 class="font-display-lg text-headline-lg-mobile tracking-tighter text-on-background mb-2">LUXE CRAFT</h1>
+<p class="font-label-lg text-label-lg text-on-surface-variant uppercase tracking-widest">Atelier</p>
+</div>
+<!-- Header -->
+<div class="text-center mb-8">
+<h2 class="font-headline-md text-headline-md mb-2">Member Access</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Sign in to your private atelier account.</p>
+</div>
+<!-- Form -->
+<form action="#" class="space-y-8" method="POST">
+<!-- Email Input -->
+<div class="space-y-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest" for="email">Email Address</label>
+<input autocomplete="email" class="ghost-input w-full font-body-lg text-body-lg py-2 focus:ring-0" id="email" name="email" placeholder="client@luxecraft.com" required="" type="email"/>
+</div>
+<!-- Password Input -->
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest" for="password">Password</label>
+<a class="font-label-sm text-label-sm text-primary hover:text-primary-fixed transition-colors" href="#">Forgot?</a>
+</div>
+<div class="relative">
+<input autocomplete="current-password" class="ghost-input w-full font-body-lg text-body-lg py-2 focus:ring-0 pr-10" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute right-0 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-background transition-colors p-2 flex items-center justify-center" type="button">
+<span class="material-symbols-outlined" data-icon="visibility" style="font-size: 20px;">visibility</span>
+</button>
+</div>
+</div>
+<!-- Remember Me -->
+<div class="flex items-center">
+<input class="h-4 w-4 rounded-sm border-outline-variant bg-transparent text-secondary-fixed focus:ring-secondary-fixed focus:ring-offset-background cursor-pointer" id="remember-me" name="remember-me" type="checkbox"/>
+<label class="ml-3 block font-body-md text-body-md text-on-surface-variant cursor-pointer" for="remember-me">
+                        Remember my device
+                    </label>
+</div>
+<!-- Actions -->
+<div class="pt-4 space-y-4">
+<button class="w-full bg-secondary-fixed text-on-secondary-fixed font-label-lg text-label-lg uppercase tracking-widest py-4 rounded hover:bg-white transition-colors flex justify-center items-center gap-2" type="submit">
+                        Sign In
+                        <span class="material-symbols-outlined" data-icon="arrow_forward" style="font-size: 18px;">arrow_forward</span>
+</button>
+<button class="w-full bg-transparent border border-secondary-fixed text-secondary-fixed font-label-lg text-label-lg uppercase tracking-widest py-4 rounded hover:bg-secondary-fixed/10 transition-colors" type="button">
+                        Create Account
+                    </button>
+</div>
+</form>
+</div>
+</main>
+<!-- Footer (Suppressed - Transactional Page Intent) -->
+<!-- Hidden to keep focus strictly on the authentication task -->
+</body></html>

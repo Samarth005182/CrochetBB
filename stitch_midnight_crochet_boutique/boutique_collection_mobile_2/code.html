@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Boutique Collection - Mobile Feed</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&amp;family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#233148",
+                        "surface-container-highest": "#2a344d",
+                        "surface-container-low": "#101b33",
+                        "surface-container-high": "#1f2942",
+                        "on-surface-variant": "#c5c6cd",
+                        "secondary": "#c8c6c3",
+                        "tertiary-fixed": "#d8e2ff",
+                        "inverse-primary": "#515f78",
+                        "surface-container-lowest": "#030d25",
+                        "error": "#ffb4ab",
+                        "on-surface": "#d9e2ff",
+                        "primary-fixed-dim": "#b9c7e4",
+                        "tertiary-fixed-dim": "#b6c6ed",
+                        "tertiary-container": "#061836",
+                        "surface-variant": "#2a344d",
+                        "on-secondary-fixed": "#1b1c1a",
+                        "inverse-on-surface": "#263049",
+                        "on-tertiary-fixed": "#091b39",
+                        "background": "#08122a",
+                        "on-tertiary-fixed-variant": "#374767",
+                        "on-secondary-container": "#b6b5b1",
+                        "secondary-fixed-dim": "#c8c6c3",
+                        "on-background": "#d9e2ff",
+                        "error-container": "#93000a",
+                        "inverse-surface": "#d9e2ff",
+                        "on-primary-fixed": "#0d1c32",
+                        "outline-variant": "#44474d",
+                        "on-secondary": "#30312e",
+                        "surface-container": "#151f37",
+                        "outline": "#8f9097",
+                        "secondary-container": "#474744",
+                        "primary": "#b9c7e4",
+                        "primary-fixed": "#d6e3ff",
+                        "on-error-container": "#ffdad6",
+                        "secondary-fixed": "#e4e2de",
+                        "on-primary-fixed-variant": "#39475f",
+                        "surface": "#08122a",
+                        "tertiary": "#b6c6ed",
+                        "on-error": "#690005",
+                        "on-tertiary-container": "#7282a5",
+                        "surface-tint": "#b9c7e4",
+                        "on-tertiary": "#20304f",
+                        "on-primary-container": "#74829d",
+                        "on-secondary-fixed-variant": "#474744",
+                        "primary-container": "#0a192f",
+                        "surface-bright": "#2f3952",
+                        "surface-dim": "#08122a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "section-gap": "120px",
+                        "margin-desktop": "64px",
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Libre Caslon Text"],
+                        "label-sm": ["Hanken Grotesk"],
+                        "label-lg": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "display-lg": ["Libre Caslon Text"],
+                        "headline-md": ["Libre Caslon Text"],
+                        "headline-lg-mobile": ["Libre Caslon Text"],
+                        "body-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["48px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "label-lg": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display-lg": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+                        "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: theme('colors.background');
+        }
+        ::-webkit-scrollbar-thumb {
+            background: theme('colors.surface-container-high');
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-outline-variant/10 transition-all duration-300 ease-in-out">
+<div class="flex justify-between items-center h-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<!-- Mobile Menu Toggle (Left) -->
+<button aria-label="Open menu" class="md:hidden text-on-background p-2 -ml-2">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<!-- Brand Logo (Center on mobile, Left on desktop) -->
+<div class="font-display-lg text-headline-md tracking-tighter text-on-background flex-1 text-center md:text-left">
+                LUXE CRAFT
+            </div>
+<!-- Desktop Navigation Links (Hidden on mobile) -->
+<nav class="hidden md:flex items-center gap-8 font-label-lg text-label-lg uppercase tracking-widest">
+<a class="text-primary border-b-2 border-primary pb-1 hover:bg-surface-bright/10" href="#">Shop</a>
+<a class="text-on-surface-variant hover:text-on-background transition-colors hover:bg-surface-bright/10" href="#">About</a>
+<a class="text-on-surface-variant hover:text-on-background transition-colors hover:bg-surface-bright/10" href="#">Cart</a>
+<a class="text-on-surface-variant hover:text-on-background transition-colors hover:bg-surface-bright/10" href="#">Account</a>
+</nav>
+<!-- Trailing Icons (Right) -->
+<div class="flex items-center gap-4 text-on-background">
+<button aria-label="Search" class="hidden md:block p-2">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button aria-label="Shopping Bag" class="p-2 -mr-2 md:mr-0 relative">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<!-- Optional: Cart Badge -->
+<span class="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full"></span>
+</button>
+<button aria-label="Person" class="hidden md:block p-2">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow pt-24 pb-section-gap px-margin-mobile">
+<div class="max-w-md mx-auto w-full flex flex-col gap-12">
+<!-- Collection Header -->
+<section class="text-center mb-8">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-background mb-4">The Boutique Collection</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-sm mx-auto">
+                    A curated selection of our finest handmade crochet pieces, designed for the modern editorial aesthetic.
+                </p>
+</section>
+<!-- Mobile Vertical Feed -->
+<div class="flex flex-col gap-16">
+<!-- Product 1 -->
+<article class="group flex flex-col gap-4">
+<div class="relative w-full aspect-square bg-surface-container-low rounded-DEFAULT overflow-hidden border border-outline-variant/10">
+<img alt="Boutique Item 1" class="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJZsjPkzsz8bpuMAgG-HnOkeMYytJrEnNFysfBi_XxTCD6sUI9fbgYcSfZ-ZRlu7Y9cjOyHxNLhKqfXcZth8i0mJTNDAIrtT9xdqit8pIfmOL_YZiG2M-ZK83KnWUYvNU_NELkxjSMB-u_S1cjv94fn1XoLi1_svzGZNhBEdnv2geSueANutNAyPVceGhm3PIkVXyvtgy2g2buO7TiYEkt0Nt1pF_wMZS4KffHGZxmEQS_qJabftj3SNzk68Yti3mpfdI"/>
+<!-- Chip -->
+<div class="absolute top-4 left-4 px-3 py-1 bg-background/90 backdrop-blur-sm border border-outline-variant/20 rounded-full">
+<span class="font-label-sm text-label-sm text-on-background uppercase">New Arrival</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<h2 class="font-headline-md text-[24px] leading-tight text-on-background">Midnight Loom Cardigan</h2>
+<span class="font-body-md text-body-md text-primary">$320</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">
+                            Intricately woven dark navy yarns creating a dense, luxurious texture perfect for cool evenings.
+                        </p>
+<button class="mt-2 self-start font-label-lg text-label-lg uppercase tracking-widest text-on-background border-b border-on-background pb-1 hover:text-primary hover:border-primary transition-colors">
+                            View Details
+                        </button>
+</div>
+</article>
+<!-- Product 2 -->
+<article class="group flex flex-col gap-4">
+<div class="relative w-full aspect-[4/5] bg-surface-container-low rounded-DEFAULT overflow-hidden border border-outline-variant/10">
+<img alt="Boutique Item 2" class="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcg8bBQ75-LLJSF-ZgNxIPAKhHdegbTKxRYQmLAGgdyhNNrV-hOHjqVC0MfN_CMwUxC5oKUjwcYUA733GGR-MkAvt1GG6OcoDCLIZcl_UvYDrVSIe3prqhSLG4NPgKeSnozW4uCyTJMNTZ8NSTlx9IIQVhKiJso9H2HmnRP0JKehvpGTBqPhBzp5FSg08Dt2MGWanzuAZnVSf8qLz8Xm5HFEvUq0fhoqNPsFYC5JYZDPMYlc9W9zNtpqjyuhp2a_0p7hc"/>
+<div class="absolute top-4 left-4 px-3 py-1 bg-background/90 backdrop-blur-sm border border-outline-variant/20 rounded-full">
+<span class="font-label-sm text-label-sm text-on-background uppercase">Handmade</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<h2 class="font-headline-md text-[24px] leading-tight text-on-background">Artisan Tote Bag</h2>
+<span class="font-body-md text-body-md text-primary">$185</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">
+                            A structured, durable crochet tote featuring geometric patterns in subtle slate and indigo tones.
+                        </p>
+<button class="mt-2 self-start font-label-lg text-label-lg uppercase tracking-widest text-on-background border-b border-on-background pb-1 hover:text-primary hover:border-primary transition-colors">
+                            View Details
+                        </button>
+</div>
+</article>
+<!-- Product 3 -->
+<article class="group flex flex-col gap-4">
+<div class="relative w-full aspect-[3/4] bg-surface-container-low rounded-DEFAULT overflow-hidden border border-outline-variant/10">
+<img alt="Boutique Item 3" class="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_DOvCzxONgGbydF_G6KJjYnlwgu4FRs2kLEEv2NDJH1FQ7Wk7yBuL1fk4yMMBROzruy2cEWPhEPLE9OaqGzYEqGGvwEbqvAzrM_-IcjqlAFJ-eg3OFY1lRQ87FJLd6K11BHcUqXeW2cnHGJ1u2EmzO-RamYnEIQ-yoM2y774-Ttmu-5tYrOv9KBib7NA8AQBzp4HEb1sxmzGrNxlnvA78OS0BCgtLXh3OqBa6CZffqa35S4t4lQjtPzdU1SvF72UtvGs"/>
+<div class="absolute top-4 left-4 px-3 py-1 bg-background/90 backdrop-blur-sm border border-outline-variant/20 rounded-full">
+<span class="font-label-sm text-label-sm text-on-background uppercase">Limited Edition</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<h2 class="font-headline-md text-[24px] leading-tight text-on-background">Ethereal Scarf Wrap</h2>
+<span class="font-body-md text-body-md text-primary">$145</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">
+                            Lightweight and breathable, this delicate piece offers an elegant drape for versatile styling.
+                        </p>
+<button class="mt-2 self-start font-label-lg text-label-lg uppercase tracking-widest text-on-background border-b border-on-background pb-1 hover:text-primary hover:border-primary transition-colors">
+                            View Details
+                        </button>
+</div>
+</article>
+<!-- Product 4 -->
+<article class="group flex flex-col gap-4">
+<div class="relative w-full aspect-square bg-surface-container-low rounded-DEFAULT overflow-hidden border border-outline-variant/10">
+<img alt="Boutique Item 4" class="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDT6GiaIR8V2Izmr_ApLf5SSd_rct9uSM_x4VLCu4-VEGHmgDfPvgxJQbKvp4jK2B-CvFm7hn5iZ8qPbKulrP9fHfAxZ0uM6QpdJ6yJcN4kMOt70WDlTYvwABjY-0uVI49Omk0s4zcfc4vwd4bj4fND1Z_s0XPLgdEL9fuamlI7KCF13ZmrP-HDOi21-_-K7t3PcxlKi5rIddN00JNQoSal5cHv8d7o91C5jHcO_L3D1tbpsa4O3iJ9yk1iohDWWiC5XSs"/>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<h2 class="font-headline-md text-[24px] leading-tight text-on-background">Cerulean Bucket Hat</h2>
+<span class="font-body-md text-body-md text-primary">$95</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">
+                            A modern take on a classic silhouette, crafted with structured stitches for lasting shape.
+                        </p>
+<button class="mt-2 self-start font-label-lg text-label-lg uppercase tracking-widest text-on-background border-b border-on-background pb-1 hover:text-primary hover:border-primary transition-colors">
+                            View Details
+                        </button>
+</div>
+</article>
+</div>
+<!-- Load More Action -->
+<div class="mt-12 flex justify-center">
+<button class="px-8 py-4 bg-transparent border border-outline-variant/30 text-on-background font-label-lg text-label-lg uppercase tracking-widest hover:bg-surface-bright/10 transition-colors w-full sm:w-auto">
+                    Load More
+                </button>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-section-gap bg-surface-container-lowest border-t border-outline-variant/5">
+<div class="flex flex-col items-center gap-8 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="font-display-lg text-headline-md text-on-surface opacity-80 hover:opacity-100 transition-opacity">
+                LUXE CRAFT
+            </div>
+<nav class="flex flex-col md:flex-row items-center gap-6 md:gap-8 font-body-md text-body-md">
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Shipping &amp; Returns</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Contact</a>
+</nav>
+<p class="font-body-md text-body-md text-on-surface-variant mt-4 text-center">
+                © 2024 LUXE CRAFT ATELIER. ALL RIGHTS RESERVED.
+            </p>
+</div>
+</footer>
+</body></html>

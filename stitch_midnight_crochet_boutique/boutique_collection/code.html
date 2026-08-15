@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Luxe Craft Atelier - Boutique Shop</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&amp;family=Libre+Caslon+Text:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#2a344d",
+                        "on-error-container": "#ffdad6",
+                        "background": "#08122a",
+                        "on-primary-container": "#74829d",
+                        "tertiary-fixed-dim": "#b6c6ed",
+                        "surface": "#08122a",
+                        "on-surface": "#d9e2ff",
+                        "surface-bright": "#2f3952",
+                        "primary-container": "#0a192f",
+                        "on-tertiary-container": "#7282a5",
+                        "surface-container": "#151f37",
+                        "surface-container-highest": "#2a344d",
+                        "on-primary-fixed": "#0d1c32",
+                        "surface-dim": "#08122a",
+                        "on-secondary-fixed-variant": "#474744",
+                        "outline-variant": "#44474d",
+                        "on-tertiary-fixed": "#091b39",
+                        "primary-fixed": "#d6e3ff",
+                        "tertiary": "#b6c6ed",
+                        "tertiary-container": "#061836",
+                        "outline": "#8f9097",
+                        "secondary": "#c8c6c3",
+                        "on-primary-fixed-variant": "#39475f",
+                        "on-background": "#d9e2ff",
+                        "secondary-fixed": "#e4e2de",
+                        "on-surface-variant": "#c5c6cd",
+                        "on-tertiary-fixed-variant": "#374767",
+                        "primary": "#b9c7e4",
+                        "on-primary": "#233148",
+                        "on-secondary-fixed": "#1b1c1a",
+                        "surface-tint": "#b9c7e4",
+                        "on-error": "#690005",
+                        "surface-container-high": "#1f2942",
+                        "on-secondary": "#30312e",
+                        "tertiary-fixed": "#d8e2ff",
+                        "inverse-on-surface": "#263049",
+                        "secondary-container": "#474744",
+                        "inverse-primary": "#515f78",
+                        "surface-container-low": "#101b33",
+                        "error-container": "#93000a",
+                        "inverse-surface": "#d9e2ff",
+                        "primary-fixed-dim": "#b9c7e4",
+                        "error": "#ffb4ab",
+                        "surface-container-lowest": "#030d25",
+                        "on-secondary-container": "#b6b5b1",
+                        "secondary-fixed-dim": "#c8c6c3",
+                        "on-tertiary": "#20304f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "section-gap": "120px",
+                        "unit": "4px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Libre Caslon Text"],
+                        "display-lg": ["Libre Caslon Text"],
+                        "headline-md": ["Libre Caslon Text"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Libre Caslon Text"],
+                        "label-lg": ["Hanken Grotesk"],
+                        "label-sm": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["48px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "display-lg": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+                        "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Subtle reveal animation for products */
+        @keyframes subtleFadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .product-card {
+            animation: subtleFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+        .product-card:nth-child(1) { animation-delay: 0.1s; }
+        .product-card:nth-child(2) { animation-delay: 0.2s; }
+        .product-card:nth-child(3) { animation-delay: 0.3s; }
+        .product-card:nth-child(4) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col selection:bg-primary/30 selection:text-primary-fixed">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-outline-variant/10 transition-all duration-300 ease-in-out">
+<div class="flex justify-between items-center h-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<!-- Brand -->
+<a class="font-display-lg text-headline-md tracking-tighter text-on-background" href="#">LUXE CRAFT</a>
+<!-- Navigation Links (Desktop) -->
+<nav class="hidden md:flex items-center gap-8">
+<a class="font-label-lg text-label-lg uppercase tracking-widest text-primary border-b-2 border-primary pb-1" href="#">Shop</a>
+<a class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface-variant hover:text-on-background transition-colors hover:bg-surface-bright/10 px-2 py-1" href="#">About</a>
+<a class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface-variant hover:text-on-background transition-colors hover:bg-surface-bright/10 px-2 py-1" href="#">Cart</a>
+<a class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface-variant hover:text-on-background transition-colors hover:bg-surface-bright/10 px-2 py-1" href="#">Account</a>
+</nav>
+<!-- Trailing Icons -->
+<div class="flex items-center gap-4">
+<button aria-label="shopping_bag" class="text-on-background hover:text-primary transition-colors p-2">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+<button aria-label="person" class="text-on-background hover:text-primary transition-colors p-2 hidden md:block">
+<span class="material-symbols-outlined">person</span>
+</button>
+<button aria-label="menu" class="text-on-background hover:text-primary transition-colors p-2 md:hidden">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-[120px] pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full">
+<!-- Page Header -->
+<div class="mb-24 text-center md:text-left max-w-2xl">
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg mb-6">The Artisan Collection</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Curated hand-crocheted pieces, meticulously crafted for the discerning eye. A celebration of texture and form.</p>
+</div>
+<!-- Filters / Sort (Minimalist) -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 pb-4 border-b border-outline-variant/20 gap-4">
+<div class="flex gap-4">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary border-b border-primary pb-1 cursor-pointer">All Works</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant hover:text-on-background transition-colors cursor-pointer">Bouquets</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant hover:text-on-background transition-colors cursor-pointer">Charms</span>
+</div>
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-on-background transition-colors font-label-sm text-label-sm uppercase tracking-widest">
+<span>Filter</span>
+<span class="material-symbols-outlined text-[16px]">tune</span>
+</button>
+</div>
+<!-- Asymmetric Gallery Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Product 1 (Large, spans 7 cols) -->
+<div class="product-card col-span-1 md:col-span-7 group cursor-pointer">
+<div class="relative w-full aspect-[4/5] bg-surface-container overflow-hidden mb-6 border border-outline-variant/10 group-hover:border-outline-variant/30 transition-colors duration-500">
+<div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors duration-500 z-10 pointer-events-none"></div>
+<img class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsud4sLvFgIeiO9gtKVCuIb5MLXPM9trOBkDI4ZddIZpq-nnfkb5-WZSh_BVHW5oF01QSjml1paGQ6aiyV6Cqp7llciS_jNMYkbxWEjWVwxBTDyl-4TYtgkVqADoYojwwvMreGM-wqJZlNbJHYg2Dm0dlkNT6ag1625UG1DYO4WMYPUokul7mlvZfmaRS6LXt2tZgU3QMWWapYRyoYEo3WScNejNJyeDdOgqaDYfkJxslA_053aruBzupHuUiPQcFceq8"/>
+<!-- Badge -->
+<div class="absolute top-4 left-4 z-20 px-3 py-1 bg-surface-container/80 backdrop-blur-sm border border-outline-variant/20 rounded-full">
+<span class="font-label-sm text-label-sm text-on-surface uppercase">Limited Edition</span>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">The Artisan Daisy Charm</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Intricate petal work, silver hardware.</p>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface">$45</span>
+</div>
+</div>
+<!-- Product 2 (Smaller, spans 5 cols, shifted down slightly on desktop for asymmetry) -->
+<div class="product-card col-span-1 md:col-span-5 md:mt-24 group cursor-pointer">
+<div class="relative w-full aspect-square bg-surface-container overflow-hidden mb-6 border border-outline-variant/10 group-hover:border-outline-variant/30 transition-colors duration-500">
+<div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors duration-500 z-10 pointer-events-none"></div>
+<img class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHwtqSmwPaSvvRpSkfHi4nFMO4V8b0mxN5_UANwuPz8DeWadaI1vWEWQ7gMAqnaC6cb6KL4Nam3givx7g3Yr2Ii4WgKJh7fQRAfYTs8hlCdre94QrgIjpueAj_K7tR9eb71cmNgvaNxCWphz7xMWo6ngjt1asvvKzY8kGKUFSCRx79JR6cBSk57XcfCT2VfJwIMwbpzz_AV_HYkF7nqwAUVHaQY9yIBwdzb9keFl4rUURcnAtzm8Wpe3MmI-EDe6jdhrs"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Sun-Kissed Single</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Signature sunflower bloom.</p>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface">$85</span>
+</div>
+</div>
+<!-- Product 3 (Spans 5 cols) -->
+<div class="product-card col-span-1 md:col-span-5 group cursor-pointer mt-12 md:mt-0">
+<div class="relative w-full aspect-[3/4] bg-surface-container overflow-hidden mb-6 border border-outline-variant/10 group-hover:border-outline-variant/30 transition-colors duration-500">
+<div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors duration-500 z-10 pointer-events-none"></div>
+<img class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDd-Z9FKQEqLMSctYI9Sq3o05hpPALgXJRsmL4WgHEmXFMnrOlYG9-FUvrtjXP9fBn35MYTMAec0mp_bUb4xrbotW0tyjLroFEvvfXnZG7BGru-WNtuA_EIgln6BrJjYoUpbk3SM6tsiRpBd2VAeVS3kkLxzvcDWcETlH4sLtDzYYKBvIRy7VN-0R5_5oaiMSjxqlEOcbyOWRpPlIy0ahe-vXE4UUXSpXyhlt4lA5Dl0NImoSBbl3G-TvQ8hRV51_jqwHo"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Midnight Tulip Ensemble</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">A study in primary contrasts.</p>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface">$140</span>
+</div>
+</div>
+<!-- Product 4 (Spans 7 cols, shifted down slightly) -->
+<div class="product-card col-span-1 md:col-span-7 md:mt-32 group cursor-pointer">
+<div class="relative w-full aspect-video md:aspect-[16/10] bg-surface-container overflow-hidden mb-6 border border-outline-variant/10 group-hover:border-outline-variant/30 transition-colors duration-500">
+<div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors duration-500 z-10 pointer-events-none"></div>
+<img class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2KxC-5Or__cvvgL9tLVD-fKDKo_w4mndy12wgsrPMexkql07qmBGx_RW5VLkGydMVi8kFyG9SnV8hw8QfYVkxbDujnvHU-_REdCU-_zpSmZ6b6wFE92HZZRGecSZ48XCuBUElNi2oNJzz6tqF4MnKZX6WG0NjhpYx3-KAQPyiI5yQpzlj54UscCvaD9pTn3ee1OnFQMMrYQU8zvoKRLctNfWdbiFrQetYjQLa2F5M48JR2uAUtxKfZ4461uQIHiSIkZs"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Lavender Field Bud</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Soft lilac hues, elegantly wrapped.</p>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface">$75</span>
+</div>
+</div>
+</div>
+<!-- Load More Action -->
+<div class="mt-32 flex justify-center">
+<button class="px-8 py-4 border border-outline text-on-surface font-label-lg text-label-lg uppercase tracking-widest hover:bg-surface-bright/20 transition-colors duration-300">
+                View Archives
+            </button>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-section-gap bg-surface-container-lowest border-t border-outline-variant/5">
+<div class="flex flex-col items-center gap-8 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto opacity-80 hover:opacity-100 transition-opacity duration-300">
+<span class="font-display-lg text-headline-md text-on-surface">LUXE CRAFT</span>
+<nav class="flex flex-wrap justify-center gap-6 md:gap-12">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Shipping &amp; Returns</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Contact</a>
+</nav>
+<p class="font-body-md text-body-md text-on-surface-variant text-center mt-4 text-sm">
+                © 2024 LUXE CRAFT ATELIER. ALL RIGHTS RESERVED.
+            </p>
+</div>
+</footer>
+</body></html>
