@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
+import { supabase } from '../lib/supabase';
 import { authLimiter, validateHoneypot } from '../utils/rateLimiter';
-import { ArrowRight, Sparkles, Shield, Heart } from 'lucide-react';
 
-export function Footer({ setCurrentPage }) {
+export function Footer() {
   const [email, setEmail] = useState('');
   const [honeypot, setHoneypot] = useState('');
   const { addToast } = useToast();
+  const navigate = useNavigate();
 
-  const handleNewsletterSubmit = (e) => {
+  const goTo = (path) => {
+    navigate(path);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNewsletterSubmit = async (e) => {
     e.preventDefault();
     if (!validateHoneypot(honeypot)) {
       addToast('Verification check failed.', 'error');
@@ -26,17 +33,24 @@ export function Footer({ setCurrentPage }) {
       return;
     }
 
+    // Upstash into Supabase `subscribers` table (Phase 3 graceful: ignore if table not present yet)
+    try {
+      await supabase.from('subscribers').upsert({ email }, { onConflict: 'email' });
+    } catch (err) {
+      console.warn('[newsletter] upsert failed (table may not exist yet):', err);
+    }
+
     addToast(
       'Welcome to KNOTKARI. Enjoy 15% off with code SLOWCRAFT15 on your first order!',
       'success',
     );
     setEmail('');
+    setHoneypot('');
   };
 
   return (
     <footer className="w-full bg-surface-container-lowest border-t border-outline-variant/10 pt-20 pb-12 mt-auto">
       <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
-        {/* Top Newsletter & Brand Statement */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-outline-variant/10">
           <div className="lg:col-span-6 space-y-4">
             <span className="font-display text-3xl tracking-tighter text-on-background">
@@ -48,13 +62,16 @@ export function Footer({ setCurrentPage }) {
             </p>
             <div className="flex flex-wrap items-center gap-6 pt-2 text-xs text-primary/80 uppercase tracking-widest font-semibold">
               <span className="flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5" /> Slow Fashion
+                <span className="material-symbols-outlined text-[14px]">auto_awesome</span>
+                Slow Fashion
               </span>
               <span className="flex items-center gap-1.5">
-                <Heart className="w-3.5 h-3.5" /> 100% Organic Yarns
+                <span className="material-symbols-outlined text-[14px]">favorite</span>
+                100% Organic Yarns
               </span>
               <span className="flex items-center gap-1.5">
-                <Shield className="w-3.5 h-3.5" /> Lifetime Heirloom Stitch
+                <span className="material-symbols-outlined text-[14px]">shield</span>
+                Lifetime Heirloom Stitch
               </span>
             </div>
           </div>
@@ -74,6 +91,7 @@ export function Footer({ setCurrentPage }) {
                 onChange={(e) => setHoneypot(e.target.value)}
                 tabIndex={-1}
                 autoComplete="off"
+                aria-hidden="true"
                 className="hidden"
               />
               <input
@@ -89,59 +107,46 @@ export function Footer({ setCurrentPage }) {
                 className="px-6 py-3 bg-surface-container-high hover:bg-surface-bright text-on-surface border border-outline-variant/30 text-xs font-label uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2 rounded-xl"
               >
                 <span>Join Atelier</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
               </button>
             </form>
           </div>
         </div>
 
-        {/* Footer Navigation Links */}
         <div className="py-8 flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-on-surface-variant">
           <nav className="flex flex-wrap justify-center gap-6 md:gap-8">
-            <button
-              onClick={() => {
-                setCurrentPage('home');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="hover:text-primary transition-colors"
-            >
+            <button onClick={() => goTo('/')} className="hover:text-primary transition-colors">
               Home
             </button>
-            <button
-              onClick={() => {
-                setCurrentPage('shop');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="hover:text-primary transition-colors"
-            >
+            <button onClick={() => goTo('/shop')} className="hover:text-primary transition-colors">
               Artisan Shop
             </button>
-            <button
-              onClick={() => {
-                setCurrentPage('story');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="hover:text-primary transition-colors"
-            >
+            <button onClick={() => goTo('/story')} className="hover:text-primary transition-colors">
               Our Karigari Craft
             </button>
-            <button
-              onClick={() => {
-                setCurrentPage('cart');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="hover:text-primary transition-colors"
-            >
+            <button onClick={() => goTo('/cart')} className="hover:text-primary transition-colors">
               Bag & Shipping
             </button>
             <button
-              onClick={() => {
-                setCurrentPage('account');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
+              onClick={() => goTo('/account')}
               className="hover:text-primary transition-colors"
             >
               Patron Dashboard
+            </button>
+            <button
+              onClick={() => goTo('/privacy')}
+              className="hover:text-primary transition-colors"
+            >
+              Privacy
+            </button>
+            <button onClick={() => goTo('/terms')} className="hover:text-primary transition-colors">
+              Terms
+            </button>
+            <button
+              onClick={() => goTo('/returns')}
+              className="hover:text-primary transition-colors"
+            >
+              Returns
             </button>
           </nav>
 

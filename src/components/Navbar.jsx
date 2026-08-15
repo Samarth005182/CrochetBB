@@ -1,28 +1,35 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useAuth } from '../context/AuthContext';
-import { ShoppingBag, Heart, User, Menu, X, Search } from 'lucide-react';
 
-export function Navbar({ currentPage, setCurrentPage, onOpenSearch }) {
+export function Navbar({ onOpenSearch }) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { totalItemCount, setIsCartDrawerOpen } = useCart();
   const { wishlist } = useWishlist();
   const { isAuthenticated, user } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { id: 'home', label: 'Home' },
-    { id: 'shop', label: 'Artisan Shop' },
-    { id: 'story', label: 'Karigari Craft' },
-    { id: 'cart', label: 'Bag' },
+    { id: '/', label: 'Home' },
+    { id: '/shop', label: 'Artisan Shop' },
+    { id: '/story', label: 'Karigari Craft' },
+    { id: '/cart', label: 'Bag' },
     {
-      id: 'account',
+      id: '/account',
       label: isAuthenticated ? user?.name?.split(' ')[0] || 'Dashboard' : 'Patron Portal',
     },
   ];
 
-  const handleNavClick = (pageId) => {
-    setCurrentPage(pageId);
+  const isActive = (path) => {
+    if (path === '/') return location.pathname === '/';
+    return location.pathname.startsWith(path);
+  };
+
+  const goTo = (path) => {
+    navigate(path);
     setIsMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -37,12 +44,16 @@ export function Navbar({ currentPage, setCurrentPage, onOpenSearch }) {
             className="md:hidden text-on-background hover:text-primary transition-colors p-2 -ml-2 rounded-lg hover:bg-surface-bright/10"
             aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isMobileMenuOpen ? (
+              <span className="material-symbols-outlined">close</span>
+            ) : (
+              <span className="material-symbols-outlined">menu</span>
+            )}
           </button>
 
           {/* Brand Logo */}
           <button
-            onClick={() => handleNavClick('home')}
+            onClick={() => goTo('/')}
             className="flex items-center gap-2 text-left focus:outline-none group"
           >
             <span className="font-display text-2xl md:text-3xl tracking-tighter text-on-background group-hover:text-primary transition-colors">
@@ -56,13 +67,13 @@ export function Navbar({ currentPage, setCurrentPage, onOpenSearch }) {
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-7 font-label text-xs uppercase tracking-widest font-semibold">
             {navLinks.map((link) => {
-              const isActive = currentPage === link.id;
+              const active = isActive(link.id);
               return (
                 <button
                   key={link.id}
-                  onClick={() => handleNavClick(link.id)}
+                  onClick={() => goTo(link.id)}
                   className={`py-1.5 transition-all duration-200 ${
-                    isActive
+                    active
                       ? 'text-primary border-b-2 border-primary'
                       : 'text-on-surface-variant hover:text-on-background hover:bg-surface-bright/10 px-2 rounded-md'
                   }`}
@@ -75,24 +86,22 @@ export function Navbar({ currentPage, setCurrentPage, onOpenSearch }) {
 
           {/* Action Icons */}
           <div className="flex items-center gap-2 sm:gap-3">
-            {/* Search Trigger */}
             <button
               onClick={onOpenSearch}
               className="text-on-background hover:text-primary transition-colors p-2 rounded-lg hover:bg-surface-bright/10"
               aria-label="Search Collection"
               title="Search collection"
             >
-              <Search className="w-5 h-5" />
+              <span className="material-symbols-outlined">search</span>
             </button>
 
-            {/* Wishlist Button */}
             <button
-              onClick={() => handleNavClick('account')}
+              onClick={() => goTo('/account')}
               className="relative text-on-background hover:text-primary transition-colors p-2 rounded-lg hover:bg-surface-bright/10 hidden sm:flex"
               aria-label="View Wishlist"
               title="Your Wishlist"
             >
-              <Heart className="w-5 h-5" />
+              <span className="material-symbols-outlined">favorite</span>
               {wishlist.length > 0 && (
                 <span className="absolute top-1 right-1 bg-tertiary text-on-tertiary text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-fade-in">
                   {wishlist.length}
@@ -100,24 +109,26 @@ export function Navbar({ currentPage, setCurrentPage, onOpenSearch }) {
               )}
             </button>
 
-            {/* Account / User Avatar */}
             <button
-              onClick={() => handleNavClick(isAuthenticated ? 'account' : 'auth')}
+              onClick={() => goTo(isAuthenticated ? '/account' : '/auth')}
               className="text-on-background hover:text-primary transition-colors p-2 rounded-lg hover:bg-surface-bright/10 hidden sm:flex"
               aria-label="Member Account"
               title={isAuthenticated ? `Signed in as ${user?.name}` : 'Member Sign In'}
             >
-              <User className={`w-5 h-5 ${isAuthenticated ? 'text-primary' : ''}`} />
+              <span
+                className={`material-symbols-outlined ${isAuthenticated ? 'text-primary' : ''}`}
+              >
+                person
+              </span>
             </button>
 
-            {/* Cart Drawer Trigger */}
             <button
               onClick={() => setIsCartDrawerOpen(true)}
               className="relative text-on-background hover:text-primary transition-colors p-2 rounded-lg hover:bg-surface-bright/10"
               aria-label="Open Atelier Cart"
               title="Atelier Cart Drawer"
             >
-              <ShoppingBag className="w-5 h-5" />
+              <span className="material-symbols-outlined">shopping_bag</span>
               {totalItemCount > 0 && (
                 <span className="absolute top-1 right-1 bg-primary text-on-primary text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-pulse">
                   {totalItemCount}
@@ -136,7 +147,7 @@ export function Navbar({ currentPage, setCurrentPage, onOpenSearch }) {
             className="absolute top-6 right-6 p-2 text-on-surface-variant hover:text-on-surface"
             aria-label="Close menu"
           >
-            <X className="w-7 h-7" />
+            <span className="material-symbols-outlined">close</span>
           </button>
 
           <div className="text-center mb-8 space-y-1">
@@ -152,9 +163,9 @@ export function Navbar({ currentPage, setCurrentPage, onOpenSearch }) {
             {navLinks.map((link) => (
               <button
                 key={link.id}
-                onClick={() => handleNavClick(link.id)}
+                onClick={() => goTo(link.id)}
                 className={`py-3 transition-colors ${
-                  currentPage === link.id
+                  isActive(link.id)
                     ? 'text-primary font-bold border-b border-primary/40'
                     : 'text-on-surface-variant hover:text-on-background'
                 }`}
@@ -164,7 +175,7 @@ export function Navbar({ currentPage, setCurrentPage, onOpenSearch }) {
             ))}
             {!isAuthenticated && (
               <button
-                onClick={() => handleNavClick('auth')}
+                onClick={() => goTo('/auth')}
                 className="py-3 text-on-surface-variant hover:text-primary"
               >
                 Sign In / Register
@@ -174,10 +185,10 @@ export function Navbar({ currentPage, setCurrentPage, onOpenSearch }) {
 
           <div className="border-t border-outline-variant/20 pt-6 flex justify-around text-on-surface-variant">
             <button
-              onClick={() => handleNavClick('account')}
+              onClick={() => goTo('/account')}
               className="flex items-center gap-2 text-xs uppercase tracking-wider"
             >
-              <Heart className="w-4 h-4" />
+              <span className="material-symbols-outlined text-[16px]">favorite</span>
               <span>Wishlist ({wishlist.length})</span>
             </button>
             <button
@@ -187,7 +198,7 @@ export function Navbar({ currentPage, setCurrentPage, onOpenSearch }) {
               }}
               className="flex items-center gap-2 text-xs uppercase tracking-wider"
             >
-              <ShoppingBag className="w-4 h-4" />
+              <span className="material-symbols-outlined text-[16px]">shopping_bag</span>
               <span>Bag ({totalItemCount})</span>
             </button>
           </div>
