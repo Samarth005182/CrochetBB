@@ -33,6 +33,7 @@ const StoryPage = lazy(() => import('./pages/StoryPage').then((m) => ({ default:
 const NotFoundPage = lazy(() =>
   import('./pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage })),
 );
+const LaxParallaxDemo = lazy(() => import('./components/LaxParallaxEffects'));
 
 function PageFallback() {
   return (
@@ -132,6 +133,7 @@ function AppRoutes() {
                 }
               />
               <Route path="/story" element={<StoryPage onNavigateToShop={() => goTo('/shop')} />} />
+              <Route path="/lax-parallax" element={<LaxParallaxDemo />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </Suspense>

@@ -422,7 +422,7 @@ export function AccountPage({ onNavigateToShop, onNavigateToAuth }) {
                     </div>
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-on-surface-variant font-mono">
                       <span>Ref: {pay.payment_id}</span>
-                      <span>Gateway: {pay.gateway || 'Razorpay'}</span>
+                      <span>Gateway: {pay.gateway || 'Paytm'}</span>
                       <span>
                         Date:{' '}
                         {pay.created_at

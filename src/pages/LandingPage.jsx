@@ -45,7 +45,7 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
     },
     {
       q: 'What payment gateways are supported?',
-      a: 'We support industry-standard encrypted payments via Razorpay (UPI, Google Pay, PhonePe, Paytm, all major Credit/Debit Cards in INR) and international payment networks.',
+      a: 'We support industry-standard 256-bit encrypted payments via Paytm (Instant UPI, Google Pay, PhonePe, Paytm Wallet, QR Code, and NetBanking in INR).',
     },
     {
       q: 'Can I include a personalized calligraphy gift note?',

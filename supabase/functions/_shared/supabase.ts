@@ -27,7 +27,7 @@ export async function rateLimit(client: SupabaseClient, bucketKey: string, max: 
   return (data ?? 0) <= max;
 }
 
-// Helper: SHA256 HMAC signature for Razorpay webhook verification.
+// Helper: SHA256 HMAC signature for webhook / transaction verification.
 export async function hmacSha256Hex(message: string, secret: string): Promise<string> {
   const enc = new TextEncoder();
   const key = await crypto.subtle.importKey(

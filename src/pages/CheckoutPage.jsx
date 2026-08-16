@@ -4,11 +4,10 @@ import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { solveClientProofOfWork, validateHoneypot } from '../utils/rateLimiter';
 import { saveOrderToSupabase } from '../lib/supabase';
-import { createServerOrder, openRazorpayCheckout } from '../lib/razorpay';
+import { createServerOrder, openPaytmCheckout } from '../lib/paytm';
 import confetti from 'canvas-confetti';
 import {
   ShieldCheck,
-  CreditCard,
   CheckCircle2,
   Lock,
   ArrowRight,
@@ -16,6 +15,7 @@ import {
   Printer,
   Smartphone,
   Truck,
+  Zap,
 } from 'lucide-react';
 
 export function CheckoutPage({ onNavigateToShop }) {
@@ -52,16 +52,6 @@ export function CheckoutPage({ onNavigateToShop }) {
     country: 'India',
     giftNote: '',
     honeypot: '',
-  });
-
-  const [paymentMethod, setPaymentMethod] = useState('razorpay'); // 'razorpay' | 'card'
-
-  // Card details (for Direct Card Auth simulation)
-  const [cardData, setCardData] = useState({
-    number: '•••• •••• •••• 4242',
-    name: user?.name || 'ANANYA SHARMA',
-    expiry: '09/28',
-    cvc: '•••',
   });
 
   const handleInputChange = (e) => {
@@ -137,11 +127,11 @@ export function CheckoutPage({ onNavigateToShop }) {
         country: formData.country || 'India',
       },
       deliveryMethod: 'Standard Atelier Delivery',
-      paymentGateway:
-        paymentDetails?.gateway ||
-        (paymentMethod === 'razorpay' ? 'Razorpay Secure Gateway' : 'Direct Card Auth'),
+      paymentGateway: paymentDetails?.gateway || 'Paytm Secure Gateway',
       paymentId:
-        paymentDetails?.razorpay_payment_id || `pay_${Math.random().toString(36).substring(2, 9)}`,
+        paymentDetails?.paytm_payment_id ||
+        paymentDetails?.txn_id ||
+        `ptm_${Math.random().toString(36).substring(2, 9)}`,
       giftNote: formData.giftNote?.trim() || null,
       artisan: 'Master Karigar Rajeshwari',
       voucherCode: appliedPromo?.code || null,
@@ -183,52 +173,43 @@ export function CheckoutPage({ onNavigateToShop }) {
       addToast('Verifying cryptographic transaction token...', 'info', 1000);
       await solveClientProofOfWork(2);
 
-      if (paymentMethod === 'razorpay') {
-        const serverOrder = await createServerOrder({
-          items: items.map((i) => ({
-            id: i.id,
-            quantity: i.quantity,
-            unitPrice: i.price,
-          })),
-          voucherCode: appliedPromo?.code || null,
-          customerName: formData.name.trim(),
-          customerEmail: formData.email.trim(),
-          customerPhone: formData.phone.trim() || undefined,
-        });
+      const serverOrder = await createServerOrder({
+        items: items.map((i) => ({
+          id: i.id,
+          quantity: i.quantity,
+          unitPrice: i.price,
+        })),
+        voucherCode: appliedPromo?.code || null,
+        customerName: formData.name.trim(),
+        customerEmail: formData.email.trim(),
+        customerPhone: formData.phone.trim() || undefined,
+      });
 
-        if (!serverOrder.ok || !serverOrder.razorpay_order_id) {
-          // Fallback simulation if razorpay keys aren't configured in environment
-          await new Promise((res) => setTimeout(res, 1000));
-          await finalizeOrder({
-            gateway: 'Razorpay (Simulated)',
-            razorpay_payment_id: `pay_sim_${Math.random().toString(36).substring(2, 9)}`,
-          });
-          return;
-        }
-
-        await openRazorpayCheckout({
-          serverOrder,
-          customer: {
-            name: formData.name.trim(),
-            email: formData.email.trim(),
-            contact: formData.phone.trim() || '9876543210',
-          },
-          onSuccess: (response) => {
-            finalizeOrder(response, serverOrder);
-          },
-          onFailure: (err) => {
-            setIsProcessing(false);
-            addToast(err?.description || 'Payment cancelled or unsuccessful.', 'error');
-          },
-        });
-      } else {
-        // Direct Card Auth Simulation
-        await new Promise((res) => setTimeout(res, 1200));
+      if (!serverOrder.ok || (!serverOrder.paytm_order_id && !serverOrder.order_number)) {
+        // Fallback simulation if Paytm keys / server aren't configured in environment
+        await new Promise((res) => setTimeout(res, 1000));
         await finalizeOrder({
-          gateway: 'Direct Card Auth',
-          razorpay_payment_id: `card_${Math.random().toString(36).substring(2, 9)}`,
+          gateway: 'Paytm (Simulated)',
+          paytm_payment_id: `ptm_sim_${Math.random().toString(36).substring(2, 9)}`,
         });
+        return;
       }
+
+      await openPaytmCheckout({
+        serverOrder,
+        customer: {
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          contact: formData.phone.trim() || '9876543210',
+        },
+        onSuccess: (response) => {
+          finalizeOrder(response, serverOrder);
+        },
+        onFailure: (err) => {
+          setIsProcessing(false);
+          addToast(err?.description || 'Payment cancelled or unsuccessful.', 'error');
+        },
+      });
     } catch (err) {
       console.error(err);
       setIsProcessing(false);
@@ -561,118 +542,50 @@ export function CheckoutPage({ onNavigateToShop }) {
                   </p>
                 </div>
 
-                {/* Gateway Selector Options */}
+                {/* Gateway Selector: Paytm Unified Payments */}
                 <div className="space-y-3">
-                  {/* Option 1: Razorpay (Featured) */}
-                  <label
-                    onClick={() => setPaymentMethod('razorpay')}
-                    className={`block p-5 rounded-xl border cursor-pointer transition-all ${
-                      paymentMethod === 'razorpay'
-                        ? 'border-primary bg-primary/10 shadow-lg'
-                        : 'border-outline-variant/20 bg-surface-container hover:border-outline-variant/40'
-                    }`}
-                  >
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-3">
-                        <input
-                          type="radio"
-                          name="paymentMethod"
-                          checked={paymentMethod === 'razorpay'}
-                          onChange={() => setPaymentMethod('razorpay')}
-                          className="text-primary"
-                        />
+                  <div className="p-5 rounded-xl border border-primary bg-primary/10 shadow-lg transition-all">
+                    <div className="flex justify-between items-start">
+                      <div className="flex items-start gap-3">
+                        <div className="w-5 h-5 rounded-full border-2 border-primary flex items-center justify-center mt-0.5 shrink-0 bg-primary/20">
+                          <div className="w-2.5 h-2.5 rounded-full bg-primary" />
+                        </div>
                         <div>
                           <div className="flex items-center gap-2">
                             <span className="font-headline text-base font-semibold text-on-surface">
-                              Razorpay Checkout
+                              Paytm Payment Gateway
                             </span>
-                            <span className="px-2 py-0.5 rounded text-[10px] font-label uppercase font-bold bg-primary/20 text-primary">
-                              Recommended
+                            <span className="px-2 py-0.5 rounded text-[10px] font-label uppercase font-bold bg-primary/20 text-primary flex items-center gap-1">
+                              <Zap className="w-3 h-3" /> Recommended
                             </span>
                           </div>
-                          <p className="text-xs text-on-surface-variant mt-0.5">
-                            UPI (Google Pay, PhonePe, Paytm, QR), Cards, NetBanking & Wallets
+                          <p className="text-xs text-on-surface-variant mt-1">
+                            Pay seamlessly via UPI (Google Pay, PhonePe, Paytm, QR), Paytm Wallet &
+                            NetBanking.
                           </p>
+                          <div className="flex flex-wrap items-center gap-2 mt-3 text-[11px] font-mono text-on-surface-variant/90">
+                            <span className="px-2 py-0.5 bg-surface-container rounded border border-outline-variant/20">
+                              UPI Instant
+                            </span>
+                            <span className="px-2 py-0.5 bg-surface-container rounded border border-outline-variant/20">
+                              Paytm Wallet
+                            </span>
+                            <span className="px-2 py-0.5 bg-surface-container rounded border border-outline-variant/20">
+                              NetBanking
+                            </span>
+                            <span className="px-2 py-0.5 bg-surface-container rounded border border-outline-variant/20">
+                              Dynamic QR
+                            </span>
+                          </div>
                         </div>
                       </div>
-                      <div className="flex items-center gap-1.5 text-primary text-xs font-mono">
+                      <div className="flex items-center gap-1.5 text-primary text-xs font-mono shrink-0">
                         <Smartphone className="w-4 h-4" />
                         <span>Instant</span>
                       </div>
                     </div>
-                  </label>
-
-                  {/* Option 2: Direct Credit / Debit Card Simulation */}
-                  <label
-                    onClick={() => setPaymentMethod('card')}
-                    className={`block p-5 rounded-xl border cursor-pointer transition-all ${
-                      paymentMethod === 'card'
-                        ? 'border-primary bg-primary/10 shadow-lg'
-                        : 'border-outline-variant/20 bg-surface-container hover:border-outline-variant/40'
-                    }`}
-                  >
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-3">
-                        <input
-                          type="radio"
-                          name="paymentMethod"
-                          checked={paymentMethod === 'card'}
-                          onChange={() => setPaymentMethod('card')}
-                          className="text-primary"
-                        />
-                        <div>
-                          <span className="font-headline text-base font-semibold text-on-surface block">
-                            Direct Credit / Debit Card
-                          </span>
-                          <p className="text-xs text-on-surface-variant mt-0.5">
-                            Visa, Mastercard, American Express, RuPay
-                          </p>
-                        </div>
-                      </div>
-                      <CreditCard className="w-5 h-5 text-on-surface-variant" />
-                    </div>
-                  </label>
-                </div>
-
-                {paymentMethod === 'card' && (
-                  <div className="p-4 bg-surface-container rounded-xl space-y-3">
-                    <div className="space-y-1">
-                      <label className="font-label text-xs uppercase tracking-widest text-on-surface-variant block">
-                        Card Number
-                      </label>
-                      <input
-                        type="text"
-                        value={cardData.number}
-                        onChange={(e) => setCardData({ ...cardData, number: e.target.value })}
-                        className="ghost-input w-full py-2 text-sm text-on-background font-mono"
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-1">
-                        <label className="font-label text-xs uppercase tracking-widest text-on-surface-variant block">
-                          Expiry
-                        </label>
-                        <input
-                          type="text"
-                          value={cardData.expiry}
-                          onChange={(e) => setCardData({ ...cardData, expiry: e.target.value })}
-                          className="ghost-input w-full py-2 text-sm text-on-background font-mono"
-                        />
-                      </div>
-                      <div className="space-y-1">
-                        <label className="font-label text-xs uppercase tracking-widest text-on-surface-variant block">
-                          CVC
-                        </label>
-                        <input
-                          type="password"
-                          value={cardData.cvc}
-                          onChange={(e) => setCardData({ ...cardData, cvc: e.target.value })}
-                          className="ghost-input w-full py-2 text-sm text-on-background font-mono"
-                        />
-                      </div>
-                    </div>
                   </div>
-                )}
+                </div>
 
                 <div className="flex gap-4 pt-2">
                   <button
@@ -688,13 +601,10 @@ export function CheckoutPage({ onNavigateToShop }) {
                     className="flex-1 py-4 bg-on-background hover:bg-primary-fixed text-background hover:text-on-primary-fixed font-label text-xs uppercase tracking-widest font-semibold rounded-xl transition-all shadow-xl flex items-center justify-center gap-2 cursor-pointer"
                   >
                     {isProcessing ? (
-                      <span>Launching Secure Payment Gateway...</span>
+                      <span>Launching Secure Paytm Gateway...</span>
                     ) : (
                       <>
-                        <span>
-                          Authorize ₹{grandTotal.toFixed(0)} via{' '}
-                          {paymentMethod === 'razorpay' ? 'Razorpay' : 'Card'}
-                        </span>
+                        <span>Authorize ₹{grandTotal.toFixed(0)} via Paytm</span>
                         <Lock className="w-4 h-4" />
                       </>
                     )}
@@ -762,7 +672,7 @@ export function CheckoutPage({ onNavigateToShop }) {
               <div className="p-3.5 bg-surface-container rounded-xl text-[11px] text-on-surface-variant flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-primary shrink-0" />
                 <span>
-                  Protected by Razorpay 256-bit encryption & email-bound transaction records.
+                  Protected by Paytm 256-bit encryption & email-bound transaction records.
                 </span>
               </div>
             </div>

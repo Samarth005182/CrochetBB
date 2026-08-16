@@ -39,5 +39,6 @@
 - Apply with the Supabase MCP `execute_sql` tool, or run:
   ```bash
   supabase db execute --file supabase/schema_v2.sql
-  supabase functions deploy razorpay-create-order --no-verify-jwt
+  supabase functions deploy paytm-create-order --no-verify-jwt
+  supabase functions deploy paytm-webhook --no-verify-jwt
   ```

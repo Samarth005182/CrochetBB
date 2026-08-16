@@ -3,7 +3,7 @@
 [![Vite](https://img.shields.io/badge/Vite-5.4-646CFF?style=flat&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![React](https://img.shields.io/badge/React-18.3-61DAFB?style=flat&logo=react&logoColor=black)](https://reactjs.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![Razorpay](https://img.shields.io/badge/Razorpay-Payment%20Gateway-0C2340?style=flat&logo=razorpay&logoColor=white)](https://razorpay.com/)
+[![Paytm](https://img.shields.io/badge/Paytm-Payment%20Gateway-002E6E?style=flat&logo=paytm&logoColor=white)](https://paytm.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-Database%20%26%20Auth-3ECF8E?style=flat&logo=supabase&logoColor=white)](https://supabase.com/)
 [![Vercel](https://img.shields.io/badge/Vercel-Deployment%20Ready-000000?style=flat&logo=vercel&logoColor=white)](https://vercel.com/)
 
@@ -20,9 +20,9 @@ An enterprise-ready, editorial luxury e-commerce web application for **KNOTKARI*
   * Patron Praise & Verified Reviews carousel.
   * Transparency FAQ accordion & VIP Lounge newsletter.
 
-* **💳 Official Razorpay Payment Gateway Integration:**
-  * Production & Test mode support via `VITE_RAZORPAY_KEY_ID`.
-  * Multi-method checkout: **UPI** (Google Pay, PhonePe, Paytm, QR), **Credit/Debit Cards** (Visa, Mastercard, Amex, RuPay), **NetBanking**, and **Wallets**.
+* **💳 Official Paytm Payment Gateway Integration:**
+  * Production & Staging mode support via `VITE_PAYTM_MID`, `VITE_PAYTM_MERCHANT_KEY`, and `VITE_PAYTM_ENV`.
+  * Instant checkout: **UPI** (Google Pay, PhonePe, Paytm, QR), **Paytm Wallet**, and **NetBanking**.
   * Instant cryptographic signature verification and confetti order celebration.
   * Printable luxury invoice receipt with artisan tracking reference.
 
@@ -57,7 +57,10 @@ Copy `.env.example` to `.env` and fill in your keys:
 ```env
 VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-VITE_RAZORPAY_KEY_ID=rzp_test_your_razorpay_key_id
+VITE_PAYTM_MID=your_paytm_mid
+VITE_PAYTM_MERCHANT_KEY=your_paytm_merchant_key
+VITE_PAYTM_WEBSITE=WEBSTAGING
+VITE_PAYTM_ENV=STAGE
 ```
 
 ### 3. Local Development

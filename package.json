@@ -18,7 +18,7 @@
     "prepare": "husky",
     "supabase:link": "supabase link --project-ref abrueeofowwpdpokdlba",
     "supabase:db:apply": "supabase db execute --file supabase/schema_v2.sql",
-    "supabase:functions:deploy": "supabase functions deploy razorpay-create-order --no-verify-jwt && supabase functions deploy razorpay-webhook --no-verify-jwt && supabase functions deploy validate-voucher --no-verify-jwt && supabase functions deploy send-order-email --no-verify-jwt",
+    "supabase:functions:deploy": "supabase functions deploy paytm-create-order --no-verify-jwt && supabase functions deploy paytm-webhook --no-verify-jwt && supabase functions deploy validate-voucher --no-verify-jwt && supabase functions deploy send-order-email --no-verify-jwt",
     "supabase:secrets": "supabase secrets set --env-file .env"
   },
   "dependencies": {

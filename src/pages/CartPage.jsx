@@ -296,7 +296,7 @@ export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
               {/* Trust Badges */}
               <div className="pt-2 flex items-center justify-center gap-4 text-[11px] text-on-surface-variant/80">
                 <span className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-primary" /> Razorpay 256-bit Encrypted
+                  <ShieldCheck className="w-3.5 h-3.5 text-primary" /> Paytm 256-bit Encrypted
                 </span>
                 <span>•</span>
                 <span>Free Gift Wrap</span>

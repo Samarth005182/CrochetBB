@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useToast } from './ToastContext';
 import { PROMO_CODES } from '../data/products';
 import { promoLimiter, checkoutLimiter } from '../utils/rateLimiter';
-import { validateVoucherServer } from '../lib/razorpay';
+import { validateVoucherServer } from '../lib/paytm';
 
 const CartContext = createContext(null);
 

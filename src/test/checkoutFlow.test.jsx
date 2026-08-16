@@ -1,5 +1,5 @@
 import React from 'react';
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { CheckoutPage } from '../pages/CheckoutPage';
 import { CartProvider, useCart } from '../context/CartContext';
@@ -85,7 +85,10 @@ describe('Checkout Flow (Direct Shipping to Payment)', () => {
     // Directly transitions to Step 2: Payment Authorization (no separate delivery page)
     await waitFor(() => {
       expect(screen.getByText('Payment Authorization')).toBeInTheDocument();
-      expect(screen.getByText(/Razorpay Checkout/i)).toBeInTheDocument();
+      expect(screen.getByText(/Paytm Payment Gateway/i)).toBeInTheDocument();
+      expect(screen.getByText(/Authorize.*via Paytm/i)).toBeInTheDocument();
+      expect(screen.queryByText(/Direct Credit \/ Debit Card/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/Card Number/i)).not.toBeInTheDocument();
       expect(screen.getByText(/Back to Shipping/i)).toBeInTheDocument();
     });
 
