@@ -24,11 +24,11 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
   const { addToCart } = useCart();
   const { addToast } = useToast();
 
-  const featuredProducts = PRODUCTS.slice(0, 4);
+  const featuredProducts = PRODUCTS;
 
   const stats = [
     { value: '100%', label: 'GOTS Organic Fibers', icon: Feather },
-    { value: '5.8 hrs', label: 'Avg Craft Time per Piece', icon: Clock },
+    { value: '4.2 hrs', label: 'Avg Craft Time per Piece', icon: Clock },
     { value: '0%', label: 'Microplastic Synthetics', icon: ShieldCheck },
     { value: 'Lifetime', label: 'Heirloom Stitch Guarantee', icon: Award },
   ];
@@ -44,7 +44,7 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
     },
     {
       q: 'What payment gateways are supported?',
-      a: 'We support industry-standard encrypted payments via Razorpay (UPI, Google Pay, PhonePe, Paytm, all major Credit/Debit Cards, NetBanking) and international payment networks.',
+      a: 'We support industry-standard encrypted payments via Razorpay (UPI, Google Pay, PhonePe, Paytm, all major Credit/Debit Cards in INR) and international payment networks.',
     },
     {
       q: 'Can I include a personalized calligraphy gift note?',
@@ -55,58 +55,58 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
   return (
     <main className="flex-grow w-full overflow-hidden">
       {/* 1. EDITORIAL HERO SECTION */}
-      <section className="relative min-h-[90vh] flex items-center justify-center px-margin-mobile md:px-margin-desktop py-20 bg-radial-gradient">
+      <section className="relative min-h-[85vh] flex items-center justify-center px-4 sm:px-6 md:px-8 py-16 bg-radial-gradient">
         {/* Subtle Ambient Glow */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[140px] pointer-events-none" />
 
-        <div className="max-w-container-max mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center relative z-10">
+        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center relative z-10">
           {/* Left Text & CTAs */}
-          <div className="lg:col-span-7 space-y-8 text-left">
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-surface-container-high/80 border border-primary/30 text-primary text-xs font-label uppercase tracking-widest backdrop-blur-md">
+          <div className="lg:col-span-7 space-y-6 text-left">
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-surface-container-high/80 border border-primary/30 text-primary text-xs font-label uppercase tracking-widest backdrop-blur-md">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Bespoke Karigari • Slow-Fashion Crochet</span>
             </div>
 
-            <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl text-on-background tracking-tight leading-[1.08]">
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl text-on-background tracking-tight leading-[1.1]">
               Heritage Knots. <br />
               <span className="italic font-normal text-primary-fixed">Timeless Karigari.</span>
             </h1>
 
-            <p className="font-body text-base sm:text-lg text-on-surface-variant max-w-xl leading-relaxed">
+            <p className="font-body text-sm sm:text-base text-on-surface-variant max-w-xl leading-relaxed">
               Elevating the ancient intimacy of crochet into haute slow-fashion couture. Everlasting
-              botanical bouquets, heirloom carryalls, and bespoke charms hand-looped by master
-              artisans.
+              botanical bouquets, heirloom charms, and stems hand-looped by master artisans starting
+              from only ₹150.
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-4 pt-2">
+            <div className="flex flex-col sm:flex-row gap-3 pt-2">
               <button
                 onClick={onNavigateToShop}
-                className="px-8 py-4 bg-on-background hover:bg-primary-fixed text-background hover:text-on-primary-fixed font-label text-xs uppercase tracking-widest font-semibold rounded transition-all duration-300 shadow-xl flex items-center justify-center gap-3 group"
+                className="px-7 py-3.5 bg-on-background hover:bg-primary-fixed text-background hover:text-on-primary-fixed font-label text-xs uppercase tracking-widest font-bold rounded-lg transition-all duration-300 shadow-lg flex items-center justify-center gap-2.5 group"
               >
-                <span>Explore The Collection</span>
+                <span>Explore Full Collection ({PRODUCTS.length} Pieces)</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
 
               <button
                 onClick={onNavigateToStory}
-                className="px-8 py-4 bg-surface-container-low hover:bg-surface-container border border-outline-variant/30 text-on-surface font-label text-xs uppercase tracking-widest rounded transition-all flex items-center justify-center gap-2"
+                className="px-7 py-3.5 bg-surface-container-low hover:bg-surface-container border border-outline-variant/30 text-on-surface font-label text-xs uppercase tracking-widest rounded-lg transition-all flex items-center justify-center gap-2 font-semibold"
               >
                 <span>Our Karigari Story</span>
               </button>
             </div>
 
             {/* Quick Feature Tickers */}
-            <div className="pt-8 border-t border-outline-variant/15 grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="pt-6 border-t border-outline-variant/15 grid grid-cols-2 sm:grid-cols-4 gap-3">
               {stats.map((stat, i) => {
                 const Icon = stat.icon;
                 return (
-                  <div key={i} className="space-y-1">
-                    <div className="flex items-center gap-1.5 text-primary text-sm font-semibold">
-                      <Icon className="w-4 h-4" />
+                  <div key={i} className="space-y-0.5">
+                    <div className="flex items-center gap-1.5 text-primary text-sm font-bold">
+                      <Icon className="w-3.5 h-3.5" />
                       <span>{stat.value}</span>
                     </div>
-                    <p className="text-[11px] font-label uppercase tracking-wider text-on-surface-variant leading-tight">
+                    <p className="text-[10px] font-label uppercase tracking-wider text-on-surface-variant leading-tight">
                       {stat.label}
                     </p>
                   </div>
@@ -117,36 +117,39 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
 
           {/* Right Hero Visual Showcase */}
           <div className="lg:col-span-5 relative">
-            <div className="relative mx-auto max-w-md lg:max-w-none">
+            <div className="relative mx-auto max-w-sm lg:max-w-none">
               {/* Main Lookbook Visual */}
-              <div className="aspect-[4/5] rounded-2xl overflow-hidden border border-outline-variant/30 shadow-2xl relative group">
+              <div className="aspect-[4/5] max-h-96 sm:max-h-[420px] mx-auto rounded-2xl overflow-hidden border border-outline-variant/30 shadow-2xl relative group">
                 <img
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHwtqSmwPaSvvRpSkfHi4nFMO4V8b0mxN5_UANwuPz8DeWadaI1vWEWQ7gMAqnaC6cb6KL4Nam3givx7g3Yr2Ii4WgKJh7fQRAfYTs8hlCdre94QrgIjpueAj_K7tR9eb71cmNgvaNxCWphz7xMWo6ngjt1asvvKzY8kGKUFSCRx79JR6cBSk57XcfCT2VfJwIMwbpzz_AV_HYkF7nqwAUVHaQY9yIBwdzb9keFl4rUURcnAtzm8Wpe3MmI-EDe6jdhrs"
+                  src="/images/products/radiant-sunflower.jpg"
                   alt="KNOTKARI Handcrafted Sunburst Sunflower Crochet Bouquet"
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
 
                 {/* Floating Artisan Card */}
-                <div className="absolute bottom-6 left-6 right-6 p-4 rounded-xl bg-surface-container-lowest/90 backdrop-blur-md border border-outline-variant/30 flex items-center justify-between">
+                <div className="absolute bottom-4 left-4 right-4 p-3.5 rounded-xl bg-surface-container-lowest/95 backdrop-blur-md border border-outline-variant/30 flex items-center justify-between shadow-lg">
                   <div>
-                    <span className="text-[10px] font-label uppercase tracking-widest text-primary font-semibold block">
-                      Limited Karigari Drop
+                    <span className="text-[9px] font-label uppercase tracking-widest text-primary font-bold block">
+                      Featured • Artisan Spotlight
                     </span>
-                    <h4 className="font-headline text-base text-on-surface font-semibold">
-                      Sun-Kissed Golden Bloom
+                    <h4 className="font-headline text-sm text-on-surface font-bold">
+                      Radiant Sunburst Sunflower
                     </h4>
-                    <p className="text-xs text-on-surface-variant font-mono">
-                      5.0 hrs • Organic Merino Wool
+                    <p className="text-xs text-primary font-bold">
+                      ₹200{' '}
+                      <span className="text-[10px] text-on-surface-variant line-through font-normal">
+                        M.R.P. ₹299
+                      </span>
                     </p>
                   </div>
                   <button
                     onClick={() => {
                       addToCart(PRODUCTS[1], 1);
-                      addToast('Added Sun-Kissed Bloom to Bag', 'success');
+                      addToast('Added Radiant Sunburst Sunflower to Cart', 'success');
                     }}
-                    className="p-3 bg-primary text-on-primary rounded-lg hover:bg-primary-fixed transition-colors"
-                    title="Quick Add"
+                    className="p-2.5 bg-[#ffd814] hover:bg-[#f7ca00] text-[#0f1111] font-bold rounded-lg shadow-sm transition-colors border border-[#fcd200]"
+                    title="Quick Add to Cart"
                   >
                     <ShoppingBag className="w-4 h-4" />
                   </button>
@@ -154,9 +157,9 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
               </div>
 
               {/* Floating Badge Accent */}
-              <div className="absolute -top-4 -left-4 px-4 py-2 rounded-full bg-surface-container-high border border-primary/40 shadow-lg text-[11px] font-label uppercase tracking-widest text-on-background flex items-center gap-1.5 animate-bounce">
-                <Flame className="w-3.5 h-3.5 text-amber-400" />
-                <span>Monsoon 2026 Capsule</span>
+              <div className="absolute -top-3 -left-3 px-3 py-1.5 rounded-full bg-surface-container-high border border-primary/40 shadow-lg text-[10px] font-label uppercase tracking-widest text-on-background flex items-center gap-1.5">
+                <Flame className="w-3 h-3 text-amber-400" />
+                <span>Slow-Craft 2026 Collection</span>
               </div>
             </div>
           </div>
@@ -164,72 +167,57 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
       </section>
 
       {/* 2. CURATED COLLECTIONS GRID */}
-      <section className="py-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-        <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
-          <span className="font-label text-xs uppercase tracking-widest text-primary font-semibold">
+      <section className="py-16 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto">
+        <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
+          <span className="font-label text-xs uppercase tracking-widest text-primary font-bold">
             Curated Portals
           </span>
-          <h2 className="font-display text-3xl sm:text-4xl text-on-background">
+          <h2 className="font-display text-2xl sm:text-3xl text-on-background">
             Explore Handcrafted Categories
           </h2>
-          <p className="text-sm font-body text-on-surface-variant">
-            From everlasting floral stem sculptures to intricate accessory charms and slow-fashion
-            carryalls.
+          <p className="text-xs sm:text-sm font-body text-on-surface-variant">
+            From everlasting floral bouquets & individual stems to delicate accessories.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {[
             {
-              title: 'Botanical Bouquets & Stems',
-              desc: 'Sculptural everlasting tulips, sunflowers, and French lavender crafted from organic mercerized yarn.',
-              image:
-                'https://lh3.googleusercontent.com/aida-public/AB6AXuDd-Z9FKQEqLMSctYI9Sq3o05hpPALgXJRsmL4WgHEmXFMnrOlYG9-FUvrtjXP9fBn35MYTMAec0mp_bUb4xrbotW0tyjLroFEvvfXnZG7BGru-WNtuA_EIgln6BrJjYoUpbk3SM6tsiRpBd2VAeVS3kkLxzvcDWcETlH4sLtDzYYKBvIRy7VN-0R5_5oaiMSjxqlEOcbyOWRpPlIy0ahe-vXE4UUXSpXyhlt4lA5Dl0NImoSBbl3G-TvQ8hRV51_jqwHo',
+              title: 'Floral Bouquets & Stems',
+              desc: 'Sculptural everlasting tulips, sunflowers, roses, and meadow bouquets crafted from organic mercerized yarn.',
+              image: '/images/products/pearl-blossom-bouquet.jpg',
               category: 'bouquets',
             },
             {
-              title: 'Charms & Handcrafted Accents',
-              desc: 'Delicate daisy clips, botanical keychains, and heirloom brooches with 925 sterling silver hardware.',
-              image:
-                'https://lh3.googleusercontent.com/aida-public/AB6AXuBsud4sLvFgIeiO9gtKVCuIb5MLXPM9trOBkDI4ZddIZpq-nnfkb5-WZSh_BVHW5oF01QSjml1paGQ6aiyV6Cqp7llciS_jNMYkbxWEjWVwxBTDyl-4TYtgkVqADoYojwwvMreGM-wqJZlNbJHYg2Dm0dlkNT6ag1625UG1DYO4WMYPUokul7mlvZfmaRS6LXt2tZgU3QMWWapYRyoYEo3WScNejNJyeDdOgqaDYfkJxslA_053aruBzupHuUiPQcFceq8',
+              title: 'Charms & Keychains',
+              desc: 'Delicate daisy clips, evil eye talismans, tulip bells, and rose keychains with polished silver hardware.',
+              image: '/images/products/twin-tulip-charm.jpg',
               category: 'charms',
-            },
-            {
-              title: 'Heirloom Totes & Carryalls',
-              desc: 'Structural waffle-stitch and granny-square handbags reinforced with organic cotton linen linings.',
-              image:
-                'https://lh3.googleusercontent.com/aida-public/AB6AXuB29kX22QcMhD-v5fI53l6_gZ99kZ_G0_1wH9f5YjG0oU6a8i2dF8H0uJ9a_a1cE7gB8kD2iM4oP1qR3sT5uV7wX9yZ_A0bC2dE4fG6hI8jK0lM2nO4pQ6rS8tU0vW2xY4z-example-tote-crochet',
-              fallbackImage:
-                'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=600&auto=format&fit=crop&q=80',
-              category: 'handbags',
             },
           ].map((col, idx) => (
             <div
               key={idx}
               onClick={onNavigateToShop}
-              className="group relative h-96 rounded-2xl overflow-hidden cursor-pointer border border-outline-variant/20 shadow-lg"
+              className="group relative h-80 rounded-2xl overflow-hidden cursor-pointer border border-outline-variant/20 shadow-md"
             >
               <img
-                src={col.fallbackImage || col.image}
+                src={col.image}
                 alt={col.title}
-                onError={(e) => {
-                  if (col.fallbackImage) e.target.src = col.fallbackImage;
-                }}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent opacity-90 group-hover:opacity-80 transition-opacity" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-90 group-hover:opacity-85 transition-opacity" />
 
               <div className="absolute bottom-0 left-0 right-0 p-6 space-y-2">
-                <span className="text-[10px] font-label uppercase tracking-widest text-primary font-semibold">
+                <span className="text-[10px] font-label uppercase tracking-widest text-primary font-bold">
                   Collection {idx + 1}
                 </span>
-                <h3 className="font-display text-2xl text-on-background group-hover:text-primary transition-colors">
+                <h3 className="font-display text-xl text-on-background group-hover:text-primary transition-colors">
                   {col.title}
                 </h3>
                 <p className="text-xs text-on-surface-variant line-clamp-2 leading-relaxed">
                   {col.desc}
                 </p>
-                <div className="pt-2 flex items-center gap-2 text-xs font-label uppercase tracking-widest text-primary font-semibold">
+                <div className="pt-2 flex items-center gap-1.5 text-xs font-label uppercase tracking-widest text-primary font-bold">
                   <span>Shop Collection</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -239,34 +227,34 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
         </div>
       </section>
 
-      {/* 3. FEATURED ATELIER DROPS */}
-      <section className="py-20 bg-surface-container-lowest border-y border-outline-variant/10">
-        <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
+      {/* 3. FEATURED ATELIER DROPS (Amazon Style Grid) */}
+      <section className="py-16 bg-surface-container-lowest border-y border-outline-variant/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-4">
             <div>
-              <span className="font-label text-xs uppercase tracking-widest text-primary font-semibold">
-                Signature Pieces
+              <span className="font-label text-xs uppercase tracking-widest text-primary font-bold">
+                Artisan Catalog
               </span>
-              <h2 className="font-display text-3xl sm:text-4xl text-on-background mt-1">
-                Featured Karigari Drops
+              <h2 className="font-display text-2xl sm:text-3xl text-on-background mt-1">
+                Featured Handcrafted Pieces (INR)
               </h2>
             </div>
             <button
               onClick={onNavigateToShop}
-              className="text-xs font-label uppercase tracking-widest text-primary hover:underline flex items-center gap-1.5"
+              className="text-xs font-label uppercase tracking-widest text-primary font-bold hover:underline flex items-center gap-1.5"
             >
-              <span>View Full Atelier Catalog</span>
+              <span>View All {PRODUCTS.length} Pieces</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {featuredProducts.map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}
                 layoutMode="grid"
-                onOpenModal={setSelectedProductForModal}
+                onQuickView={(p) => setSelectedProductForModal(p)}
               />
             ))}
           </div>

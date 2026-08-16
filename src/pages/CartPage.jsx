@@ -95,22 +95,20 @@ export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
           {/* Left Column: Cart Items List */}
           <div className="lg:col-span-8 flex flex-col gap-6">
             {/* Complimentary shipping banner */}
-            <div className="p-4 bg-surface-container rounded border border-outline-variant/15 text-xs">
+            <div className="p-4 bg-surface-container rounded-xl border border-outline-variant/15 text-xs">
               {isFreeShipping ? (
                 <div className="flex items-center gap-2 text-primary font-medium">
                   <Sparkles className="w-4 h-4" />
-                  <span>
-                    Complimentary White-Glove Atelier Delivery is included with this acquisition.
-                  </span>
+                  <span>Complimentary Fast Delivery is unlocked for this order!</span>
                 </div>
               ) : (
                 <div className="space-y-1.5">
                   <p className="text-on-surface-variant">
                     Add{' '}
-                    <strong className="text-primary font-semibold">
-                      ${amountNeededForFreeShipping.toFixed(2)}
+                    <strong className="text-primary font-bold">
+                      ₹{amountNeededForFreeShipping.toFixed(0)}
                     </strong>{' '}
-                    more to qualify for complimentary shipping.
+                    more to qualify for FREE delivery.
                   </p>
                   <div className="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
                     <div
@@ -128,9 +126,9 @@ export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
             {items.map((item) => (
               <article
                 key={item.id}
-                className="flex flex-col sm:flex-row gap-6 p-6 rounded bg-surface-container-low border border-outline-variant/20 hover:bg-surface-container transition-colors duration-300"
+                className="flex flex-col sm:flex-row gap-5 p-5 rounded-xl bg-surface-container-low border border-outline-variant/20 hover:bg-surface-container transition-colors duration-300"
               >
-                <div className="w-full sm:w-44 h-44 bg-surface-variant rounded overflow-hidden shrink-0 relative group">
+                <div className="w-full sm:w-36 h-36 bg-surface-variant rounded-lg overflow-hidden shrink-0 relative group">
                   <img
                     src={item.image}
                     alt={item.name}
@@ -141,21 +139,26 @@ export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
                 <div className="flex flex-col flex-grow justify-between py-1">
                   <div>
                     <div className="flex justify-between items-start mb-1">
-                      <h3 className="font-headline text-lg md:text-xl text-on-surface font-medium">
-                        {item.name}
-                      </h3>
-                      <span className="font-headline text-base md:text-lg text-on-surface font-semibold pl-4">
-                        ${(item.price * item.quantity).toFixed(2)}
+                      <div>
+                        <span className="text-[10px] text-on-surface-variant font-mono block">
+                          SKU / ID: {item.id}
+                        </span>
+                        <h3 className="font-headline text-base md:text-lg text-on-surface font-semibold">
+                          {item.name}
+                        </h3>
+                      </div>
+                      <span className="font-headline text-lg md:text-xl text-on-surface font-bold pl-4 whitespace-nowrap">
+                        ₹{item.price * item.quantity}
                       </span>
                     </div>
-                    <p className="font-body text-xs text-on-surface-variant mb-4">
+                    <p className="font-body text-xs text-on-surface-variant mb-3">
                       {item.subtitle}
                     </p>
                   </div>
 
                   <div className="flex justify-between items-center pt-3 border-t border-outline-variant/10">
                     {/* Quantity Stepper */}
-                    <div className="flex items-center border border-outline-variant/30 rounded bg-surface-container-high">
+                    <div className="flex items-center border border-outline-variant/30 rounded-lg bg-surface-container-high">
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
                         className="p-1.5 px-3 text-on-surface-variant hover:text-on-surface transition-colors"
@@ -163,7 +166,7 @@ export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
                       >
                         <Minus className="w-3.5 h-3.5" />
                       </button>
-                      <span className="px-3 font-headline text-xs font-semibold text-on-surface">
+                      <span className="px-3 font-headline text-xs font-bold text-on-surface">
                         {item.quantity}
                       </span>
                       <button
@@ -193,7 +196,7 @@ export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
 
           {/* Right Column: Order Summary Card */}
           <div className="lg:col-span-4">
-            <div className="bg-surface-container-low p-6 md:p-8 rounded border border-outline-variant/20 sticky top-28 space-y-6">
+            <div className="bg-surface-container-low p-6 md:p-8 rounded-2xl border border-outline-variant/20 sticky top-28 space-y-6">
               <h2 className="font-display text-xl text-on-background pb-4 border-b border-outline-variant/10">
                 Order Summary
               </h2>
@@ -201,10 +204,10 @@ export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
               {/* Promo Code Input */}
               <div>
                 <label className="font-label text-[11px] uppercase tracking-widest text-on-surface-variant block mb-2">
-                  Atelier Privilege Code
+                  Atelier Privilege Voucher
                 </label>
                 {appliedPromo ? (
-                  <div className="flex items-center justify-between p-3 bg-surface-container rounded border border-primary/30 text-xs">
+                  <div className="flex items-center justify-between p-3 bg-surface-container rounded-lg border border-primary/30 text-xs">
                     <div className="flex items-center gap-2 text-primary font-medium">
                       <Tag className="w-3.5 h-3.5" />
                       <span>
@@ -223,55 +226,60 @@ export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
                   <form onSubmit={handleApplyPromo} className="flex gap-2">
                     <input
                       type="text"
-                      placeholder="e.g. ATELIER10"
+                      placeholder="e.g. KNOTKARI20"
                       value={promoInput}
                       onChange={(e) => setPromoInput(e.target.value)}
-                      className="ghost-input flex-1 py-1.5 text-xs uppercase tracking-wider"
+                      className="ghost-input flex-1 py-1.5 text-xs uppercase tracking-wider rounded-lg"
                     />
                     <button
                       type="submit"
-                      className="px-4 py-2 bg-surface-container-high hover:bg-surface-bright text-on-surface border border-outline-variant/30 text-[11px] font-label uppercase tracking-widest rounded"
+                      className="px-4 py-2 bg-surface-container-high hover:bg-surface-bright text-on-surface border border-outline-variant/30 text-[11px] font-label uppercase tracking-widest rounded-lg font-bold"
                     >
                       Apply
                     </button>
                   </form>
                 )}
                 <p className="text-[10px] text-on-surface-variant/70 mt-1.5">
-                  Try test privileges: <code className="text-primary font-mono">SLOWCRAFT15</code>{' '}
-                  or <code className="text-primary font-mono">KNOTKARI20</code>
+                  Available vouchers:{' '}
+                  <code className="text-primary font-mono font-bold">KNOTKARI20</code> or{' '}
+                  <code className="text-primary font-mono font-bold">SLOWCRAFT15</code>
                 </p>
               </div>
 
               {/* Cost Breakdown */}
               <div className="space-y-3 pt-2 text-sm text-on-surface-variant border-t border-outline-variant/10">
                 <div className="flex justify-between">
-                  <span>Bag Subtotal</span>
-                  <span className="text-on-surface">${subtotal.toFixed(2)}</span>
+                  <span>Cart Subtotal</span>
+                  <span className="text-on-surface font-semibold">₹{subtotal.toFixed(0)}</span>
                 </div>
 
                 {appliedPromo && (
-                  <div className="flex justify-between text-primary">
+                  <div className="flex justify-between text-primary font-semibold">
                     <span>Privilege Discount</span>
-                    <span>-${discountAmount.toFixed(2)}</span>
+                    <span>-₹{discountAmount.toFixed(0)}</span>
                   </div>
                 )}
 
                 <div className="flex justify-between">
-                  <span>Estimated Shipping</span>
-                  <span className="text-on-surface">
-                    {isFreeShipping ? 'Complimentary' : `$${shippingCost.toFixed(2)}`}
+                  <span>Estimated Delivery</span>
+                  <span className="text-on-surface font-medium">
+                    {isFreeShipping ? (
+                      <span className="text-emerald-600 dark:text-emerald-400 font-bold">FREE</span>
+                    ) : (
+                      `₹${shippingCost.toFixed(0)}`
+                    )}
                   </span>
                 </div>
 
-                <div className="flex justify-between">
-                  <span>Estimated Tax (8%)</span>
-                  <span className="text-on-surface">${taxAmount.toFixed(2)}</span>
+                <div className="flex justify-between text-xs text-on-surface-variant">
+                  <span>Taxes</span>
+                  <span className="text-on-surface">Inclusive of all taxes</span>
                 </div>
 
-                <div className="flex justify-between text-base font-semibold text-on-surface pt-4 border-t border-outline-variant/15">
-                  <span className="font-display">Total Due</span>
-                  <span className="font-headline text-xl text-primary">
-                    ${grandTotal.toFixed(2)}
+                <div className="flex justify-between text-base font-bold text-on-surface pt-4 border-t border-outline-variant/15">
+                  <span className="font-display">Total Amount</span>
+                  <span className="font-headline text-2xl text-primary font-bold">
+                    ₹{grandTotal.toFixed(0)}
                   </span>
                 </div>
               </div>
@@ -279,7 +287,7 @@ export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
               {/* Checkout CTA */}
               <button
                 onClick={handleCheckoutClick}
-                className="w-full py-4 bg-on-background hover:bg-primary-fixed text-background hover:text-on-primary-fixed font-label text-xs uppercase tracking-widest font-semibold rounded flex items-center justify-center gap-2 transition-all duration-300 shadow-xl"
+                className="w-full py-4 bg-[#ffd814] hover:bg-[#f7ca00] active:bg-[#f0b800] text-[#0f1111] border border-[#fcd200] font-label text-xs uppercase tracking-widest font-bold rounded-full flex items-center justify-center gap-2 transition-all duration-200 shadow-md"
               >
                 <span>Proceed to Checkout</span>
                 <ArrowRight className="w-4 h-4" />
@@ -288,10 +296,10 @@ export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
               {/* Trust Badges */}
               <div className="pt-2 flex items-center justify-center gap-4 text-[11px] text-on-surface-variant/80">
                 <span className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-primary" /> Secure 256-bit Encrypted
+                  <ShieldCheck className="w-3.5 h-3.5 text-primary" /> Razorpay 256-bit Encrypted
                 </span>
                 <span>•</span>
-                <span>White-Glove Box Packaging</span>
+                <span>Free Gift Wrap</span>
               </div>
             </div>
           </div>
@@ -300,38 +308,43 @@ export function CartPage({ onNavigateToCheckout, onNavigateToShop }) {
 
       {/* Cross-Sell Recommendations Section */}
       {recommendations.length > 0 && (
-        <section className="mt-24 pt-12 border-t border-outline-variant/15">
-          <div className="mb-8">
-            <h3 className="font-display text-2xl text-on-background mb-2">Curated Complements</h3>
+        <section className="mt-20 pt-10 border-t border-outline-variant/15">
+          <div className="mb-6">
+            <h3 className="font-display text-2xl text-on-background mb-1">
+              Frequently Bought Together
+            </h3>
             <p className="text-xs font-body text-on-surface-variant">
-              Pieces selected by our master stitchers to pair with your selections.
+              Complete your bouquet arrangement with curated handmade pieces.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {recommendations.map((rec) => (
               <div
                 key={rec.id}
-                className="bg-surface-container-low p-4 rounded border border-outline-variant/15 flex gap-4 items-center group"
+                className="bg-surface-container-low p-4 rounded-xl border border-outline-variant/15 flex gap-4 items-center group"
               >
                 <img
                   src={rec.image}
                   alt={rec.name}
-                  className="w-16 h-16 rounded object-cover bg-surface-variant shrink-0"
+                  className="w-16 h-16 rounded-lg object-cover bg-surface-variant shrink-0"
                 />
-                <div className="flex-1">
-                  <h4 className="font-headline text-sm text-on-surface group-hover:text-primary transition-colors">
+                <div className="flex-1 min-w-0">
+                  <span className="text-[10px] text-on-surface-variant font-mono">
+                    ID: {rec.id}
+                  </span>
+                  <h4 className="font-headline text-sm font-semibold text-on-surface group-hover:text-primary transition-colors truncate">
                     {rec.name}
                   </h4>
-                  <p className="font-headline text-xs text-primary font-semibold mt-0.5">
-                    ${rec.price}
+                  <p className="font-headline text-sm text-primary font-bold mt-0.5">
+                    ₹{rec.price}
                   </p>
                 </div>
                 <button
                   onClick={() => addToCart(rec, 1)}
-                  className="px-3 py-2 bg-surface-container-high hover:bg-primary text-on-surface hover:text-on-primary text-[10px] font-label uppercase tracking-wider rounded transition-colors"
+                  className="px-3 py-1.5 bg-[#ffd814] hover:bg-[#f7ca00] text-[#0f1111] font-bold text-xs rounded-full border border-[#fcd200] transition-colors whitespace-nowrap shadow-xs"
                 >
-                  Add
+                  + Add
                 </button>
               </div>
             ))}

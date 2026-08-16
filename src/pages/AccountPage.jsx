@@ -281,7 +281,7 @@ export function AccountPage({ onNavigateToShop, onNavigateToAuth }) {
                   </div>
                   <div className="text-left sm:text-right">
                     <span className="font-headline text-lg text-primary font-bold">
-                      ${order.total?.toFixed ? order.total.toFixed(2) : order.total}
+                      ₹{order.total?.toFixed ? order.total.toFixed(0) : order.total}
                     </span>
                     <p className="text-xs font-mono text-on-surface-variant mt-0.5">
                       Tracking: {order.trackingNumber}
@@ -347,7 +347,7 @@ export function AccountPage({ onNavigateToShop, onNavigateToAuth }) {
                       <span className="font-medium">
                         {item.quantity}x {item.name}
                       </span>
-                      <span className="font-mono">${(item.price * item.quantity).toFixed(2)}</span>
+                      <span className="font-mono">₹{item.price * item.quantity}</span>
                     </div>
                   ))}
                   {order.paymentGateway && (
@@ -590,8 +590,8 @@ export function AccountPage({ onNavigateToShop, onNavigateToAuth }) {
                     />
                     <div>
                       <h4 className="font-headline text-base text-on-surface">{item.name}</h4>
-                      <p className="font-headline text-sm text-primary font-semibold mt-1">
-                        ${item.price}
+                      <p className="font-headline text-sm text-primary font-bold mt-1">
+                        ₹{item.price}
                       </p>
                       <p className="text-[11px] text-on-surface-variant line-clamp-1 mt-1">
                         {item.subtitle}
@@ -649,8 +649,8 @@ export function AccountPage({ onNavigateToShop, onNavigateToAuth }) {
             </div>
 
             <p className="text-xs text-on-surface-variant">
-              Earn 2 points for every $1 spent on bespoke handcrafted orders. Unlock complimentary
-              bespoke floral commissions at 2,000 points.
+              Earn 2 points for every ₹100 spent on handcrafted orders. Unlock complimentary
+              botanical commissions at 2,000 points.
             </p>
           </div>
 
@@ -663,8 +663,8 @@ export function AccountPage({ onNavigateToShop, onNavigateToAuth }) {
               </div>
               <div className="space-y-3">
                 {[
-                  { code: 'KNOTKARI20', desc: '20% off custom bouquet commissions', min: '$150' },
-                  { code: 'SLOWCRAFT15', desc: '15% off any heirloom handbag', min: 'No min' },
+                  { code: 'KNOTKARI20', desc: '20% off custom bouquet commissions', min: '₹200' },
+                  { code: 'SLOWCRAFT15', desc: '15% off any handmade creation', min: 'No min' },
                 ].map((v, i) => (
                   <div
                     key={i}
@@ -697,7 +697,7 @@ export function AccountPage({ onNavigateToShop, onNavigateToAuth }) {
                 <span>Invite Discerning Friends</span>
               </div>
               <p className="text-xs text-on-surface-variant leading-relaxed">
-                Gift your friends $25 off their first KNOTKARI acquisition. You will receive 300 VIP
+                Gift your friends ₹50 off their first KNOTKARI acquisition. You will receive 300 VIP
                 reward points upon their completed order.
               </p>
               <div className="flex gap-2">

@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { solveClientProofOfWork, validateHoneypot } from '../utils/rateLimiter';
 import { saveOrderToSupabase } from '../lib/supabase';
-import { openRazorpayCheckout } from '../lib/razorpay';
+import { createServerOrder, openRazorpayCheckout } from '../lib/razorpay';
 import confetti from 'canvas-confetti';
 import {
   ShieldCheck,
@@ -28,6 +28,7 @@ export function CheckoutPage({ onNavigateToShop }) {
     grandTotal,
     clearCart,
     isFreeShipping,
+    appliedPromo,
   } = useCart();
 
   const { user, isAuthenticated, addOrder } = useAuth();
@@ -144,18 +145,35 @@ export function CheckoutPage({ onNavigateToShop }) {
       await solveClientProofOfWork(2);
 
       if (paymentMethod === 'razorpay') {
-        // Open Official Razorpay Checkout Modal
+        // Server-authoritative order creation (Edge Function validates
+        // voucher + re-prices the cart from the DB before Razorpay is opened).
+        const serverOrder = await createServerOrder({
+          items: items.map((i) => ({
+            id: i.id,
+            quantity: i.quantity,
+            unitPrice: i.price,
+          })),
+          voucherCode: appliedPromo?.code || null,
+          customerName: formData.name,
+          customerEmail: formData.email,
+          customerPhone: formData.phone || undefined,
+        });
+
+        if (!serverOrder.ok || !serverOrder.razorpay_order_id) {
+          setIsProcessing(false);
+          addToast(serverOrder.error || 'Order authorization failed. Please retry.', 'error');
+          return;
+        }
+
         await openRazorpayCheckout({
-          amount: grandTotal + (deliveryMethod === 'express' ? 20 : 0),
-          currency: 'INR',
-          orderId: `KNOT-${Math.floor(100000 + Math.random() * 900000)}`,
+          serverOrder,
           customer: {
             name: formData.name,
             email: formData.email,
             contact: formData.phone || '9876543210',
           },
           onSuccess: (response) => {
-            finalizeOrder(response);
+            finalizeOrder(response, serverOrder);
           },
           onFailure: (err) => {
             setIsProcessing(false);
@@ -278,14 +296,14 @@ export function CheckoutPage({ onNavigateToShop }) {
                   <span>
                     {item.quantity}x {item.name}
                   </span>
-                  <span className="font-mono">${(item.price * item.quantity).toFixed(2)}</span>
+                  <span className="font-mono">₹{item.price * item.quantity}</span>
                 </div>
               ))}
             </div>
 
             <div className="pt-3 border-t border-outline-variant/10 flex justify-between text-base font-semibold text-on-background">
               <span>Total Charged</span>
-              <span className="text-primary font-bold">${confirmedOrder.total.toFixed(2)}</span>
+              <span className="text-primary font-bold">₹{confirmedOrder.total}</span>
             </div>
           </div>
 
@@ -486,15 +504,15 @@ export function CheckoutPage({ onNavigateToShop }) {
                       id: 'standard',
                       title: 'Standard Atelier Dispatch',
                       desc: 'Archival Kraft box with natural twine ribbon & botanical wax seal.',
-                      time: '4–7 business days',
-                      price: isFreeShipping ? 'FREE' : '$15.00',
+                      time: '3–5 business days',
+                      price: isFreeShipping ? 'FREE' : '₹40.00',
                     },
                     {
                       id: 'express',
                       title: 'Express White-Glove Insured Courier',
                       desc: 'Rigid midnight gift casket with padded silk satin lining & direct artisan dispatch.',
-                      time: '2–3 business days',
-                      price: '$35.00',
+                      time: '1–2 business days',
+                      price: '₹99.00',
                     },
                   ].map((method) => (
                     <label
@@ -696,8 +714,8 @@ export function CheckoutPage({ onNavigateToShop }) {
                     ) : (
                       <>
                         <span>
-                          Pay ${grandTotal.toFixed(2)} via{' '}
-                          {paymentMethod === 'razorpay' ? 'Razorpay' : 'Card'}
+                          Pay ₹{grandTotal.toFixed(0)} via{' '}
+                          {paymentMethod === 'razorpay' ? 'Razorpay (UPI / Cards)' : 'Card'}
                         </span>
                         <Lock className="w-4 h-4" />
                       </>
@@ -726,11 +744,11 @@ export function CheckoutPage({ onNavigateToShop }) {
                         {item.name}
                       </h4>
                       <p className="text-xs text-on-surface-variant font-mono">
-                        {item.quantity}x @ ${item.price}
+                        {item.quantity}x @ ₹{item.price}
                       </p>
                     </div>
                     <span className="font-mono text-sm font-semibold text-primary">
-                      ${(item.price * item.quantity).toFixed(2)}
+                      ₹{item.price * item.quantity}
                     </span>
                   </div>
                 ))}
@@ -739,32 +757,32 @@ export function CheckoutPage({ onNavigateToShop }) {
               <div className="pt-4 border-t border-outline-variant/10 space-y-2 text-xs text-on-surface-variant">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span className="font-mono text-on-surface">${subtotal.toFixed(2)}</span>
+                  <span className="font-mono text-on-surface">₹{subtotal.toFixed(0)}</span>
                 </div>
                 {discountAmount > 0 && (
                   <div className="flex justify-between text-emerald-400">
                     <span>Privilege Voucher</span>
-                    <span className="font-mono">-${discountAmount.toFixed(2)}</span>
+                    <span className="font-mono">-₹{discountAmount.toFixed(0)}</span>
                   </div>
                 )}
                 <div className="flex justify-between">
                   <span>Shipping</span>
                   <span className="font-mono text-on-surface">
                     {deliveryMethod === 'express'
-                      ? '$35.00'
+                      ? '₹99'
                       : isFreeShipping
                         ? 'FREE'
-                        : `$${shippingCost.toFixed(2)}`}
+                        : `₹${shippingCost.toFixed(0)}`}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Taxes (Estimated)</span>
-                  <span className="font-mono text-on-surface">${taxAmount.toFixed(2)}</span>
+                  <span>Taxes</span>
+                  <span className="font-mono text-on-surface">Inclusive</span>
                 </div>
                 <div className="pt-3 border-t border-outline-variant/15 flex justify-between text-base font-semibold text-on-background">
                   <span>Total Amount</span>
                   <span className="text-primary font-bold">
-                    ${(grandTotal + (deliveryMethod === 'express' ? 20 : 0)).toFixed(2)}
+                    ₹{(grandTotal + (deliveryMethod === 'express' ? 59 : 0)).toFixed(0)}
                   </span>
                 </div>
               </div>

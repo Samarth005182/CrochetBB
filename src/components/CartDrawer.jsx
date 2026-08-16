@@ -13,7 +13,7 @@ export function CartDrawer({ onNavigateToCheckout, onNavigateToCart }) {
     isFreeShipping,
     amountNeededForFreeShipping,
     freeShippingThreshold,
-    triggerTrafficSurgeCheckout
+    triggerTrafficSurgeCheckout,
   } = useCart();
 
   if (!isCartDrawerOpen) return null;
@@ -60,12 +60,16 @@ export function CartDrawer({ onNavigateToCheckout, onNavigateToCart }) {
             {isFreeShipping ? (
               <div className="flex items-center gap-1.5 text-primary font-medium">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>Complimentary White-Glove Atelier Shipping unlocked!</span>
+                <span>Complimentary Fast Delivery unlocked!</span>
               </div>
             ) : (
               <div>
                 <p className="text-on-surface-variant mb-1.5">
-                  Add <strong className="text-primary">${amountNeededForFreeShipping.toFixed(2)}</strong> more for complimentary luxury delivery.
+                  Add{' '}
+                  <strong className="text-primary">
+                    ₹{amountNeededForFreeShipping.toFixed(0)}
+                  </strong>{' '}
+                  more for FREE delivery.
                 </p>
                 <div className="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
                   <div
@@ -84,26 +88,26 @@ export function CartDrawer({ onNavigateToCheckout, onNavigateToCart }) {
                 <div className="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mx-auto text-on-surface-variant border border-outline-variant/20">
                   <ShoppingBag className="w-8 h-8 opacity-40" />
                 </div>
-                <p className="font-display text-lg text-on-surface">Your bag is empty</p>
+                <p className="font-display text-lg text-on-surface">Your cart is empty</p>
                 <p className="text-xs text-on-surface-variant max-w-xs mx-auto">
-                  Explore our curated artisan collections to acquire handcrafted heirloom pieces.
+                  Explore our handcrafted crochet creations to add everlasting floral items.
                 </p>
               </div>
             ) : (
               items.map((item) => (
                 <div
                   key={item.id}
-                  className="flex gap-4 p-3 bg-surface-container rounded border border-outline-variant/10 hover:border-outline-variant/25 transition-colors"
+                  className="flex gap-4 p-3 bg-surface-container rounded-lg border border-outline-variant/10 hover:border-outline-variant/25 transition-colors"
                 >
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="w-20 h-20 object-cover rounded shrink-0 bg-surface-variant"
+                    className="w-16 h-16 object-cover rounded-md shrink-0 bg-surface-variant"
                   />
                   <div className="flex-1 flex flex-col justify-between">
                     <div>
                       <div className="flex justify-between items-start">
-                        <h4 className="font-headline text-sm text-on-surface font-medium leading-snug">
+                        <h4 className="font-headline text-sm text-on-surface font-semibold leading-snug">
                           {item.name}
                         </h4>
                         <button
@@ -114,13 +118,13 @@ export function CartDrawer({ onNavigateToCheckout, onNavigateToCart }) {
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
-                      <p className="text-[11px] text-on-surface-variant line-clamp-1 mt-0.5">
-                        {item.subtitle}
+                      <p className="text-[10px] text-on-surface-variant font-mono mt-0.5">
+                        ID: {item.id}
                       </p>
                     </div>
 
                     <div className="flex justify-between items-center mt-2">
-                      <div className="flex items-center border border-outline-variant/30 rounded bg-surface-container-high text-xs">
+                      <div className="flex items-center border border-outline-variant/30 rounded-lg bg-surface-container-high text-xs">
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
                           className="p-1 px-2 text-on-surface-variant hover:text-on-surface"
@@ -128,7 +132,7 @@ export function CartDrawer({ onNavigateToCheckout, onNavigateToCart }) {
                         >
                           <Minus className="w-3 h-3" />
                         </button>
-                        <span className="px-2 font-medium">{item.quantity}</span>
+                        <span className="px-2 font-bold">{item.quantity}</span>
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
                           className="p-1 px-2 text-on-surface-variant hover:text-on-surface"
@@ -137,8 +141,8 @@ export function CartDrawer({ onNavigateToCheckout, onNavigateToCart }) {
                           <Plus className="w-3 h-3" />
                         </button>
                       </div>
-                      <span className="font-headline text-sm font-semibold text-on-surface">
-                        ${(item.price * item.quantity).toFixed(2)}
+                      <span className="font-headline text-sm font-bold text-on-surface">
+                        ₹{item.price * item.quantity}
                       </span>
                     </div>
                   </div>
@@ -151,9 +155,11 @@ export function CartDrawer({ onNavigateToCheckout, onNavigateToCart }) {
           {items.length > 0 && (
             <div className="p-6 bg-surface-container-lowest border-t border-outline-variant/10 space-y-4">
               <div className="flex justify-between items-center text-sm">
-                <span className="text-on-surface-variant uppercase tracking-wider font-label text-xs">Estimated Subtotal</span>
-                <span className="font-headline text-lg font-semibold text-on-surface">
-                  ${subtotal.toFixed(2)}
+                <span className="text-on-surface-variant uppercase tracking-wider font-label text-xs">
+                  Subtotal
+                </span>
+                <span className="font-headline text-xl font-bold text-on-surface">
+                  ₹{subtotal.toFixed(0)}
                 </span>
               </div>
 
