@@ -3,13 +3,13 @@ import { useSearchParams } from 'react-router-dom';
 import { Seo } from '../lib/seo';
 
 const FUNCTIONS_BASE =
-  (import.meta.env.VITE_SUPABASE_URL || 'https://nagpjggmajzavpipdgoe.supabase.co') +
+  (import.meta.env.VITE_SUPABASE_URL || 'https://abrueeofowwpdpokdlba.supabase.co') +
   '/functions/v1';
 
 export function NewsletterConfirmPage() {
   const [params] = useSearchParams();
   const token = params.get('token') || '';
-  const [state, setState] = (useState < 'pending') | 'verified' | ('failed' > 'pending');
+  const [state, setState] = useState('pending');
 
   useEffect(() => {
     if (!token) return setState('failed');

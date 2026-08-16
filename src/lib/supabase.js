@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 import { PRODUCTS as FALLBACK_PRODUCTS } from '../data/products';
 import { safeQuery } from './safeQuery';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://nagpjggmajzavpipdgoe.supabase.co';
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://abrueeofowwpdpokdlba.supabase.co';
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'placeholder_anon_key';
 
 // Initialize Supabase Client
@@ -87,18 +87,25 @@ export async function saveOrderToSupabase(orderData) {
           {
             order_number: orderData.id,
             tracking_number: orderData.trackingNumber,
-            customer_name: orderData.shippingAddress.name,
-            customer_email: orderData.shippingAddress.email,
-            shipping_address: orderData.shippingAddress,
-            delivery_method: orderData.deliveryMethod,
-            items: orderData.items,
-            subtotal: orderData.subtotal,
-            shipping: orderData.shipping,
-            tax: orderData.tax,
-            total: orderData.total,
+            customer_name:
+              orderData.shippingAddress?.name || orderData.customer_name || 'Valued Patron',
+            customer_email:
+              orderData.shippingAddress?.email ||
+              orderData.customer_email ||
+              'guest@knotkari.atelier',
+            customer_phone: orderData.shippingAddress?.phone || orderData.customer_phone || null,
+            shipping_address: orderData.shippingAddress || {},
+            delivery_method: orderData.deliveryMethod || 'Standard Atelier Delivery',
+            items: orderData.items || [],
+            subtotal: orderData.subtotal || 0,
+            shipping: orderData.shipping || 0,
+            tax: orderData.tax || 0,
+            total: orderData.total || 0,
             voucher_code: orderData.voucherCode || null,
             voucher_discount: orderData.voucherDiscount || 0,
-            status: 'pending',
+            status: orderData.status || 'paid',
+            payment_provider: orderData.paymentGateway || 'razorpay',
+            payment_id: orderData.paymentId || null,
           },
         ])
         .select(),

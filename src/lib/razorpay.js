@@ -14,7 +14,7 @@
 export const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_KnotkariAtelier2026';
 
 const SUPABASE_FUNCTIONS_BASE =
-  (import.meta.env.VITE_SUPABASE_URL || 'https://nagpjggmajzavpipdgoe.supabase.co') +
+  (import.meta.env.VITE_SUPABASE_URL || 'https://abrueeofowwpdpokdlba.supabase.co') +
   '/functions/v1';
 
 /**
