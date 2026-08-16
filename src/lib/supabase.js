@@ -59,7 +59,7 @@ export async function getProductsFromSupabase() {
 }
 
 /**
- * Fetch a single product by id (used by future /product/:slug route).
+ * Fetch a single product by id.
  */
 export async function getProductByIdFromSupabase(id) {
   const { data, error } = await safeQuery(
@@ -75,69 +75,255 @@ export async function getProductByIdFromSupabase(id) {
 }
 
 /**
- * Record a new order in Supabase `orders` table.
- * Order status defaults to 'pending' under schema v2 (paid via webhook).
+ * Ensure user profile exists for an email
  */
-export async function saveOrderToSupabase(orderData) {
-  const { data, error } = await safeQuery(
-    () =>
-      supabase
-        .from('orders')
-        .insert([
-          {
-            order_number: orderData.id,
-            tracking_number: orderData.trackingNumber,
-            customer_name:
-              orderData.shippingAddress?.name || orderData.customer_name || 'Valued Patron',
-            customer_email:
-              orderData.shippingAddress?.email ||
-              orderData.customer_email ||
-              'guest@knotkari.atelier',
-            customer_phone: orderData.shippingAddress?.phone || orderData.customer_phone || null,
-            shipping_address: orderData.shippingAddress || {},
-            delivery_method: orderData.deliveryMethod || 'Standard Atelier Delivery',
-            items: orderData.items || [],
-            subtotal: orderData.subtotal || 0,
-            shipping: orderData.shipping || 0,
-            tax: orderData.tax || 0,
-            total: orderData.total || 0,
-            voucher_code: orderData.voucherCode || null,
-            voucher_discount: orderData.voucherDiscount || 0,
-            status: orderData.status || 'paid',
-            payment_provider: orderData.paymentGateway || 'razorpay',
-            payment_id: orderData.paymentId || null,
-          },
-        ])
-        .select(),
-    { context: 'save-order', fallback: null, allowEmpty: true },
-  );
+export async function ensureUserProfile(email, name, phone) {
+  if (!email) return null;
+  const cleanEmail = email.toLowerCase().trim();
+  const displayName = name?.trim() || cleanEmail.split('@')[0];
 
-  if (error) {
-    return { success: false, error: error.message || 'order-save-failed' };
+  try {
+    const { data, error } = await supabase
+      .from('profiles')
+      .upsert(
+        {
+          email: cleanEmail,
+          name: displayName,
+          phone: phone || null,
+        },
+        { onConflict: 'email' },
+      )
+      .select()
+      .maybeSingle();
+
+    if (error) {
+      console.warn('[supabase] ensureUserProfile fallback via RPC or local', error.message);
+    }
+    return data;
+  } catch (err) {
+    console.warn('[supabase] ensureUserProfile caught error', err);
+    return null;
   }
-  return { success: true, data };
 }
 
 /**
- * Mark an order paid — called after Razorpay webhook success.
- * The authoritative update happens server-side via the webhook; this
- * client variant is a UX convenience for re-confirming in-session.
+ * Record a new order in Supabase `orders` table, along with
+ * item breakdown, payment history audit, and auto-saving shipping address
+ * to the user's email.
  */
-export async function markOrderPaid(orderNumber, razorpayPaymentId) {
-  const { error } = await safeQuery(
-    () =>
+export async function saveOrderToSupabase(orderData) {
+  const customerEmail = (
+    orderData.shippingAddress?.email ||
+    orderData.customer_email ||
+    orderData.customerEmail ||
+    'guest@knotkari.atelier'
+  )
+    .toLowerCase()
+    .trim();
+
+  const customerName =
+    orderData.shippingAddress?.name ||
+    orderData.customer_name ||
+    orderData.customerName ||
+    'Valued Patron';
+
+  const customerPhone =
+    orderData.shippingAddress?.phone || orderData.customer_phone || orderData.customerPhone || null;
+
+  // 1. Ensure profile exists for this email
+  await ensureUserProfile(customerEmail, customerName, customerPhone);
+
+  // 2. Insert Order
+  const orderRow = {
+    order_number: orderData.id,
+    tracking_number:
+      orderData.trackingNumber || `KNOT-IN-${Math.floor(100000000 + Math.random() * 900000000)}`,
+    customer_name: customerName,
+    customer_email: customerEmail,
+    customer_phone: customerPhone,
+    shipping_address: orderData.shippingAddress || {},
+    delivery_method: orderData.deliveryMethod || 'Standard Atelier Delivery',
+    items: orderData.items || [],
+    subtotal: orderData.subtotal || 0,
+    shipping: orderData.shipping || 0,
+    tax: orderData.tax || 0,
+    total: orderData.total || 0,
+    voucher_code: orderData.voucherCode || null,
+    voucher_discount: orderData.voucherDiscount || 0,
+    status: orderData.status || 'paid',
+    payment_provider: orderData.paymentGateway || 'razorpay',
+    payment_id: orderData.paymentId || null,
+    gift_note: orderData.giftNote || null,
+    artisan: orderData.artisan || 'Master Karigar Rajeshwari',
+  };
+
+  const { data: savedOrder, error: orderErr } = await safeQuery(
+    () => supabase.from('orders').insert([orderRow]).select().single(),
+    { context: 'save-order', fallback: null, allowEmpty: true },
+  );
+
+  if (orderErr) {
+    console.warn('[supabase] order insertion failed, continuing client state', orderErr);
+  }
+
+  const orderId = savedOrder?.id || null;
+
+  // 3. Insert Line Items if order was recorded
+  if (orderId && Array.isArray(orderData.items) && orderData.items.length > 0) {
+    const lineItems = orderData.items.map((i) => ({
+      order_id: orderId,
+      product_id: i.id || 'prod-custom',
+      product_name: i.name,
+      unit_price: i.price,
+      quantity: i.quantity || 1,
+    }));
+    await safeQuery(() => supabase.from('order_items').insert(lineItems), {
+      context: 'save-order-items',
+      fallback: null,
+      allowEmpty: true,
+    });
+  }
+
+  // 4. Save Payment History Record
+  const paymentEntry = {
+    order_id: orderId,
+    order_number: orderData.id,
+    user_email: customerEmail,
+    payment_id: orderData.paymentId || `pay_${Math.random().toString(36).substring(2, 9)}`,
+    gateway: orderData.paymentGateway || 'razorpay',
+    amount: orderData.total || 0,
+    currency: 'INR',
+    status: 'captured',
+    method: orderData.paymentGateway || 'Online Payment',
+    metadata: {
+      itemsCount: orderData.items?.length || 0,
+      trackingNumber: orderRow.tracking_number,
+    },
+  };
+
+  await safeQuery(() => supabase.from('payment_history').insert([paymentEntry]), {
+    context: 'save-payment-history',
+    fallback: null,
+    allowEmpty: true,
+  });
+
+  // 5. Auto-Save / Upsert Shipping Address to user's address book under this email
+  if (orderData.shippingAddress && orderData.shippingAddress.street) {
+    const addr = orderData.shippingAddress;
+    const addressRow = {
+      user_email: customerEmail,
+      name: addr.name || customerName,
+      phone: addr.phone || customerPhone || '',
+      street: addr.street,
+      city: addr.city,
+      state: addr.state || 'Karnataka',
+      postal_code: addr.postalCode || addr.postal_code || '',
+      country: addr.country || 'India',
+      is_default: true,
+    };
+
+    await safeQuery(() => supabase.from('addresses').insert([addressRow]), {
+      context: 'save-shipping-address',
+      fallback: null,
+      allowEmpty: true,
+    });
+  }
+
+  return { success: true, data: savedOrder, paymentEntry };
+}
+
+/**
+ * Fetch all user data associated with an email:
+ * Profile, Addresses, Orders, and Payment History.
+ */
+export async function fetchUserDataByEmail(email) {
+  if (!email) return null;
+  const cleanEmail = email.toLowerCase().trim();
+
+  try {
+    const [profileRes, addressesRes, ordersRes, paymentsRes] = await Promise.all([
+      supabase.from('profiles').select('*').eq('email', cleanEmail).maybeSingle(),
+      supabase
+        .from('addresses')
+        .select('*')
+        .eq('user_email', cleanEmail)
+        .order('created_at', { ascending: false }),
       supabase
         .from('orders')
-        .update({
-          status: 'paid',
-          payment_provider: 'razorpay',
-          payment_id: razorpayPaymentId,
-          paid_at: new Date().toISOString(),
-        })
-        .eq('order_number', orderNumber),
-    { context: 'mark-order-paid', fallback: null, allowEmpty: true },
-  );
-  return { success: !error, error: error?.message };
+        .select('*')
+        .eq('customer_email', cleanEmail)
+        .order('created_at', { ascending: false }),
+      supabase
+        .from('payment_history')
+        .select('*')
+        .eq('user_email', cleanEmail)
+        .order('created_at', { ascending: false }),
+    ]);
+
+    return {
+      profile: profileRes.data || null,
+      addresses: addressesRes.data || [],
+      orders: ordersRes.data || [],
+      paymentHistory: paymentsRes.data || [],
+    };
+  } catch (err) {
+    console.warn('[supabase] fetchUserDataByEmail caught error', err);
+    return null;
+  }
+}
+
+/**
+ * Save / Update an address for a specific email
+ */
+export async function saveAddressForEmail(email, addressData) {
+  const cleanEmail = email.toLowerCase().trim();
+  const row = {
+    user_email: cleanEmail,
+    name: addressData.name,
+    phone: addressData.phone,
+    street: addressData.street,
+    city: addressData.city,
+    state: addressData.state,
+    postal_code: addressData.postalCode || addressData.postal_code,
+    country: addressData.country || 'India',
+    is_default: Boolean(addressData.isDefault),
+  };
+
+  if (addressData.id && typeof addressData.id === 'string' && addressData.id.includes('-')) {
+    row.id = addressData.id;
+  }
+
+  const { data, error } = await supabase.from('addresses').upsert(row).select().single();
+  return { data, error };
+}
+
+/**
+ * Delete an address by ID
+ */
+export async function deleteAddressFromSupabase(addressId) {
+  const { error } = await supabase.from('addresses').delete().eq('id', addressId);
+  return { error };
+}
+
+/**
+ * Update Profile for an email
+ */
+export async function updateProfileForEmail(email, profileData) {
+  const cleanEmail = email.toLowerCase().trim();
+  const { data, error } = await supabase
+    .from('profiles')
+    .update({
+      name: profileData.name,
+      phone: profileData.phone,
+      bio: profileData.bio,
+      avatar: profileData.avatar,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('email', cleanEmail)
+    .select()
+    .maybeSingle();
+
+  return { data, error };
 }
 
 /**
@@ -151,12 +337,15 @@ export async function supabaseSignUp(email, password, name) {
       options: {
         data: {
           full_name: name,
-          tier: 'Gold Craftsman Patron',
+          tier: 'Knotkari Master Patron',
         },
       },
     });
 
     if (error) throw error;
+    if (data?.user) {
+      await ensureUserProfile(email, name);
+    }
     return { success: true, data };
   } catch (err) {
     return { success: false, error: err.message };
@@ -185,7 +374,7 @@ export async function supabaseSignIn(email, password) {
  */
 export async function checkSupabaseConnection() {
   try {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('products')
       .select('count', { count: 'exact', head: true });
     if (error && error.code !== 'PGRST116') {

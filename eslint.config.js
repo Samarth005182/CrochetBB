@@ -11,6 +11,7 @@ export default [
       'node_modules/**',
       'coverage/**',
       'stitch_midnight_crochet_boutique/**',
+      'supabase/functions/**',
       '**/*.cjs',
     ],
   },
