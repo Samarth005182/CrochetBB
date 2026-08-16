@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Sparkles, Heart, Feather, ShieldCheck, ArrowRight } from 'lucide-react';
+import { ScrollReveal } from '../components/ScrollReveal';
 
 export function StoryPage({ onNavigateToShop }) {
   const [activeTexture, setActiveTexture] = useState(0);
@@ -37,7 +38,11 @@ export function StoryPage({ onNavigateToShop }) {
   return (
     <main className="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-20 space-y-24">
       {/* Editorial Hero */}
-      <section className="text-center max-w-3xl mx-auto space-y-6">
+      <ScrollReveal
+        variant="fade-up"
+        duration={800}
+        className="text-center max-w-3xl mx-auto space-y-6"
+      >
         <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-surface-container rounded-full border border-primary/20 text-xs text-primary font-semibold uppercase tracking-widest">
           <Sparkles className="w-3.5 h-3.5" />
           <span>The Karigari Manifesto</span>
@@ -51,7 +56,7 @@ export function StoryPage({ onNavigateToShop }) {
           measured not in automated assembly lines, but in the patient contemplation, calibrated
           finger tension, and master karigari poured into every single thread.
         </p>
-      </section>
+      </ScrollReveal>
 
       {/* Brand Pillars Grid */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -74,8 +79,10 @@ export function StoryPage({ onNavigateToShop }) {
         ].map((pillar, idx) => {
           const Icon = pillar.icon;
           return (
-            <div
+            <ScrollReveal
               key={idx}
+              variant="fade-up"
+              delay={idx * 140}
               className="bg-surface-container-low p-8 rounded-2xl border border-outline-variant/20 space-y-4 hover:border-primary/40 transition-colors duration-300 shadow-md"
             >
               <div className="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary border border-primary/20">
@@ -85,13 +92,16 @@ export function StoryPage({ onNavigateToShop }) {
               <p className="font-body text-xs md:text-sm text-on-surface-variant leading-relaxed">
                 {pillar.desc}
               </p>
-            </div>
+            </ScrollReveal>
           );
         })}
       </section>
 
       {/* Interactive Texture Loom Gallery */}
-      <section className="bg-surface-container-low p-8 md:p-12 rounded-2xl border border-outline-variant/20 space-y-8 shadow-xl">
+      <ScrollReveal
+        variant="fade-up"
+        className="bg-surface-container-low p-8 md:p-12 rounded-2xl border border-outline-variant/20 space-y-8 shadow-xl"
+      >
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-outline-variant/10 pb-6">
           <div>
             <span className="font-label text-xs uppercase tracking-widest text-primary font-semibold">
@@ -164,7 +174,7 @@ export function StoryPage({ onNavigateToShop }) {
             </button>
           </div>
         </div>
-      </section>
+      </ScrollReveal>
     </main>
   );
 }

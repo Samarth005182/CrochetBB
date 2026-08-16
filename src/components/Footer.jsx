@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
 import { supabase } from '../lib/supabase';
 import { authLimiter, validateHoneypot } from '../utils/rateLimiter';
+import { ScrollReveal } from './ScrollReveal';
 
 export function Footer() {
   const [email, setEmail] = useState('');
@@ -52,7 +53,7 @@ export function Footer() {
     <footer className="w-full bg-surface-container-lowest border-t border-outline-variant/10 pt-20 pb-12 mt-auto">
       <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-outline-variant/10">
-          <div className="lg:col-span-6 space-y-4">
+          <ScrollReveal variant="fade-right" duration={700} className="lg:col-span-6 space-y-4">
             <span className="font-display text-3xl tracking-tighter text-on-background">
               KNOTKARI
             </span>
@@ -74,9 +75,14 @@ export function Footer() {
                 Lifetime Heirloom Stitch
               </span>
             </div>
-          </div>
+          </ScrollReveal>
 
-          <div className="lg:col-span-6 space-y-4">
+          <ScrollReveal
+            variant="fade-left"
+            delay={150}
+            duration={700}
+            className="lg:col-span-6 space-y-4"
+          >
             <h4 className="font-headline text-lg text-on-background">The Karigari Gazette</h4>
             <p className="font-body text-xs text-on-surface-variant">
               Receive private invitations to limited-edition capsule drops, artisan journal entries,
@@ -110,7 +116,7 @@ export function Footer() {
                 <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
               </button>
             </form>
-          </div>
+          </ScrollReveal>
         </div>
 
         <div className="py-8 flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-on-surface-variant">

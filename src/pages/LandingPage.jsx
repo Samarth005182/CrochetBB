@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { PRODUCTS } from '../data/products';
 import { ProductCard } from '../components/ProductCard';
 import { ProductModal } from '../components/ProductModal';
+import { ScrollReveal } from '../components/ScrollReveal';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
 import {
@@ -61,7 +62,11 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
 
         <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center relative z-10">
           {/* Left Text & CTAs */}
-          <div className="lg:col-span-7 space-y-6 text-left">
+          <ScrollReveal
+            variant="fade-right"
+            duration={800}
+            className="lg:col-span-7 space-y-6 text-left"
+          >
             <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-surface-container-high/80 border border-primary/30 text-primary text-xs font-label uppercase tracking-widest backdrop-blur-md">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Bespoke Karigari • Slow-Fashion Crochet</span>
@@ -113,10 +118,15 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
                 );
               })}
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Right Hero Visual Showcase */}
-          <div className="lg:col-span-5 relative">
+          <ScrollReveal
+            variant="fade-left"
+            delay={200}
+            duration={800}
+            className="lg:col-span-5 relative"
+          >
             <div className="relative mx-auto max-w-sm lg:max-w-none">
               {/* Main Lookbook Visual */}
               <div className="aspect-[4/5] max-h-96 sm:max-h-[420px] mx-auto rounded-2xl overflow-hidden border border-outline-variant/30 shadow-2xl relative group">
@@ -162,13 +172,13 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
                 <span>Slow-Craft 2026 Collection</span>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* 2. CURATED COLLECTIONS GRID */}
       <section className="py-16 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto">
-        <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
+        <ScrollReveal variant="fade-up" className="text-center max-w-2xl mx-auto mb-10 space-y-2">
           <span className="font-label text-xs uppercase tracking-widest text-primary font-bold">
             Curated Portals
           </span>
@@ -178,7 +188,7 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
           <p className="text-xs sm:text-sm font-body text-on-surface-variant">
             From everlasting floral bouquets & individual stems to delicate accessories.
           </p>
-        </div>
+        </ScrollReveal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {[
@@ -195,8 +205,10 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
               category: 'charms',
             },
           ].map((col, idx) => (
-            <div
+            <ScrollReveal
               key={idx}
+              variant="fade-up"
+              delay={idx * 150}
               onClick={onNavigateToShop}
               className="group relative h-80 rounded-2xl overflow-hidden cursor-pointer border border-outline-variant/20 shadow-md"
             >
@@ -222,7 +234,7 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
       </section>
@@ -230,7 +242,10 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
       {/* 3. FEATURED ATELIER DROPS (Amazon Style Grid) */}
       <section className="py-16 bg-surface-container-lowest border-y border-outline-variant/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-4">
+          <ScrollReveal
+            variant="fade-up"
+            className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-4"
+          >
             <div>
               <span className="font-label text-xs uppercase tracking-widest text-primary font-bold">
                 Artisan Catalog
@@ -246,16 +261,22 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
               <span>View All {PRODUCTS.length} Pieces</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
-          </div>
+          </ScrollReveal>
 
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {featuredProducts.map((product) => (
-              <ProductCard
+            {featuredProducts.map((product, idx) => (
+              <ScrollReveal
                 key={product.id}
-                product={product}
-                layoutMode="grid"
-                onQuickView={(p) => setSelectedProductForModal(p)}
-              />
+                variant="fade-up"
+                delay={(idx % 5) * 80}
+                distance="24px"
+              >
+                <ProductCard
+                  product={product}
+                  layoutMode="grid"
+                  onQuickView={(p) => setSelectedProductForModal(p)}
+                />
+              </ScrollReveal>
             ))}
           </div>
         </div>
@@ -264,7 +285,7 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
       {/* 4. THE KARIGARI CRAFT MANIFESTO */}
       <section className="py-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-6 space-y-6">
+          <ScrollReveal variant="fade-right" duration={800} className="lg:col-span-6 space-y-6">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs uppercase tracking-widest font-semibold">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Slow-Fashion Craftsmanship</span>
@@ -319,9 +340,14 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
-          </div>
+          </ScrollReveal>
 
-          <div className="lg:col-span-6 grid grid-cols-2 gap-4">
+          <ScrollReveal
+            variant="fade-left"
+            delay={200}
+            duration={800}
+            className="lg:col-span-6 grid grid-cols-2 gap-4"
+          >
             <img
               src="https://images.unsplash.com/photo-1584992236310-6edddc08acff?w=600&auto=format&fit=crop&q=80"
               alt="Crochet yarn and hooks in the atelier"
@@ -332,14 +358,14 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
               alt="Master artisan crocheting handmade bouquet"
               className="rounded-2xl object-cover h-72 w-full mt-8 border border-outline-variant/20 shadow-lg"
             />
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* 5. PATRON PRAISE & REVIEWS */}
       <section className="py-20 bg-surface-container-lowest border-t border-outline-variant/10">
         <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
-          <div className="text-center max-w-2xl mx-auto mb-14 space-y-2">
+          <ScrollReveal variant="fade-up" className="text-center max-w-2xl mx-auto mb-14 space-y-2">
             <div className="flex justify-center items-center gap-1 text-amber-400">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="w-4 h-4 fill-amber-400" />
@@ -351,7 +377,7 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
             <p className="text-xs font-body text-on-surface-variant">
               Hear from discerning collectors who chose KNOTKARI everlasting slow-fashion pieces.
             </p>
-          </div>
+          </ScrollReveal>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
@@ -380,8 +406,10 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
                 verified: true,
               },
             ].map((review, i) => (
-              <div
+              <ScrollReveal
                 key={i}
+                variant="fade-up"
+                delay={i * 120}
                 className="bg-surface-container-low p-8 rounded-2xl border border-outline-variant/20 flex flex-col justify-between space-y-6"
               >
                 <div className="space-y-3">
@@ -410,7 +438,7 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
                     </span>
                   )}
                 </div>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
@@ -418,17 +446,20 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
 
       {/* 6. TRUST & FREQUENTLY ASKED QUESTIONS */}
       <section className="py-20 px-margin-mobile md:px-margin-desktop max-w-3xl mx-auto">
-        <div className="text-center mb-12 space-y-2">
+        <ScrollReveal variant="fade-up" className="text-center mb-12 space-y-2">
           <span className="font-label text-xs uppercase tracking-widest text-primary font-semibold">
             Transparency & Support
           </span>
           <h2 className="font-display text-3xl text-on-background">Frequently Asked Inquiries</h2>
-        </div>
+        </ScrollReveal>
 
         <div className="space-y-4">
           {faqs.map((faq, idx) => (
-            <div
+            <ScrollReveal
               key={idx}
+              variant="fade-up"
+              delay={idx * 70}
+              distance="16px"
               className="bg-surface-container-low rounded-xl border border-outline-variant/20 overflow-hidden"
             >
               <button
@@ -449,7 +480,7 @@ export function LandingPage({ onNavigateToShop, onNavigateToStory }) {
                   {faq.a}
                 </div>
               )}
-            </div>
+            </ScrollReveal>
           ))}
         </div>
       </section>

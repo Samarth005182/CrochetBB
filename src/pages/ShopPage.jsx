@@ -3,21 +3,14 @@ import { PRODUCTS as DEFAULT_PRODUCTS, CATEGORIES } from '../data/products';
 import { getProductsFromSupabase } from '../lib/supabase';
 import { ProductCard } from '../components/ProductCard';
 import { ProductModal } from '../components/ProductModal';
-import {
-  LayoutGrid,
-  SlidersHorizontal,
-  Search,
-  Sparkles,
-  Filter,
-  Grid3X3,
-  Grid2X2,
-} from 'lucide-react';
+import { ScrollReveal } from '../components/ScrollReveal';
+import { SlidersHorizontal, Search, Sparkles, Grid3X3, Grid2X2 } from 'lucide-react';
 import { searchLimiter } from '../utils/rateLimiter';
 import { useToast } from '../context/ToastContext';
 
 export function ShopPage({ initialSearchQuery = '', onClearSearch }) {
   const [products, setProducts] = useState(DEFAULT_PRODUCTS);
-  const [isLoadingProducts, setIsLoadingProducts] = useState(false);
+  const [_isLoadingProducts, setIsLoadingProducts] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
   const [sortBy, setSortBy] = useState('featured');
@@ -72,7 +65,7 @@ export function ShopPage({ initialSearchQuery = '', onClearSearch }) {
   return (
     <main className="flex-grow pt-8 pb-16 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto w-full">
       {/* Header Section */}
-      <section className="mb-8 max-w-3xl">
+      <ScrollReveal variant="fade-up" duration={700} className="mb-8 max-w-3xl">
         <div className="inline-flex items-center gap-2 px-3 py-1 bg-surface-container rounded-full border border-outline-variant/20 mb-3 text-xs text-primary font-semibold uppercase tracking-widest">
           <Sparkles className="w-3.5 h-3.5" />
           <span>Handcrafted in Limited Runs • Pricing in INR</span>
@@ -84,10 +77,15 @@ export function ShopPage({ initialSearchQuery = '', onClearSearch }) {
           Explore our handcrafted everlasting crochet bouquets and charms. Carefully proportioned
           with high-detail stitchwork and fast dispatch.
         </p>
-      </section>
+      </ScrollReveal>
 
       {/* Filter, Search & Sort Control Bar (Amazon Inspired) */}
-      <section className="bg-surface-container-low p-4 rounded-xl border border-outline-variant/20 mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <ScrollReveal
+        variant="fade-up"
+        delay={100}
+        duration={700}
+        className="bg-surface-container-low p-4 rounded-xl border border-outline-variant/20 mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
+      >
         {/* Category Chips */}
         <div className="flex flex-wrap gap-2">
           {CATEGORIES.map((cat) => (
@@ -182,7 +180,7 @@ export function ShopPage({ initialSearchQuery = '', onClearSearch }) {
             </button>
           </div>
         </div>
-      </section>
+      </ScrollReveal>
 
       {/* Results Header */}
       <div className="flex items-center justify-between text-xs text-on-surface-variant mb-4 px-1">
@@ -219,13 +217,14 @@ export function ShopPage({ initialSearchQuery = '', onClearSearch }) {
               : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
           }`}
         >
-          {filteredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              layoutMode="grid"
-              onQuickView={(p) => setSelectedProductForModal(p)}
-            />
+          {filteredProducts.map((product, idx) => (
+            <ScrollReveal key={product.id} variant="fade-up" delay={(idx % 5) * 60} distance="20px">
+              <ProductCard
+                product={product}
+                layoutMode="grid"
+                onQuickView={(p) => setSelectedProductForModal(p)}
+              />
+            </ScrollReveal>
           ))}
         </div>
       )}

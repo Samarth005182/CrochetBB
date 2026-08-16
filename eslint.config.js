@@ -47,6 +47,7 @@ export default [
         performance: 'readonly',
         btoa: 'readonly',
         alert: 'readonly',
+        IntersectionObserver: 'readonly',
       },
       parserOptions: {
         ecmaFeatures: { jsx: true },

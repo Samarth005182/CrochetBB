@@ -12,6 +12,8 @@ import { VirtualQueueModal } from './components/VirtualQueueModal';
 import { TrafficGuardBanner } from './components/TrafficGuardBanner';
 import { SearchModal } from './components/SearchModal';
 import { ScrollToTopOnNav } from './components/ScrollToTop';
+import { ScrollProgress } from './components/ScrollProgress';
+import { BackToTop } from './components/BackToTop';
 import { Seo } from './lib/seo';
 import { ShopGridSkeleton } from './components/Skeleton';
 
@@ -57,7 +59,8 @@ function AppRoutes() {
   const onClearSearch = () => setSearchQuery('');
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-on-background selection:bg-primary/25 selection:text-primary-fixed">
+    <div className="min-h-screen flex flex-col bg-[linear-gradient(90deg,_#04054E_0%,_#562940_100%)] text-on-background selection:bg-primary/25 selection:text-primary-fixed">
+      <ScrollProgress />
       <ScrollToTopOnNav />
       <TrafficGuardBanner />
 
@@ -141,6 +144,7 @@ function AppRoutes() {
       />
 
       <VirtualQueueModal />
+      <BackToTop />
       <Footer />
     </div>
   );
